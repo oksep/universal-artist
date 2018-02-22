@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {ElectronService} from 'ngx-electron';
 
 @Component({
 	selector: 'app-root',
@@ -7,6 +6,8 @@ import {ElectronService} from 'ngx-electron';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-	constructor(private electronService: ElectronService) {
+	selectedIndex: Number = 0;
+
+	constructor() {
 	}
 }

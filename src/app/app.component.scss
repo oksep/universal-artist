@@ -1,0 +1,33 @@
+.left-panel-container {
+  padding: 16px;
+  width: 160px;
+  background-color: #F8F8F8;
+  border-right: solid 1px #ddd;
+}
+
+.panel-btn {
+  text-align: center;
+  font-weight: 400;
+  display: block;
+  background: white;
+  color: #5d5d5d;
+  padding: 10px 20px;
+  margin-bottom: 15px;
+  border-radius: 3px;
+  border: solid 1px #ddd;
+  &:hover {
+    background-color: #F8F8F8;
+    text-decoration: none;
+  }
+}
+
+.panel-btn-selected {
+  color: #3ed2a9;
+}
+
+.right-panel-container {
+  background-color: white;
+  flex: 1;
+  overflow-y: scroll;
+  padding: 16px
+}

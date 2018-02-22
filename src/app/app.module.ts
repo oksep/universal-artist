@@ -10,6 +10,9 @@ import {AppRouting} from './app.routing';
 import {RouterModule} from '@angular/router';
 import {HomeComponent} from './home/home.component';
 import {NgxElectronModule} from 'ngx-electron';
+import {FormsModule} from '@angular/forms';
+import {HomeService} from './home/home.service';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
 	declarations: [
@@ -20,11 +23,13 @@ import {NgxElectronModule} from 'ngx-electron';
 	],
 	imports: [
 		BrowserModule,
+		FormsModule,
 		RouterModule,
 		AppRouting,
-		NgxElectronModule
+		NgxElectronModule,
+		CommonModule
 	],
-	providers: [],
+	providers: [HomeService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

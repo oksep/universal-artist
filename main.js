@@ -4,8 +4,12 @@ const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
+const ipcMain = electron.ipcMain;
+
 const path = require('path');
 const url = require('url');
+
+const {requestBucketList} = require('./qiniu');
 
 let win;
 
@@ -48,7 +52,13 @@ app.on('active', function () {
     }
 });
 
-function pushRepoByHttps() {
-    // TODO
-    // git push https://name:pwd@repo.git
-}
+ipcMain.on('request-bucket-list', (event, arg) => {
+    console.log('AAAA', arg);
+
+    requestBucketList(arg, (error, data) => {
+        event.sender.send('request-bucket-list-callback', {
+            error: error,
+            data: data
+        });
+    });
+});
