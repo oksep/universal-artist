@@ -1,3 +1,12 @@
-<p>
-  Hello home works!
-</p>
+<!--<img style="width:320px; height: 180px;" *ngFor="let item of data" [src]="'http://assets.septenary.cn/' + item.key" alt="">-->
+
+<div *ngFor="let item of data">
+    <img style="width:240px; height: 135px;"
+         [src]="'http://ohclzb8hy.bkt.clouddn.com/' + item.key + '?imageView2/1/w/240/h/135/format/webp/q/75|watermark/2/text/QnkgQXpob25n/font/Y29uc29sYXM=/fontsize/240/fill/I0ZBNEI0Qg==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim'"
+         alt="">
+    <p>{{getDate(item.putTime) | date:'yyyy-MM-dd HH:mm'}}</p>
+</div>
+
+<pre>
+{{data | json}}
+</pre>

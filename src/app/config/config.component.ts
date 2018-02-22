@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
 
 @Component({
 	selector: 'app-config',
@@ -10,18 +9,19 @@ export class ConfigComponent implements OnInit {
 	// data = {
 	// 	hello: 'this is lilay'
 	// };
-	data: string;
+	data = '123';
 
 	constructor() {
 	}
 
 	ngOnInit() {
-		Observable.create(it => {
-			it.next(require('./config.json'));
-			it.complete();
-		}).subscribe(json => {
-			this.data = json;
-		});
+		// Obse // rvable.create(it => {
+		// 	it.next(require('./config.json'));
+		// 	it.complete();
+		// }).subscribe(json => {
+		// 	this.data = json;
+		// });
+		// git push https://ryfthink:53059509yu@github.com/Ryfthink/azimghost
 	}
 
 }

@@ -1,3 +1,45 @@
-<p>
-  setting works!
-</p>
+<div>
+    <form class="form-horizontal" #settingForm="ngForm">
+        <div class="form-group">
+            <label class="label" for="key">KEY</label>
+            <input name="key" id="key" class="form-control" type="text" [(ngModel)]="settings. qiniu.key">
+        </div>
+
+        <div class="form-group">
+            <label class="label" for="secret">SECRET</label>
+            <input name="secret" id="secret" class="form-control" type="text" [(ngModel)]="settings.qiniu.secret">
+        </div>
+
+        <div class="form-group">
+            <label class="label" for="bucket">BUCKET</label>
+            <input name="bucket" id="bucket" class="form-control" type="text" [(ngModel)]="settings.qiniu.bucket">
+        </div>
+
+        <div class="form-group">
+            <label class="label" for="prefix">PREFIX</label>
+            <input name="prefix" id="prefix" class="form-control" type="text" [(ngModel)]="settings.qiniu.prefix">
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="form-group">
+            <label class="label-github" for="name">NAME</label>
+            <input name="name" id="name" class="form-control" type="text" [(ngModel)]="settings.github.name">
+        </div>
+
+        <div class="form-group">
+            <label class="label-github" for="password">PASSWORD</label>
+            <input name="password" id="password" class="form-control" type="text"
+                   [(ngModel)]="settings.github.password">
+        </div>
+
+        <button type="button"
+                [disabled]="!settingForm.form.dirty"
+                (click)="saveSetting()"
+                class="btn btn-outline-info"
+                style="margin-left: 10px; float: right;">
+            保存
+        </button>
+
+    </form>
+</div>
