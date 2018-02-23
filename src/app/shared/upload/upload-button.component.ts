@@ -1,6 +1,6 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {NgModel} from '@angular/forms';
-import {UploadService} from './upload.service';
+import {CurrentUploadFile, SingleFileCallback, UploadService} from './upload.service';
 
 @Component({
   selector: 'app-upload-button',
@@ -8,11 +8,12 @@ import {UploadService} from './upload.service';
   styleUrls: ['./upload-button.component.scss'],
   providers: [NgModel]
 })
-export class UploadButtonComponent implements OnInit {
+export class UploadButtonComponent implements OnInit, SingleFileCallback {
+  @ViewChild('fileUpload') fileUploadInput: ElementRef;
 
-  @ViewChild('fileUpload') fileUpload: ElementRef;
+  uploadFile = new CurrentUploadFile();
 
-  constructor(private uploadService: UploadService) {
+  constructor(private uploadService: UploadService, private zone: NgZone) {
   }
 
   ngOnInit(): void {
@@ -20,7 +21,7 @@ export class UploadButtonComponent implements OnInit {
 
   onUploadClick() {
     // this.homeService.getUploadToken();
-    this.fileUpload.nativeElement.click();
+    this.fileUploadInput.nativeElement.click();
   }
 
   handleInputChange(e: DragEvent) {
@@ -33,6 +34,20 @@ export class UploadButtonComponent implements OnInit {
       }
     }
     console.log(imageFiles);
-    this.uploadService.upload1By1(imageFiles);
+    this.uploadService.upload1By1(imageFiles, this);
+  }
+
+  onProgress(file: File, percent: number) {
+    this.zone.run(() => {
+      if (file) {
+        this.uploadFile.file = file;
+        this.uploadFile.progress = percent;
+      } else {
+        // setTimeout(() => {
+        //   this.uploadFile.file = null;
+        //   this.uploadFile.progress = 0;
+        // }, 1000);
+      }
+    });
   }
 }

@@ -1,7 +1,24 @@
-<button class="upload-btn ml-2" (click)="onUploadClick()">
-  <i class="fa fa-cloud-upload">&nbsp;&nbsp;上传图片</i>
-  <input #fileUpload type="file" name="file" style="display: none;"
-         multiple="multiple"
-         accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"
-         (change)="handleInputChange($event)">
-</button>
+<div class="d-flex flex-row" style="width: 100%">
+  <button class="upload-btn ml-2" (click)="onUploadClick()">
+    <i class="fa fa-cloud-upload">&nbsp;&nbsp;上传图片</i>
+    <input #fileUpload type="file" name="file" style="display: none;"
+           multiple="multiple"
+           accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"
+           (change)="handleInputChange($event)">
+  </button>
+
+  <div *ngIf="uploadFile.file" style="flex: 1; height: 100%; padding: 0 8px"
+       class="d-flex justify-content-center flex-column">
+    <div
+      style="height: 16px; border-radius: 3px; width:100%; background-color: rgba(66,185,131,0.22);">
+      <div
+        style="height: 16px; border-radius: 3px; background-color: #42B983; transition: all linear 300ms;"
+        [style.width.%]="uploadFile?.progress || 0">
+
+      </div>
+    </div>
+    <small style="margin-top: 2px">{{uploadFile?.progress == 100 ? '上传成功' : '正在上传' }}:
+      {{uploadFile.file?.path}}
+    </small>
+  </div>
+</div>

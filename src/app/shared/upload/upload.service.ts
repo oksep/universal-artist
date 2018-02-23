@@ -8,13 +8,17 @@ import {Settings} from '../../setting/setting.modle';
 import {ElectronService} from 'ngx-electron';
 
 export interface OnUploadCallback {
-  onUploadProgress(percent: number): void;
+  onUploadProgress(percent: number);
 
   onUploadError(err: Error);
 
   onUploadComplete(url: string);
 
   onLoaded();
+}
+
+export interface SingleFileCallback {
+  onProgress(file: File, percent: number);
 }
 
 export const ASSETS_DOMAIN = environment.domain;
@@ -26,7 +30,7 @@ export class UploadService {
   }
 
 
-  upload1By1(list: Array<File>) {
+  upload1By1(list: Array<File>, singleFileCallback: SingleFileCallback) {
     const setting = Settings.loadSetting();
     const {requestUploadToken} = this.electronService.remote.require('./qiniu');
     const processNext = () => {
@@ -39,8 +43,10 @@ export class UploadService {
           bucket: setting.qiniu.bucket,
           key: key
         });
+        singleFileCallback.onProgress(file, 0);
         const callback = {
           onUploadProgress: (percent: number) => {
+            singleFileCallback.onProgress(file, percent);
           },
           onUploadError: (err: Error) => {
             const notification = new Notification('上传失败', {
@@ -56,12 +62,15 @@ export class UploadService {
               icon: 'file://' + file.path
             });
             notification.close();
+            singleFileCallback.onProgress(file, 100);
             processNext();
           },
           onLoaded: () => {
           }
         };
         this.uploadToQiniu(file, token, key, callback);
+      } else {
+        singleFileCallback.onProgress(null, 0);
       }
     };
     processNext();
@@ -141,4 +150,9 @@ export class UploadService {
       return (c === 'x' ? r : (r & 0x7 | 0x8)).toString(16);
     });
   }
+}
+
+export class CurrentUploadFile {
+  file: File;
+  progress: number;
 }
