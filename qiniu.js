@@ -43,3 +43,14 @@ exports.requestBucketList = function (option, callback) {
         }
     });
 };
+
+exports.requestUploadToken = function (option) {
+  const mac = new qiniu.auth.digest.Mac(option.accessKey, option.secretKey);
+  const policyOptions = {
+    scope: option.bucket,
+    saveKey: option.key
+  };
+  console.log('Get token', policyOptions);
+  const putPolicy = new qiniu.rs.PutPolicy(policyOptions);
+  return putPolicy.uploadToken(mac);
+};

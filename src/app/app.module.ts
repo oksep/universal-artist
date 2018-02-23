@@ -13,28 +13,35 @@ import {NgxElectronModule} from 'ngx-electron';
 import {FormsModule} from '@angular/forms';
 import {HomeService} from './home/home.service';
 import {CommonModule} from '@angular/common';
-import { ThumbnailPipe } from './util/thumbnail.pipe';
-import { QiniuDatePipe } from './util/qiniudate.pipe';
+import {ThumbnailPipe} from './shared/thumbnail.pipe';
+import {QiniuDatePipe} from './shared/qiniudate.pipe';
+import {BounceSpinnerComponent} from './shared/bounce-spinner/bounce-spinner.component';
+import {UploadButtonComponent} from './shared/upload/upload-button.component';
+import {UploadService} from './shared/upload/upload.service';
+import {HttpModule} from '@angular/http';
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		SettingComponent,
-		ConfigComponent,
-		HomeComponent,
-		ThumbnailPipe,
-		QiniuDatePipe
-	],
-	imports: [
-		BrowserModule,
-		FormsModule,
-		RouterModule,
-		AppRouting,
-		NgxElectronModule,
-		CommonModule
-	],
-	providers: [HomeService],
-	bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    SettingComponent,
+    ConfigComponent,
+    HomeComponent,
+    BounceSpinnerComponent,
+    UploadButtonComponent,
+    ThumbnailPipe,
+    QiniuDatePipe
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    RouterModule,
+    AppRouting,
+    NgxElectronModule,
+    CommonModule,
+    HttpModule
+  ],
+  providers: [HomeService, UploadService],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

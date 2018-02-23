@@ -6,12 +6,10 @@ const BrowserWindow = electron.BrowserWindow;
 
 const ipcMain = electron.ipcMain;
 
-const {shell} = require('electron');
-
 const path = require('path');
 const url = require('url');
 
-const {requestBucketList} = require('./qiniu');
+const {requestBucketList, requestUploadToken} = require('./qiniu');
 
 let win;
 
@@ -63,10 +61,4 @@ ipcMain.on('request-bucket-list', (event, arg) => {
       data: data
     });
   });
-});
-
-ipcMain.on('shell', (event, arg) => {
-  if (arg.openUrl) {
-    shell.openExternal(arg.openUrl);
-  }
 });

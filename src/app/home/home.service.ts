@@ -38,7 +38,7 @@ export class HomeService {
   }
 
   openUrlInBrowser(url: string) {
-    this.electronService.ipcRenderer.send('shell', {openUrl: url});
+    this.electronService.shell.openExternal(url);
   }
 
   changeOrder() {

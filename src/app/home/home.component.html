@@ -14,9 +14,6 @@
       <i *ngIf="order" class="fa fa-sort-amount-asc">&nbsp;&nbsp;时间正序</i>
       <i *ngIf="!order" class="fa fa-sort-amount-desc">&nbsp;&nbsp;时间倒序</i>
     </button>
-
-    <button class="bottom-btn ml-2">
-      <i class="fa fa-cloud-upload">&nbsp;&nbsp;上传图片</i>
-    </button>
+    <app-upload-button></app-upload-button>
   </div>
 </div>

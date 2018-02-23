@@ -1,0 +1,7 @@
+<button class="upload-btn ml-2" (click)="onUploadClick()">
+  <i class="fa fa-cloud-upload">&nbsp;&nbsp;上传图片</i>
+  <input #fileUpload type="file" name="file" style="display: none;"
+         multiple="multiple"
+         accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"
+         (change)="handleInputChange($event)">
+</button>
