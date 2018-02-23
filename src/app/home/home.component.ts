@@ -1,55 +1,53 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {ElectronService} from 'ngx-electron';
-import {Settings} from '../setting/setting.modle';
+import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {environment} from '../../environments/environment';
+import {HomeService, ImageItem} from './home.service';
 
 @Component({
-	selector: 'app-home',
-	templateUrl: './home.component.html',
-	styleUrls: ['./home.component.scss']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
-	data: Array<Item> = null;
+  data: Array<ImageItem> = [];
 
-	listener = (event, arg) => {
-		this.data = arg.data.items;
-		this.cdRef.detectChanges();
-		console.log('Reply: ', this.data);
-	};
+  sub = null;
 
-	constructor(private electronService: ElectronService, private cdRef: ChangeDetectorRef) {
-	}
+  constructor(private cdRef: ChangeDetectorRef, private homeService: HomeService) {
+  }
 
-	ngOnInit() {
-		const setting = Settings.loadSetting();
+  ngOnInit(): void {
+    this.sub = this.homeService.bucketObservable.subscribe(
+      (list: Array<ImageItem>) => {
+        this.data = list;
+        this.cdRef.detectChanges();
+      },
+      error => {
+        this.data = [];
+        console.error(error);
+      }
+    );
+  }
 
-		const option = {
-			accessKey: setting.qiniu.key,
-			secretKey: setting.qiniu.secret,
-			bucket: setting.qiniu.bucket,
-			prefix: setting.qiniu.prefix,
-			limit: 10
-		};
+  ngOnDestroy() {
+    if (this.sub != null) {
+      this.sub.unsubscribe();
+    }
+  }
 
-		this.electronService.ipcRenderer.send('request-bucket-list', option);
-		this.electronService.ipcRenderer.on('request-bucket-list-callback', this.listener);
-	}
+  ngAfterViewInit(): void {
+  }
 
-	ngOnDestroy() {
-		this.electronService.ipcRenderer.removeListener('request-bucket-list-callback', this.listener);
-	}
+  onImgClick(key: string) {
+    const url = environment.domain + key;
+    this.homeService.openUrlInBrowser(url);
+  }
 
-	getDate(millisecond: number) {
-		return new Date(millisecond / 10000);
-	}
-}
+  onSortClick() {
+    this.homeService.changeOrder();
+  }
 
-class Item {
-	size: number;
-	hash: string;
-	key: string;
-	mimeType: string;
-	putTime: number;
-	status: number;
-	type: number;
+  get order() {
+    return this.homeService.order;
+  }
 }

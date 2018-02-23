@@ -23,7 +23,7 @@ exports.requestBucketList = function (option, callback) {
     //  limit     每次返回的最大列举文件数量
     //  delimiter 指定目录分隔符
     const options = {
-        limit: option.limit,
+        // limit: option.limit,
         prefix: option.prefix,
     };
     bucketManager.listPrefix(option.bucket, options, function (err, respBody, respInfo) {

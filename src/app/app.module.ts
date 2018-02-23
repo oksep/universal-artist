@@ -13,13 +13,17 @@ import {NgxElectronModule} from 'ngx-electron';
 import {FormsModule} from '@angular/forms';
 import {HomeService} from './home/home.service';
 import {CommonModule} from '@angular/common';
+import { ThumbnailPipe } from './util/thumbnail.pipe';
+import { QiniuDatePipe } from './util/qiniudate.pipe';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		SettingComponent,
 		ConfigComponent,
-		HomeComponent
+		HomeComponent,
+		ThumbnailPipe,
+		QiniuDatePipe
 	],
 	imports: [
 		BrowserModule,

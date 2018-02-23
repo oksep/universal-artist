@@ -1,12 +1,22 @@
-<!--<img style="width:320px; height: 180px;" *ngFor="let item of data" [src]="'http://assets.septenary.cn/' + item.key" alt="">-->
+<div class="home-container">
+  <div class="imgBoard">
+    <div *ngFor="let item of data" class="imgCard" style="position: relative">
+      <img
+        class="img"
+        style="width: 100%; height: 100%"
+        (click)="onImgClick(item.key)"
+        [src]="item.key | thumbnail">
+    </div>
+  </div>
 
-<div *ngFor="let item of data">
-    <img style="width:240px; height: 135px;"
-         [src]="'http://ohclzb8hy.bkt.clouddn.com/' + item.key + '?imageView2/1/w/240/h/135/format/webp/q/75|watermark/2/text/QnkgQXpob25n/font/Y29uc29sYXM=/fontsize/240/fill/I0ZBNEI0Qg==/dissolve/100/gravity/SouthEast/dx/10/dy/10|imageslim'"
-         alt="">
-    <p>{{getDate(item.putTime) | date:'yyyy-MM-dd HH:mm'}}</p>
+  <div class="bottom-bar d-flex flex-row align-items-center p-2">
+    <button class="bottom-btn" (click)="onSortClick()">
+      <i *ngIf="order" class="fa fa-sort-amount-asc">&nbsp;&nbsp;时间正序</i>
+      <i *ngIf="!order" class="fa fa-sort-amount-desc">&nbsp;&nbsp;时间倒序</i>
+    </button>
+
+    <button class="bottom-btn ml-2">
+      <i class="fa fa-cloud-upload">&nbsp;&nbsp;上传图片</i>
+    </button>
+  </div>
 </div>
-
-<pre>
-{{data | json}}
-</pre>
