@@ -3,16 +3,17 @@
   "version": "0.0.0",
   "license": "MIT",
   "main": "main.js",
+  "productName": "作品云",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build --prod && npm run electron-package",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "electron": "electron .",
     "electron-build": "ng build --prod --sm=false --aot=true --output-path=build/ && electron .",
-    "electron-package": "electron-packager . --platform=darwin"
+    "electron-package": "DEBUG=electron-packager electron-packager ./ --platform=darwin --arch=x64 --icon='./icon.icns' --out='./build/' --overwrite"
   },
   "private": true,
   "dependencies": {
@@ -27,6 +28,8 @@
     "@angular/router": "^5.2.0",
     "bootstrap": "^4.0.0",
     "core-js": "^2.4.1",
+    "electron-default-menu": "^1.0.1",
+    "electron-is-dev": "^0.3.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
     "ngx-electron": "^1.0.4",
