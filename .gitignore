@@ -8,6 +8,7 @@
 
 # dependencies
 /node_modules
+/electron/node_modules
 
 # IDEs and editors
 /.idea
@@ -44,3 +45,4 @@ Thumbs.db
 
 # build
 /build
+/electron/build
