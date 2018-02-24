@@ -6,6 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {environment} from '../../../environments/environment';
 import {Settings} from '../../setting/setting.modle';
 import {ElectronService} from 'ngx-electron';
+import {HomeService} from '../home.service';
 
 export interface OnUploadCallback {
   onUploadProgress(percent: number);
@@ -26,7 +27,7 @@ export const ASSETS_DOMAIN = environment.domain;
 @Injectable()
 export class UploadService {
 
-  constructor(private http: Http, private electronService: ElectronService) {
+  constructor(private http: Http, private electronService: ElectronService, private homeService: HomeService) {
   }
 
 
@@ -57,12 +58,20 @@ export class UploadService {
             processNext();
           },
           onUploadComplete: (url: string) => {
+            // notify
             const notification = new Notification('上传成功', {
               body: file.path,
               icon: 'file://' + file.path
             });
             notification.close();
+
+            // progress
             singleFileCallback.onProgress(file, 100);
+
+            // to image board
+            this.homeService.appendNewImageItem(file, key);
+
+            // next
             processNext();
           },
           onLoaded: () => {

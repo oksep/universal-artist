@@ -20,7 +20,6 @@ export class UploadButtonComponent implements OnInit, SingleFileCallback {
   }
 
   onUploadClick() {
-    // this.homeService.getUploadToken();
     this.fileUploadInput.nativeElement.click();
   }
 

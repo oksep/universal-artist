@@ -55,6 +55,15 @@ export class HomeService {
   get order() {
     return this.orderByAsc;
   }
+
+  appendNewImageItem(file: File, key: string) {
+    const list = this.eventSource.getValue();
+    const item = new ImageItem();
+    item.key = key;
+    item.putTime = new Date().getMilliseconds();
+    list.push(item);
+    this.eventSource.next(list);
+  }
 }
 
 export class ImageItem {

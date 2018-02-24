@@ -16,8 +16,8 @@ import {CommonModule} from '@angular/common';
 import {ThumbnailPipe} from './shared/thumbnail.pipe';
 import {QiniuDatePipe} from './shared/qiniudate.pipe';
 import {BounceSpinnerComponent} from './shared/bounce-spinner/bounce-spinner.component';
-import {UploadButtonComponent} from './shared/upload/upload-button.component';
-import {UploadService} from './shared/upload/upload.service';
+import {UploadButtonComponent} from './home/upload/upload-button.component';
+import {UploadService} from './home/upload/upload.service';
 import {HttpModule} from '@angular/http';
 
 @NgModule({
