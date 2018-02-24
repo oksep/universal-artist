@@ -2,18 +2,12 @@
   "name": "azimghost",
   "version": "0.0.0",
   "license": "MIT",
-  "main": "main.js",
-  "productName": "作品云",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod && npm run electron-package",
+    "angular-build": "ng build --prod --sm=false --aot=true --output-path=./electron/build/angular",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "electron": "electron .",
-    "electron-build": "ng build --prod --sm=false --aot=true --output-path=build/ && electron .",
-    "electron-package": "DEBUG=electron-packager electron-packager ./ --platform=darwin --arch=x64 --icon='./icon.icns' --out='./build/' --overwrite"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -28,13 +22,10 @@
     "@angular/router": "^5.2.0",
     "bootstrap": "^4.0.0",
     "core-js": "^2.4.1",
-    "electron-default-menu": "^1.0.1",
-    "electron-is-dev": "^0.3.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
     "ngx-electron": "^1.0.4",
     "popper.js": "^1.12.9",
-    "qiniu": "^7.1.2",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
   },
@@ -46,8 +37,6 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
     "codelyzer": "^4.0.1",
-    "electron": "^1.8.2",
-    "electron-packager": "^11.0.0",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~2.0.0",
@@ -58,6 +47,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "~2.5.3"
+    "typescript": "~2.5.3",
+    "electron": "^1.8.2"
   }
 }

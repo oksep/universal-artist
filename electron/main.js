@@ -22,7 +22,7 @@ function createWindow() {
   });
 
   win.loadURL(url.format({
-    pathname: path.join(__dirname, 'dist/index.html'),
+    pathname: path.join(__dirname, 'build/angular/index.html'),
     protocol: 'file:',
     slashes: true
   }));

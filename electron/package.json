@@ -1,0 +1,23 @@
+{
+  "name": "artist-work",
+  "version": "1.0.0",
+  "description": "",
+  "productName": "作品云",
+  "main": "main.js",
+  "scripts": {
+    "electron-dev": "electron .",
+    "electron-build": "DEBUG=electron-packager electron-packager ./ --platform=darwin --arch=x64 --icon='./icon.icns' --out='./build/electron/' --overwrite"
+  },
+  "author": "",
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "electron-default-menu": "^1.0.1",
+    "electron-is-dev": "^0.3.0",
+    "qiniu": "^7.1.2"
+  },
+  "devDependencies": {
+    "electron": "^1.8.2",
+    "electron-packager": "^11.0.0"
+  }
+}
