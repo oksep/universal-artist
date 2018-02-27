@@ -1,13 +1,17 @@
 const electron = require('electron');
 
-// Module to control application life.
-const {app, BrowserWindow, ipcMain, Menu} = electron;
+// electron
+const {app, BrowserWindow, ipcMain, Menu, shell} = electron;
 
+// 3rd part
 const isDev = require('electron-is-dev');
 
+// nodeJS
 const path = require('path');
 const url = require('url');
 
+// custom
+const defaultMenu = require('./menu');
 const {requestBucketList} = require('./qiniu');
 
 let win;
@@ -21,13 +25,15 @@ function createWindow() {
     backgroundColor: '#FFFFFF'
   });
 
-  win.loadURL(url.format({
-    pathname: path.join(__dirname, 'build/angular/index.html'),
-    protocol: 'file:',
-    slashes: true
-  }));
-
-  // win.loadURL('http://localhost:4200/');
+  if (isDev) {
+    win.loadURL('http://localhost:4200/');
+  } else {
+    win.loadURL(url.format({
+      pathname: path.join(__dirname, 'build/angular/index.html'),
+      protocol: 'file:',
+      slashes: true
+    }));
+  }
 
   win.on('closed', function () {
     win = null
@@ -38,7 +44,7 @@ app.on('ready', () => {
 
   if (!isDev) {
     // Get template for default menu
-    const menu = createMenuTemplate();
+    const menu = defaultMenu(app, shell);
 
     // Set top-level application menu, using modified template
     Menu.setApplicationMenu(Menu.buildFromTemplate(menu));
@@ -67,46 +73,3 @@ ipcMain.on('request-bucket-list', (event, arg) => {
     });
   });
 });
-
-function createMenuTemplate() {
-  return [
-    {
-      label: 'Edit',
-      submenu: [
-        {
-          label: 'Undo',
-          accelerator: 'CmdOrCtrl+Z',
-          role: 'undo'
-        },
-        {
-          label: 'Redo',
-          accelerator: 'Shift+CmdOrCtrl+Z',
-          role: 'redo'
-        },
-        {
-          type: 'separator'
-        },
-        {
-          label: 'Cut',
-          accelerator: 'CmdOrCtrl+X',
-          role: 'cut'
-        },
-        {
-          label: 'Copy',
-          accelerator: 'CmdOrCtrl+C',
-          role: 'copy'
-        },
-        {
-          label: 'Paste',
-          accelerator: 'CmdOrCtrl+V',
-          role: 'paste'
-        },
-        {
-          label: 'Select All',
-          accelerator: 'CmdOrCtrl+A',
-          role: 'selectall'
-        },
-      ]
-    }
-  ];
-}
