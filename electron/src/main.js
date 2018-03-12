@@ -29,7 +29,7 @@ function createWindow() {
     win.loadURL('http://localhost:4200/');
   } else {
     win.loadURL(url.format({
-      pathname: path.join(__dirname, 'build/angular-render/index.html'),
+      pathname: path.join(__dirname, '../build/angular-render/index.html'),
       protocol: 'file:',
       slashes: true
     }));

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "productName": "作品云",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
     "start": "electron .",
     "build": "DEBUG=electron-packager electron-packager ./ --platform=darwin --arch=x64 --icon='./icon.icns' --out='./build/electron/' --overwrite"
