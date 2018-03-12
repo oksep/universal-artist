@@ -6,7 +6,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "electron-build": "DEBUG=electron-packager electron-packager ./ --platform=darwin --arch=x64 --icon='./icon.icns' --out='./build/electron/' --overwrite"
+    "build": "DEBUG=electron-packager electron-packager ./ --platform=darwin --arch=x64 --icon='./icon.icns' --out='./build/electron/' --overwrite"
   },
   "author": "",
   "license": "ISC",

@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "ng serve",
-    "angular-build": "ng build --prod --sm=false --aot=true --output-path=./electron/build/angular",
+    "build": "ng build --prod --sm=false --aot=true --output-path=../electron/build/angular-render",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
