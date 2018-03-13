@@ -1,0 +1,11 @@
+{
+  "verbose": true,
+  "watch": [
+    "main"
+  ],
+  "exec": "electron .",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js json"
+}

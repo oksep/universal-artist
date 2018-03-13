@@ -5,7 +5,11 @@
   "productName": "作品云",
   "main": "index.js",
   "scripts": {
-    "start": "electron .",
+    "start": "npm run src-compile && concurrently --kill-others \"npm run src-watch-compile\" \"npm run hotreload\"",
+    "hotreload": "nodemon --config ./nodemon.json",
+    "src-compile": "tsc -p src",
+    "src-watch-compile": "tsc -w -p src",
+    "run-no-assist": "electron .",
     "build": "DEBUG=electron-packager electron-packager ./ --platform=darwin --arch=x64 --icon='./icon.icns' --out='./build/electron/' --overwrite"
   },
   "author": "",
@@ -17,7 +21,12 @@
     "qiniu": "^7.1.2"
   },
   "devDependencies": {
+    "concurrently": "^3.5.1",
     "electron": "^1.8.2",
-    "electron-packager": "^11.0.0"
+    "electron-packager": "^11.0.0",
+    "nodemon": "^1.17.1",
+    "tslint": "^5.9.1",
+    "tslint-config-airbnb": "^5.7.0",
+    "typescript": "^2.7.2"
   }
 }
