@@ -182,4 +182,4 @@ function default_1(app, shell) {
     return template;
 }
 exports.default = default_1;
-//# sourceMappingURL=/Users/renyufeng/Documents/electron/azimghost/electron/main/menu.js.map
+//# sourceMappingURL=/Users/renyufeng/Documents/pro_azhong/azimghost/electron/main/menu.js.map

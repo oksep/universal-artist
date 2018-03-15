@@ -42,4 +42,4 @@ function requestUploadToken(option) {
     return putPolicy.uploadToken(mac);
 }
 exports.requestUploadToken = requestUploadToken;
-//# sourceMappingURL=/Users/renyufeng/Documents/electron/azimghost/electron/main/qiniu.js.map
+//# sourceMappingURL=/Users/renyufeng/Documents/pro_azhong/azimghost/electron/main/qiniu.js.map

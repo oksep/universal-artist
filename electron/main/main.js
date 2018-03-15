@@ -56,4 +56,4 @@ electron_1.ipcMain.on('request-bucket-list', (event, arg) => {
         });
     });
 });
-//# sourceMappingURL=/Users/renyufeng/Documents/electron/azimghost/electron/main/main.js.map
+//# sourceMappingURL=/Users/renyufeng/Documents/pro_azhong/azimghost/electron/main/main.js.map

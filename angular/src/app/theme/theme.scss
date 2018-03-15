@@ -1,8 +1,15 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~@angular/material/theming';
 
-//html {
-//  position: relative;
-//}
+@include mat-core();
+
+$primary: mat-palette($mat-blue);
+$accent: mat-palette($mat-teal);
+$warn: mat-palette($mat-deep-orange);
+$theme: mat-light-theme($primary, $accent, $warn);
+
+@include angular-material-theme($theme);
+
+@import url('https://fonts.googleapis.com/css?family=Asap');
 
 html, body {
   min-height: 100%;
@@ -12,4 +19,9 @@ html, body {
 body {
   overflow-y: auto;
   margin: 0;
+  -webkit-user-select: none;
+}
+
+* {
+  font-family: 'Asap', sans-serif;
 }

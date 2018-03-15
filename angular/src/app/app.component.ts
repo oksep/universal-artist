@@ -9,18 +9,13 @@ export class AppComponent {
   selectedIndex: Number = 0;
 
   navs = [
-    {router: '/bed', name: 'BED'},
-    {router: '/brand', name: 'BRAND'},
-    {router: '/illustration', name: 'ILLUSTRATION'},
-    {router: '/home', name: 'HOME'},
-    {router: '/setting', name: 'SETTING'},
+    {router: '/bed', name: 'ImageHost'},
+    {router: '/brand', name: 'Brand'},
+    {router: '/illustration', name: 'Illustration'},
+    {router: '/home', name: 'Ui/Ux'},
+    {router: '/setting', name: 'Setting'},
   ];
 
   constructor() {
-  }
-
-  onRouterClick(i: number) {
-    this.selectedIndex = i;
-    console.log('selected index: ', i);
   }
 }

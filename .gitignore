@@ -44,7 +44,6 @@ testem.log
 Thumbs.db
 
 # build
-/build
 /electron/build
 
 /**/package-lock.json
