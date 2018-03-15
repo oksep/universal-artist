@@ -12,7 +12,7 @@ export class AppComponent {
     {router: '/bed', name: 'ImageHost'},
     {router: '/brand', name: 'Brand'},
     {router: '/illustration', name: 'Illustration'},
-    {router: '/home', name: 'Ui/Ux'},
+    {router: '/uiux', name: 'Ui/Ux'},
     {router: '/setting', name: 'Setting'},
   ];
 

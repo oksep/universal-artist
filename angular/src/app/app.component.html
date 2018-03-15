@@ -1,4 +1,4 @@
-<div style="height: 100%; display: flex; flex-direction: column; ">
+<div style="height: 100%; display: flex; flex-direction: column;">
     <div class="header">
         <a *ngFor="let nav of navs; let i = index"
            mat-button
@@ -11,7 +11,16 @@
             {{nav.name}}
         </a>
     </div>
-    <div style="flex: 1; overflow-y: auto">
+
+    <mat-progress-bar
+            style="position: fixed; left: 0; right: 0; top: 0; height: 4px; z-index: 100"
+            [color]="'warn'"
+            [mode]="'indeterminate'"
+            [value]="10"
+            [bufferValue]="50">
+    </mat-progress-bar>
+
+    <div style="flex: 1; overflow-y: auto" id="scroll-content">
         <router-outlet></router-outlet>
     </div>
 </div>

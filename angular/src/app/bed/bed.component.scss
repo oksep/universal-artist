@@ -1,0 +1,42 @@
+.img {
+  transition: all 0.25s ease-in-out;
+  &:hover {
+    transform: scale(1.2);
+    filter: invert(100%);
+    //filter: brightness(200%)
+    // filter: contrast(200%)
+    // filter: drop-shadow(8px 8px 10px gray)
+    // filter: grayscale(100%)
+    // filter: hue-rotate(90deg)
+    // filter: opacity(30%)
+    // filter: saturate(8)
+    // filter: sepia(100%)
+    // filter: contrast(200%) brightness(150%)
+    // filter: none
+  }
+}
+
+.imgBoard {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.floating-btn-container {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.floating-btn-container > button {
+  margin-left: 12px;
+  //width: 40px;
+  //height: 40px;
+}
+
+.floating-btn-container-hidden {
+  position: fixed;
+  bottom: -60px;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}

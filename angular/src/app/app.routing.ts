@@ -9,7 +9,7 @@ import {BrandComponent} from './brand/brand.component';
 import {BedComponent} from './bed/bed.component';
 
 const routes: Routes = [
-	{path: '', redirectTo: '/home', pathMatch: 'full'},
+	{path: '', redirectTo: '/bed', pathMatch: 'full'},
 	{path: 'bed', component: BedComponent},
 	{path: 'brand', component: BrandComponent},
 	{path: 'illustration', component: IllustrationComponent},
