@@ -6,11 +6,26 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run src-compile && concurrently --kill-others \"npm run src-watch-compile\" \"npm run hotreload\"",
-    "hotreload": "nodemon --config ./nodemon.json",
+    "hotreload": "nodemon",
     "src-compile": "tsc -p src",
     "src-watch-compile": "tsc -w -p src",
     "run-no-assist": "electron .",
     "build": "DEBUG=electron-packager electron-packager ./ --platform=darwin --arch=x64 --icon='./icon.icns' --out='./build/electron/' --overwrite"
+  },
+  "nodemonConfig": {
+    "verbose": true,
+    "watch": [
+      "main"
+    ],
+    "exec": "electron .",
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "delay": 10,
+    "ext": "js json",
+    "ignore": [
+      "*.map"
+    ]
   },
   "author": "",
   "license": "ISC",

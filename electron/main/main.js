@@ -8,13 +8,16 @@ const menu_1 = require("./menu");
 const qiniu_1 = require("./qiniu");
 let win;
 function createWindow() {
-    win = new electron_1.BrowserWindow({
+    const option = {
         width: 920,
         height: 700,
         minWidth: 930,
         minHeight: 500,
-        backgroundColor: '#08d',
-    });
+        backgroundColor: '#eee',
+        frame: false,
+        titleBarStyle: 'hidden',
+    };
+    win = new electron_1.BrowserWindow(option);
     if (isDev) {
         win.loadURL('http://localhost:4200/');
     }

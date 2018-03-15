@@ -1,4 +1,4 @@
-import {app, BrowserWindow, ipcMain, Menu, shell} from 'electron';
+import {app, BrowserWindow, BrowserWindowConstructorOptions, ipcMain, Menu, shell} from 'electron';
 
 import * as isDev from 'electron-is-dev';
 
@@ -13,13 +13,17 @@ import {requestBucketList} from './qiniu';
 let win: BrowserWindow;
 
 function createWindow() {
-    win = new BrowserWindow({
+    const option: BrowserWindowConstructorOptions = {
         width: 920,
         height: 700,
         minWidth: 930,
         minHeight: 500,
-        backgroundColor: '#08d',
-    });
+        backgroundColor: '#eee',
+        frame: false,
+        titleBarStyle: 'hidden',
+    };
+
+    win = new BrowserWindow(option);
 
     if (isDev) {
         win.loadURL('http://localhost:4200/');

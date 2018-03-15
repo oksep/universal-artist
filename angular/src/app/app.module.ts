@@ -19,6 +19,11 @@ import {BounceSpinnerComponent} from './shared/bounce-spinner/bounce-spinner.com
 import {UploadButtonComponent} from './home/upload/upload-button.component';
 import {UploadService} from './home/upload/upload.service';
 import {HttpModule} from '@angular/http';
+import {ThemeModule} from './theme/theme.module';
+import { BedComponent } from './bed/bed.component';
+import { IllustrationComponent } from './illustration/illustration.component';
+import { BrandComponent } from './brand/brand.component';
+import { UiuxComponent } from './uiux/uiux.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +34,11 @@ import {HttpModule} from '@angular/http';
     BounceSpinnerComponent,
     UploadButtonComponent,
     ThumbnailPipe,
-    QiniuDatePipe
+    QiniuDatePipe,
+    BedComponent,
+    IllustrationComponent,
+    BrandComponent,
+    UiuxComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +47,8 @@ import {HttpModule} from '@angular/http';
     AppRouting,
     NgxElectronModule,
     CommonModule,
-    HttpModule
+    HttpModule,
+    ThemeModule
   ],
   providers: [HomeService, UploadService],
   bootstrap: [AppComponent]

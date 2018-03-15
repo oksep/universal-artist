@@ -1,27 +1,46 @@
-<main>
-    <div class="d-flex flex-row align-items-stretch" style="height: 100%;">
-        <div class="left-panel-container">
-            <a class="panel-btn"
-               [ngClass]="{'panel-btn-selected' : selectedIndex == 0}"
-               (click)="selectedIndex = 0"
-               routerLink="/home">
-                <i class="fa fa-image"></i>&nbsp;&nbsp;图床
-            </a>
-            <a class="panel-btn"
-               [ngClass]="{'panel-btn-selected' : selectedIndex == 1}"
-               (click)="selectedIndex = 1"
-               routerLink="/config">
-                <i class="fa fa-tasks"></i>&nbsp;&nbsp;配置
-            </a>
-            <a class="panel-btn"
-               [ngClass]="{'panel-btn-selected' : selectedIndex == 2}"
-               (click)="selectedIndex = 2"
-               routerLink="/setting">
-                <i class="fa fa-cogs"></i>&nbsp;&nbsp;设置
-            </a>
-        </div>
-        <div class="right-panel-container">
-            <router-outlet></router-outlet>
-        </div>
-    </div>
-</main>
+<!--<main style="-webkit-user-select: none;">-->
+    <!--<div class="d-flex flex-row align-items-stretch" style="height: 100%;">-->
+        <!--<div class="left-panel-container">-->
+            <!--<a class="panel-btn"-->
+               <!--[ngClass]="{'panel-btn-selected' : selectedIndex == 0}"-->
+               <!--(click)="selectedIndex = 0"-->
+               <!--routerLink="/home">-->
+                <!--<i class="fa fa-image"></i>&nbsp;&nbsp;图床-->
+            <!--</a>-->
+            <!--<a class="panel-btn"-->
+               <!--[ngClass]="{'panel-btn-selected' : selectedIndex == 1}"-->
+               <!--(click)="selectedIndex = 1"-->
+               <!--routerLink="/config">-->
+                <!--<i class="fa fa-tasks"></i>&nbsp;&nbsp;配置-->
+            <!--</a>-->
+            <!--<a class="panel-btn"-->
+               <!--[ngClass]="{'panel-btn-selected' : selectedIndex == 2}"-->
+               <!--(click)="selectedIndex = 2"-->
+               <!--routerLink="/setting">-->
+                <!--<i class="fa fa-cogs"></i>&nbsp;&nbsp;设置-->
+            <!--</a>-->
+        <!--</div>-->
+        <!--<div class="right-panel-container">-->
+            <!--<router-outlet></router-outlet>-->
+        <!--</div>-->
+    <!--</div>-->
+  <!--<div style="height: 30px; position: fixed; left: 0; right: 0; top: 0; background: #2c3e50; -webkit-app-region: drag">-->
+    <!--<button mat-button color="primary">Primary</button>-->
+  <!--</div>-->
+<!--</main>-->
+
+<div style="height: 100%; display: flex; flex-direction: column">
+  <div
+    style="-webkit-app-region: drag; padding-top: 20px;background: linear-gradient(45deg, #34b49d, #4b65d6); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); z-index: 1; display: flex">
+    <button *ngFor="let nav of navs; let i = index"
+            mat-button color="primary"
+            style="flex: 1; padding: 6px"
+            [ngClass]="{'panel-btn-selected': selectedIndex == i}" (click)="onRouterClick(i)"
+            [routerLink]="nav">
+      {{nav.name}}
+    </button>
+  </div>
+  <div style="flex: 1; overflow-y: auto">
+    <router-outlet></router-outlet>
+  </div>
+</div>
