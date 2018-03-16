@@ -1,0 +1,15 @@
+<div *ngFor="let uploadFile of data" style="position: relative">
+  <mat-progress-bar
+    style="height: 16px;"
+    [color]="'primary'"
+    [mode]="'determinate'"
+    [value]="uploadFile.progress">
+  </mat-progress-bar>
+  <small style="
+  padding: 2px 0;
+  font-size: 12px;
+  line-height: 12px;
+  position: absolute; left: 0; right: 0; top: 0; bottom: 0; color: white">
+    {{uploadFile.file.path}} -- {{uploadFile.progress}}
+  </small>
+</div>

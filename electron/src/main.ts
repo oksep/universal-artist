@@ -8,7 +8,7 @@ import * as url from 'url';
 
 import defaultMenu from './menu';
 
-import {requestBucketList} from './qiniu';
+import {requestBucketList, requestUploadToken} from './qiniu';
 
 let win: BrowserWindow;
 
@@ -70,4 +70,9 @@ ipcMain.on('request-bucket-list', (event, arg) => {
             data,
         });
     });
+});
+
+ipcMain.on('request-upload-token', (event, arg) => {
+    const token = requestUploadToken(arg);
+    event.sender.send('request-upload-token-callback', token);
 });

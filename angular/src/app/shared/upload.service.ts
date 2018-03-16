@@ -3,10 +3,11 @@ import {Injectable} from '@angular/core';
 import {Headers, Http, RequestOptions} from '@angular/http';
 
 import {Observable} from 'rxjs/Observable';
-import {environment} from '../../../environments/environment';
-import {Settings} from '../../setting/setting.modle';
+import {environment} from '../../environments/environment';
+import {Settings} from '../setting/setting.modle';
 import {ElectronService} from 'ngx-electron';
-import {HomeService} from '../home.service';
+import {CommonService} from './common.service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 export interface OnUploadCallback {
   onUploadProgress(percent: number);
@@ -27,62 +28,78 @@ export const ASSETS_DOMAIN = environment.domain;
 @Injectable()
 export class UploadService {
 
-  constructor(private http: Http, private electronService: ElectronService, private homeService: HomeService) {
+  private eventSource: BehaviorSubject<Array<UploadFile>> = new BehaviorSubject<Array<UploadFile>>([]);
+
+  public uploadFileObservable = this.eventSource.asObservable();
+
+  constructor(private http: Http, private electronService: ElectronService, private homeService: CommonService) {
   }
 
+  private static notifyFileUploadResult(file: UploadFile) {
+    const msg = file.status == UploadFileStatus.COMPLETE ? '上传成功' : '上传失败';
+    const notification = new Notification(msg, {
+      body: file.file.path,
+      icon: 'file://' + file.file.path
+    });
+    notification.close();
+  }
 
-  upload1By1(list: Array<File>, singleFileCallback: SingleFileCallback) {
+  uploadFiles(files: Array<File>) {
+
+    const list = files.map((file) => new UploadFile(file));
+
+    this.eventSource.next(list);
+
     const setting = Settings.loadSetting();
-    const {requestUploadToken} = this.electronService.remote.require('./qiniu');
-    const processNext = () => {
-      const file = list.shift();
-      if (file != null) {
-        const key = setting.qiniu.prefix + '/' + this.generateUUID();
-        const token = requestUploadToken({
-          accessKey: setting.qiniu.key,
-          secretKey: setting.qiniu.secret,
-          bucket: setting.qiniu.bucket,
-          key: key
-        });
-        singleFileCallback.onProgress(file, 0);
+
+    const processNext = (index: number) => {
+      const uploadFile = list[index];
+      uploadFile.status = UploadFileStatus.UPLOADING;
+      uploadFile.progress = 50;
+      if (uploadFile!=null) {
+        return
+      }
+      if (uploadFile != null) {
         const callback = {
           onUploadProgress: (percent: number) => {
-            singleFileCallback.onProgress(file, percent);
+            uploadFile.status = UploadFileStatus.UPLOADING;
+            uploadFile.progress = percent;
           },
           onUploadError: (err: Error) => {
-            const notification = new Notification('上传失败', {
-              body: file.path,
-              icon: 'file://' + file.path
-            });
-            notification.close();
-            processNext();
+            uploadFile.status = UploadFileStatus.FAILED;
+            UploadService.notifyFileUploadResult(uploadFile);
+            console.log('uploading', uploadFile);
+            processNext(++index);
           },
           onUploadComplete: (url: string) => {
-            // notify
-            const notification = new Notification('上传成功', {
-              body: file.path,
-              icon: 'file://' + file.path
-            });
-            notification.close();
+            uploadFile.status = UploadFileStatus.COMPLETE;
+            uploadFile.progress = 100;
 
-            // progress
-            singleFileCallback.onProgress(file, 100);
+            this.homeService.appendNewImageItem(uploadFile.file, key);
 
-            // to image board
-            this.homeService.appendNewImageItem(file, key);
-
-            // next
-            processNext();
+            UploadService.notifyFileUploadResult(uploadFile);
+            processNext(++index);
           },
           onLoaded: () => {
           }
         };
-        this.uploadToQiniu(file, token, key, callback);
-      } else {
-        singleFileCallback.onProgress(null, 0);
+        this.electronService.ipcRenderer.once(
+          'request-upload-token-callback',
+          (event, token: string) => {
+            this.uploadToQiniu(uploadFile.file, token, key, callback);
+          }
+        );
+        const key = setting.qiniu.prefix + '/' + this.generateUUID();
+        const option = {
+          accessKey: setting.qiniu.key,
+          secretKey: setting.qiniu.secret,
+          bucket: setting.qiniu.bucket,
+          key: key
+        };
+        this.electronService.ipcRenderer.send('request-upload-token', option);
       }
     };
-    processNext();
+    processNext(0);
   }
 
   // 上传文件至七牛
@@ -159,9 +176,24 @@ export class UploadService {
       return (c === 'x' ? r : (r & 0x7 | 0x8)).toString(16);
     });
   }
+
+  batchUpload(list: Array<UploadFile>) {
+
+  }
 }
 
-export class CurrentUploadFile {
+export class UploadFile {
   file: File;
   progress: number;
+  status: UploadFileStatus;
+
+  constructor(file: File) {
+    this.file = file;
+    this.progress = 0;
+    this.status = UploadFileStatus.PENDING;
+  }
+}
+
+export enum UploadFileStatus {
+  PENDING, UPLOADING, COMPLETE, FAILED
 }

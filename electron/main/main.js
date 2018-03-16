@@ -56,4 +56,8 @@ electron_1.ipcMain.on('request-bucket-list', (event, arg) => {
         });
     });
 });
-//# sourceMappingURL=/Users/renyufeng/Documents/pro_azhong/azimghost/electron/main/main.js.map
+electron_1.ipcMain.on('request-upload-token', (event, arg) => {
+    const token = qiniu_1.requestUploadToken(arg);
+    event.sender.send('request-upload-token-callback', token);
+});
+//# sourceMappingURL=/Users/renyufeng/Documents/electron/azimghost/electron/main/main.js.map

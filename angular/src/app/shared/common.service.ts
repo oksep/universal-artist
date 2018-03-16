@@ -4,8 +4,7 @@ import {Settings} from '../setting/setting.modle';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
-export class HomeService {
-
+export class CommonService {
   private eventSource: BehaviorSubject<Array<ImageItem>> = new BehaviorSubject<Array<ImageItem>>([]);
 
   public bucketObservable = this.eventSource.asObservable();
@@ -31,7 +30,7 @@ export class HomeService {
       accessKey: setting.qiniu.key,
       secretKey: setting.qiniu.secret,
       bucket: setting.qiniu.bucket,
-      prefix: setting.qiniu.prefix,
+      prefix: 'test2', //setting.qiniu.prefix,
       limit: 1000
     };
     this.electronService.ipcRenderer.send('request-bucket-list', option);

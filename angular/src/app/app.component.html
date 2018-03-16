@@ -3,7 +3,6 @@
         <a *ngFor="let nav of navs; let i = index"
            mat-button
            color="primary"
-           style="flex: 1; padding: 6px"
            [ngClass]="{'nav-btn-selected': selectedIndex == i}"
            (click)="selectedIndex = i"
            class="nav-btn"
@@ -11,14 +10,6 @@
             {{nav.name}}
         </a>
     </div>
-
-    <mat-progress-bar
-            style="position: fixed; left: 0; right: 0; top: 0; height: 4px; z-index: 100"
-            [color]="'warn'"
-            [mode]="'indeterminate'"
-            [value]="10"
-            [bufferValue]="50">
-    </mat-progress-bar>
 
     <div style="flex: 1; overflow-y: auto" id="scroll-content">
         <router-outlet></router-outlet>
