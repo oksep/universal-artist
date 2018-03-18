@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {UploadService} from '../shared/upload.service';
+import {Settings} from '../setting/setting.modle';
 
 @Component({
   selector: 'app-uiux',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UiuxComponent implements OnInit {
 
-  constructor() { }
+  constructor(private uploadService: UploadService) { }
 
   ngOnInit() {
   }
+
+	uploadConfig() {
+  	this.uploadService.saveJsonToQiniu(JSON.stringify(Settings.loadSetting()))
+	}
 
 }

@@ -30,7 +30,7 @@ export class CommonService {
       accessKey: setting.qiniu.key,
       secretKey: setting.qiniu.secret,
       bucket: setting.qiniu.bucket,
-      prefix: 'test2', //setting.qiniu.prefix,
+      prefix: setting.qiniu.prefix,
       limit: 1000
     };
     this.electronService.ipcRenderer.send('request-bucket-list', option);

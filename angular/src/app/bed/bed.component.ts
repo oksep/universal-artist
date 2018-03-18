@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {CommonService, ImageItem} from '../shared/common.service';
 import {UploadService} from '../shared/upload.service';
@@ -13,10 +13,6 @@ export class BedComponent implements OnInit, OnDestroy, AfterViewInit {
   data: Array<ImageItem> = [];
 
   sub = null;
-
-  @Input() position = 400;
-  @Input() showSpeed = 500;
-  @Input() moveSpeed = 200;
 
   text = 0;
 

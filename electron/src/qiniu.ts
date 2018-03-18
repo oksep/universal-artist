@@ -57,3 +57,10 @@ export function requestUploadToken(option: Option) {
     const putPolicy = new qiniu.rs.PutPolicy(policyOptions);
     return putPolicy.uploadToken(mac);
 }
+
+export function uploadFile(option) {
+	const bucketManager = new qiniu.rs.BucketManager(
+		new qiniu.auth.digest.Mac(option.accessKey, option.secretKey),
+		new qiniu.conf.Config(),
+	);
+}
