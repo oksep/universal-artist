@@ -19,8 +19,8 @@ import {BedComponent} from './bed/bed.component';
 import {IllustrationComponent} from './illustration/illustration.component';
 import {BrandComponent} from './brand/brand.component';
 import {UiuxComponent} from './uiux/uiux.component';
-import {CommonService} from './shared/common.service';
 import {UploadStatusComponent} from './bed/upload-status/upload-status.component';
+import {BedService} from './bed/bed.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +44,7 @@ import {UploadStatusComponent} from './bed/upload-status/upload-status.component
     HttpModule,
     ThemeModule
   ],
-  providers: [UploadService, CommonService],
+  providers: [UploadService, BedService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

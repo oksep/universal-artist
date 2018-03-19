@@ -4,7 +4,7 @@ import {Settings} from '../setting/setting.modle';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
-export class CommonService {
+export class BedService {
   private eventSource: BehaviorSubject<Array<ImageItem>> = new BehaviorSubject<Array<ImageItem>>([]);
 
   public bucketObservable = this.eventSource.asObservable();

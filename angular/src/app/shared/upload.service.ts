@@ -1,6 +1,6 @@
 ///<reference path="../../../node_modules/@angular/http/src/headers.d.ts"/>
 ///<reference path="../../../node_modules/@angular/http/src/base_request_options.d.ts"/>
-import {Injectable} from '@angular/core';
+import {Injectable, NgZone} from '@angular/core';
 
 import {Headers, Http, RequestOptions} from '@angular/http';
 
@@ -8,8 +8,8 @@ import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment';
 import {Settings} from '../setting/setting.modle';
 import {ElectronService} from 'ngx-electron';
-import {CommonService} from './common.service';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BedService} from '../bed/bed.service';
 
 export interface OnUploadCallback {
 	onUploadProgress(percent: number);
@@ -34,16 +34,24 @@ export class UploadService {
 
 	public uploadFileObservable = this.eventSource.asObservable();
 
-	constructor(private http: Http, private electronService: ElectronService, private homeService: CommonService) {
+	constructor(private http: Http, private electronService: ElectronService, private homeService: BedService, private ngZone: NgZone) {
 	}
 
-	private static notifyFileUploadResult(file: UploadFile) {
-		const msg = file.status == UploadFileStatus.COMPLETE ? '上传成功' : '上传失败';
+	private notifyFileUploadResult(uploadStatus: UploadFileStatus, progress: number, uploadFile: UploadFile, key: string) {
+		console.log(`UploadResult => file: ${uploadFile.file.path} status: ${uploadStatus} progress: ${progress}`);
+		const msg = uploadFile.status == UploadFileStatus.COMPLETE ? '上传成功' : '上传失败';
 		const notification = new Notification(msg, {
-			body: file.file.path,
-			icon: 'file://' + file.file.path
+			body: uploadFile.file.path,
+			icon: 'file://' + uploadFile.file.path
 		});
 		notification.close();
+		this.ngZone.run(() => {
+			uploadFile.status = uploadStatus;
+			uploadFile.progress = progress;
+			if (uploadStatus == UploadFileStatus.COMPLETE) {
+				this.homeService.appendNewImageItem(uploadFile.file, key);
+			}
+		});
 	}
 
 	uploadFiles(files: Array<File>) {
@@ -58,22 +66,14 @@ export class UploadService {
 				this.requestUploadToken(AssetType.IMG, (token, key) => {
 					const uploadCallback = {
 						onUploadProgress: (percent: number) => {
-							uploadFile.status = UploadFileStatus.UPLOADING;
-							uploadFile.progress = percent;
+							this.notifyFileUploadResult(UploadFileStatus.UPLOADING, percent, uploadFile, key);
 						},
 						onUploadError: (err: Error) => {
-							uploadFile.status = UploadFileStatus.FAILED;
-							UploadService.notifyFileUploadResult(uploadFile);
-							console.log('uploading', uploadFile);
+							this.notifyFileUploadResult(UploadFileStatus.FAILED, 0, uploadFile, key);
 							processNext(++index);
 						},
 						onUploadComplete: (url: string) => {
-							uploadFile.status = UploadFileStatus.COMPLETE;
-							uploadFile.progress = 100;
-
-							this.homeService.appendNewImageItem(uploadFile.file, key);
-
-							UploadService.notifyFileUploadResult(uploadFile);
+							this.notifyFileUploadResult(UploadFileStatus.COMPLETE, 100, uploadFile, key);
 							processNext(++index);
 						},
 						onLoaded: () => {
@@ -105,10 +105,6 @@ export class UploadService {
 			default:
 				return;
 		}
-		// prefix/img/${random}
-		// config/illustration
-		// config/illustration
-		// config/illustration
 
 		const option = {
 			accessKey: setting.qiniu.key,
@@ -204,53 +200,18 @@ export class UploadService {
 		return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 	}
 
-	saveJsonToQiniu(data: string) {
-		this.requestUploadToken(AssetType.IMG, (token, key) => {
+	uploadConfigToQiniu(data: string) {
+		this.requestUploadToken(AssetType.BRAND, (token, key) => {
 			console.log('upload token:', token);
 			console.log('upload key:', key);
-			// let headers = new Headers();
-			// headers.append('Content-Type', 'application/json');
-			// headers.append('Accept', 'application/json');
-			// headers.append('Authorization', `UpToken `);
-			// let options = new RequestOptions({headers: headers});
-			// this.http.post('http://upload.qiniu.com/', data, options)
-			// 	.map((res) => res.json())
-			// 	.subscribe(result => {
-			// 		console.log('result:', result);
-			// 	});
 
-			// var debug = {hello: 'world'};
-			// var blob = new Blob([JSON.stringify(debug, null, 2)], {type: 'application/json'});
-			// var file = URL.createObjectURL(blob);
-			//
-			// const headers = new Headers();
-			// headers.append('Content-Type', 'multipart/form-data');
-			// headers.append('Accept', 'application/json');
-			//
-			// let options = new RequestOptions({headers: headers});
-			//
-			// const formData = new FormData();
-			// formData.append('file', blob, key);
-			// formData.append('token', token);
-			// formData.append('key', key);
-			//
-			// this.http.post('http://upload.qiniu.com/', data, options)
-			// 	.map((res) => res.json())
-			// 	.subscribe(result => {
-			// 		console.log('result:', result);
-			// 	});
+			const formData = new FormData();
+			formData.append('token', token);
+			formData.append('key', key);
+			formData.append('file', new Blob([JSON.stringify(Settings.loadSetting())], {type: 'application/json'}));
 
-			var formData = new FormData();
-
-			formData.append("token", token);
-			formData.append("key", key);
-
-			var blob = new Blob([JSON.stringify(Settings.loadSetting())], { type: "application/json"});
-
-			formData.append("file", blob);
-
-			var request = new XMLHttpRequest();
-			request.open("POST", "http://upload.qiniu.com/");
+			const request = new XMLHttpRequest();
+			request.open('POST', 'http://upload.qiniu.com/');
 			request.send(formData);
 
 		});

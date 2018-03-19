@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Settings} from './setting.modle';
-import {CommonService} from '../shared/common.service';
+import {BedService} from '../bed/bed.service';
 
 @Component({
   selector: 'app-setting',
@@ -14,7 +14,7 @@ export class SettingComponent implements OnInit {
 
   @ViewChild('settingForm') form: NgForm;
 
-  constructor(private homeService: CommonService) {
+  constructor(private homeService: BedService) {
   }
 
   ngOnInit() {
