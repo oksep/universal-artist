@@ -1,5 +1,4 @@
 export class Settings {
-	github = new Github();
 	qiniu = new Qiniu();
 
 	static loadSetting() {
@@ -14,11 +13,6 @@ export class Settings {
 	static saveSetting(settings: Settings) {
 		localStorage.setItem('settings', JSON.stringify(settings));
 	}
-}
-
-class Github {
-	name = '';
-	password = '';
 }
 
 class Qiniu {

@@ -1,54 +1,22 @@
-<div style="height: 100%; display: flex; flex-direction: column">
-  <form class="form-horizontal" #settingForm="ngForm" style="overflow-y: auto; padding: 16px; ">
-    <div class="form-group">
-      <label class="label" for="key">KEY</label>
-      <input name="key" id="key" class="form-control" type="text" [(ngModel)]="settings. qiniu.key">
-    </div>
+<form class="form-container" #settingForm="ngForm">
+    <mat-form-field>
+        <input matInput placeholder="Key" name="key" id="key" type="text" [(ngModel)]="settings.qiniu.key" disabled>
+    </mat-form-field>
 
-    <div class="form-group">
-      <label class="label" for="secret">SECRET</label>
-      <input name="secret" id="secret" class="form-control" type="text"
-             [(ngModel)]="settings.qiniu.secret">
-    </div>
+    <mat-form-field>
+        <input matInput placeholder="Secret" name="secret" id="secret" type="text" [(ngModel)]="settings.qiniu.secret" disabled>
+    </mat-form-field>
 
-    <div class="form-group">
-      <label class="label" for="bucket">BUCKET</label>
-      <input name="bucket" id="bucket" class="form-control" type="text"
-             [(ngModel)]="settings.qiniu.bucket">
-    </div>
+    <mat-form-field>
+        <input matInput placeholder="Bucket" name="bucket" id="bucket" type="text" [(ngModel)]="settings.qiniu.bucket" disabled>
+    </mat-form-field>
 
-    <div class="form-group">
-      <label class="label" for="prefix">PREFIX</label>
-      <input name="prefix" id="prefix" class="form-control" type="text"
-             [(ngModel)]="settings.qiniu.prefix">
-    </div>
+    <mat-form-field>
+        <input matInput placeholder="Prefix" name="prefix" id="prefix" type="text" [(ngModel)]="settings.qiniu.prefix">
+    </mat-form-field>
 
-      <div>{{settings.qiniu.prefix + '/image'}}</div>
-      <div>{{settings.qiniu.prefix + '/brand'}}</div>
-      <div>{{settings.qiniu.prefix + '/illustration'}}</div>
-      <div>{{settings.qiniu.prefix + '/uiux'}}</div>
-
-    <div class="divider"></div>
-
-    <div class="form-group">
-      <label class="label-github" for="name">NAME</label>
-      <input name="name" id="name" class="form-control" type="text"
-             [(ngModel)]="settings.github.name">
-    </div>
-
-    <div class="form-group">
-      <label class="label-github" for="password">PASSWORD</label>
-      <input name="password" id="password" class="form-control" type="text"
-             [(ngModel)]="settings.github.password">
-    </div>
-
-    <button type="button"
-            [disabled]="!settingForm.form.dirty"
-            (click)="saveSetting()"
-            class="btn btn-outline-info"
-            style="margin-left: 10px; float: right;">
-      保存
+    <button mat-raised-button color="primary" [disabled]="!settingForm.form.dirty" (click)="saveSetting()">
+        保存
     </button>
 
-  </form>
-</div>
+</form>

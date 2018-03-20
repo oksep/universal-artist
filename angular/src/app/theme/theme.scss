@@ -2,12 +2,69 @@
 
 @include mat-core();
 
-$primary: mat-palette($mat-blue);
+$primary: mat-palette($mat-indigo);
 $accent: mat-palette($mat-green);
 $warn: mat-palette($mat-deep-orange);
 $theme: mat-light-theme($primary, $accent, $warn);
 
 @include angular-material-theme($theme);
+
+$color-primary-palette: map-get($theme, primary);
+$color-accent-palette: map-get($theme, accent);
+$color-warn-palette: map-get($theme, warn);
+$color-foreground-palette: map-get($theme, foreground);
+$color-background-palette: map-get($theme, background);
+
+$color-primary-default: mat-color($color-primary-palette, default);
+$color-primary-500: mat-color($color-primary-palette, 500);
+$color-primary-50: mat-color($color-primary-palette, 50);
+$color-primary-100: mat-color($color-primary-palette, 100);
+$color-primary-200: mat-color($color-primary-palette, 200);
+$color-primary-300: mat-color($color-primary-palette, 300);
+$color-primary-400: mat-color($color-primary-palette, 400);
+$color-primary-500: mat-color($color-primary-palette, 500);
+$color-primary-600: mat-color($color-primary-palette, 600);
+$color-primary-700: mat-color($color-primary-palette, 700);
+$color-primary-800: mat-color($color-primary-palette, 800);
+$color-primary-900: mat-color($color-primary-palette, 900);
+$color-primary-A100: mat-color($color-primary-palette, A100);
+$color-primary-A200: mat-color($color-primary-palette, A200);
+$color-primary-A400: mat-color($color-primary-palette, A400);
+$color-primary-A700: mat-color($color-primary-palette, A700);
+
+$color-accent-default: mat-color($color-accent-palette, default);
+$color-accent-500: mat-color($color-accent-palette, 500);
+$color-accent-50: mat-color($color-accent-palette, 50);
+$color-accent-100: mat-color($color-accent-palette, 100);
+$color-accent-200: mat-color($color-accent-palette, 200);
+$color-accent-300: mat-color($color-accent-palette, 300);
+$color-accent-400: mat-color($color-accent-palette, 400);
+$color-accent-500: mat-color($color-accent-palette, 500);
+$color-accent-600: mat-color($color-accent-palette, 600);
+$color-accent-700: mat-color($color-accent-palette, 700);
+$color-accent-800: mat-color($color-accent-palette, 800);
+$color-accent-900: mat-color($color-accent-palette, 900);
+$color-accent-A100: mat-color($color-accent-palette, A100);
+$color-accent-A200: mat-color($color-accent-palette, A200);
+$color-accent-A400: mat-color($color-accent-palette, A400);
+$color-accent-A700: mat-color($color-accent-palette, A700);
+
+$color-warn-default: mat-color($color-warn-palette, default);
+$color-warn-500: mat-color($color-warn-palette, 500);
+$color-warn-50: mat-color($color-warn-palette, 50);
+$color-warn-100: mat-color($color-warn-palette, 100);
+$color-warn-200: mat-color($color-warn-palette, 200);
+$color-warn-300: mat-color($color-warn-palette, 300);
+$color-warn-400: mat-color($color-warn-palette, 400);
+$color-warn-500: mat-color($color-warn-palette, 500);
+$color-warn-600: mat-color($color-warn-palette, 600);
+$color-warn-700: mat-color($color-warn-palette, 700);
+$color-warn-800: mat-color($color-warn-palette, 800);
+$color-warn-900: mat-color($color-warn-palette, 900);
+$color-warn-A100: mat-color($color-warn-palette, A100);
+$color-warn-A200: mat-color($color-warn-palette, A200);
+$color-warn-A400: mat-color($color-warn-palette, A400);
+$color-warn-A700: mat-color($color-warn-palette, A700);
 
 @import url('https://fonts.googleapis.com/css?family=Asap');
 

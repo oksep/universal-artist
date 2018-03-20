@@ -1,5 +1,13 @@
-.example-button-row {
+.example-container {
   display: flex;
-  align-items: center;
-  justify-content: space-around;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.mat-table {
+  overflow: auto;
+}
+
+.mat-header-cell.mat-sort-header-sorted {
+  color: black;
 }

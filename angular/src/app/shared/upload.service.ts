@@ -10,6 +10,7 @@ import {Settings} from '../setting/setting.modle';
 import {ElectronService} from 'ngx-electron';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {BedService} from '../bed/bed.service';
+import Random from '../util/random';
 
 export interface OnUploadCallback {
 	onUploadProgress(percent: number);
@@ -91,7 +92,7 @@ export class UploadService {
 		let key: string;
 		switch (type) {
 			case AssetType.IMG:
-				key = setting.qiniu.prefix + '/' + this.genRandomId();
+				key = setting.qiniu.prefix + '/' + Random.genHash();
 				break;
 			case AssetType.BRAND:
 				key = setting.qiniu.prefix + '/config/brand';
@@ -194,10 +195,6 @@ export class UploadService {
 			d = Math.floor(d / 16);
 			return (c === 'x' ? r : (r & 0x7 | 0x8)).toString(16);
 		});
-	}
-
-	genRandomId() {
-		return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 	}
 
 	uploadConfigToQiniu(data: string) {

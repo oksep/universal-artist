@@ -1,12 +1,12 @@
 import {
 	MatButtonModule,
 	MatButtonToggleModule,
-	MatCheckboxModule,
+	MatCheckboxModule, MatFormFieldModule,
 	MatGridListModule,
-	MatIconModule,
+	MatIconModule, MatInputModule, MatOptionModule,
 	MatProgressBarModule,
-	MatProgressSpinnerModule,
-	MatSnackBarModule
+	MatProgressSpinnerModule, MatSelectModule,
+	MatSnackBarModule, MatTableModule
 } from '@angular/material';
 import {NgModule} from '@angular/core';
 
@@ -18,7 +18,12 @@ const list = [
 	MatButtonToggleModule,
 	MatIconModule,
 	MatGridListModule,
-	MatProgressSpinnerModule
+	MatProgressSpinnerModule,
+	MatTableModule,
+	MatFormFieldModule,
+	MatOptionModule,
+	MatSelectModule,
+	MatInputModule
 ];
 
 @NgModule({

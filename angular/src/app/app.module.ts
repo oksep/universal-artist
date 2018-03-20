@@ -21,6 +21,7 @@ import {BrandComponent} from './brand/brand.component';
 import {UiuxComponent} from './uiux/uiux.component';
 import {UploadStatusComponent} from './bed/upload-status/upload-status.component';
 import {BedService} from './bed/bed.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import {BedService} from './bed/bed.service';
     NgxElectronModule,
     CommonModule,
     HttpModule,
-    ThemeModule
+    ThemeModule,
+	  BrowserAnimationsModule
   ],
   providers: [UploadService, BedService],
   bootstrap: [AppComponent]

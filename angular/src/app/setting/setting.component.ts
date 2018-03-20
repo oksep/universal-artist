@@ -26,14 +26,11 @@ export class SettingComponent implements OnInit {
     this.homeService.ensureBucketList();
     if (this.form) {
       const qiniu = this.settings.qiniu;
-      const github = this.settings.github;
       this.form.resetForm({
         key: qiniu.key,
         secret: qiniu.secret,
         bucket: qiniu.bucket,
-        prefix: qiniu.prefix,
-        name: github.name,
-        password: github.password
+        prefix: qiniu.prefix
       });
     }
   }
