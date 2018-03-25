@@ -1,5 +1,13 @@
 <form class="form-container" #settingForm="ngForm">
     <mat-form-field>
+        <input matInput placeholder="Domain" name="domain" id="domain" type="text" [(ngModel)]="settings.qiniu.domain" disabled>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="DevDomain" name="devDomain" id="devDomain" type="text" [(ngModel)]="settings.qiniu.devDomain" disabled>
+    </mat-form-field>
+
+    <mat-form-field>
         <input matInput placeholder="Key" name="key" id="key" type="text" [(ngModel)]="settings.qiniu.key" disabled>
     </mat-form-field>
 

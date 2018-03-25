@@ -6,6 +6,7 @@ interface Option {
     prefix?: string;
     bucket?: string;
     key?: string;
+    domain?: string;
 }
 
 export function getPublicDownloadUrl(option: Option, key: string): string {
@@ -14,8 +15,7 @@ export function getPublicDownloadUrl(option: Option, key: string): string {
         new qiniu.conf.Config(),
     );
 
-    const publicBucketDomain = 'http://assets.septenary.cn';
-    return manager.publicDownloadUrl(publicBucketDomain, key);
+    return manager.publicDownloadUrl(option.domain, key);
 }
 
 export function requestBucketList(option: Option, callback: Function) {

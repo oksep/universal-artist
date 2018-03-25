@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ElectronService} from 'ngx-electron';
 import {Settings} from '../setting/setting.modle';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {SettingService} from '../setting/setting.service';
 
 @Injectable()
 export class BedService {
@@ -11,7 +12,7 @@ export class BedService {
 
   private orderByAsc = true;
 
-  constructor(private electronService: ElectronService) {
+  constructor(private electronService: ElectronService, private settingService: SettingService) {
     this.electronService.ipcRenderer.on('request-bucket-list-callback', (event, arg) => {
       const list = arg.data.items;
       if (this.orderByAsc) {
@@ -25,7 +26,7 @@ export class BedService {
   }
 
   ensureBucketList() {
-    const setting = Settings.loadSetting();
+    const setting = this.settingService.setting;
     const option = {
       accessKey: setting.qiniu.key,
       secretKey: setting.qiniu.secret,

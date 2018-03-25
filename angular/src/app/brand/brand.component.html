@@ -22,7 +22,17 @@
         <!-- Symbol Column -->
         <ng-container matColumnDef="symbol">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+            <mat-cell *matCellDef="let element">
+                <button mat-raised-button color="primary">{{element.symbol}}</button>
+            </mat-cell>
+        </ng-container>
+
+        <!-- Symbol2 Column -->
+        <ng-container matColumnDef="symbol2">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Symbol2 </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <button mat-raised-button color="primary">{{element.symbol}}</button>
+            </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

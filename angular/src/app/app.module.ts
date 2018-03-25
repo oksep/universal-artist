@@ -22,6 +22,7 @@ import {UiuxComponent} from './uiux/uiux.component';
 import {UploadStatusComponent} from './bed/upload-status/upload-status.component';
 import {BedService} from './bed/bed.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {SettingService} from './setting/setting.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     ThemeModule,
 	  BrowserAnimationsModule
   ],
-  providers: [UploadService, BedService],
+  providers: [UploadService, BedService, SettingService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -12,7 +12,7 @@ export class BrandComponent implements OnInit {
 
   ngOnInit() {
   }
-	displayedColumns = ['position', 'name', 'weight', 'symbol'];
+	displayedColumns = ['position', 'name', 'weight', 'symbol', 'symbol2'];
 	dataSource = new MatTableDataSource(ELEMENT_DATA);
 
 	applyFilter(filterValue: string) {

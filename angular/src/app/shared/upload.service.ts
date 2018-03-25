@@ -6,11 +6,11 @@ import {Headers, Http, RequestOptions} from '@angular/http';
 
 import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment';
-import {Settings} from '../setting/setting.modle';
 import {ElectronService} from 'ngx-electron';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {BedService} from '../bed/bed.service';
 import Random from '../util/random';
+import {SettingService} from '../setting/setting.service';
 
 export interface OnUploadCallback {
 	onUploadProgress(percent: number);
@@ -26,8 +26,6 @@ export interface SingleFileCallback {
 	onProgress(file: File, percent: number);
 }
 
-export const ASSETS_DOMAIN = environment.domain;
-
 @Injectable()
 export class UploadService {
 
@@ -35,7 +33,11 @@ export class UploadService {
 
 	public uploadFileObservable = this.eventSource.asObservable();
 
-	constructor(private http: Http, private electronService: ElectronService, private homeService: BedService, private ngZone: NgZone) {
+	constructor(private http: Http,
+	            private electronService: ElectronService,
+	            private homeService: BedService,
+	            private ngZone: NgZone,
+	            private settingService: SettingService) {
 	}
 
 	private notifyFileUploadResult(uploadStatus: UploadFileStatus, progress: number, uploadFile: UploadFile, key: string) {
@@ -88,7 +90,7 @@ export class UploadService {
 	}
 
 	private requestUploadToken(type: AssetType, callback: (token: string, key: string) => void) {
-		const setting = Settings.loadSetting();
+		const setting = this.settingService.setting;
 		let key: string;
 		switch (type) {
 			case AssetType.IMG:
@@ -148,7 +150,7 @@ export class UploadService {
 				if (request.response) {
 					try {
 						const result: { hash: string, key: string } = JSON.parse(request.response);
-						callback.onUploadComplete(ASSETS_DOMAIN + result.key);
+						callback.onUploadComplete(this.settingService.domain + result.key);
 					} catch (e) {
 						console.error(e);
 						callback.onUploadError(new Error('Parse response error'));
@@ -205,7 +207,7 @@ export class UploadService {
 			const formData = new FormData();
 			formData.append('token', token);
 			formData.append('key', key);
-			formData.append('file', new Blob([JSON.stringify(Settings.loadSetting())], {type: 'application/json'}));
+			formData.append('file', new Blob([JSON.stringify(this.settingService.setting)], {type: 'application/json'}));
 
 			const request = new XMLHttpRequest();
 			request.open('POST', 'http://upload.qiniu.com/');

@@ -13,7 +13,7 @@ function createWindow() {
         height: 700,
         minWidth: 930,
         minHeight: 500,
-        backgroundColor: '#eee',
+        backgroundColor: '#fff',
         frame: false,
         titleBarStyle: 'hidden',
     };
@@ -60,4 +60,4 @@ electron_1.ipcMain.on('request-upload-token', (event, arg) => {
     const token = qiniu_1.requestUploadToken(arg);
     event.sender.send('request-upload-token-callback', token);
 });
-//# sourceMappingURL=/Users/renyufeng/Documents/electron/azimghost/electron/main/main.js.map
+//# sourceMappingURL=/Users/renyufeng/Documents/pro_azhong/azimghost/electron/main/main.js.map

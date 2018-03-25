@@ -1,16 +1,15 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {environment} from '../../environments/environment';
+import {SettingService} from '../setting/setting.service';
 
 @Pipe({
-  name: 'thumbnail'
+	name: 'thumbnail'
 })
 export class ThumbnailPipe implements PipeTransform {
 
-  transform(value: string, args?: any): string {
-    return buildUrl(value);
-  }
-}
+	constructor(private settingService: SettingService) {
+	}
 
-export function buildUrl(key: string): string {
-  return environment.domain + key + '?imageView2/1/w/320/h/180/format/webp/q/75|imageslim';
+	transform(value: string, args?: any): string {
+		return this.settingService.domain + value + '?imageView2/1/w/320/h/180/format/webp/q/75|imageslim';
+	}
 }

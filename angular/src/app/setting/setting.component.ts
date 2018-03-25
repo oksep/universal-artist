@@ -2,36 +2,39 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Settings} from './setting.modle';
 import {BedService} from '../bed/bed.service';
+import {SettingService} from './setting.service';
 
 @Component({
-  selector: 'app-setting',
-  templateUrl: './setting.component.html',
-  styleUrls: ['./setting.component.scss']
+	selector: 'app-setting',
+	templateUrl: './setting.component.html',
+	styleUrls: ['./setting.component.scss']
 })
 export class SettingComponent implements OnInit {
 
-  settings = new Settings();
+	settings: Settings;
 
-  @ViewChild('settingForm') form: NgForm;
+	@ViewChild('settingForm') form: NgForm;
 
-  constructor(private homeService: BedService) {
-  }
+	constructor(private homeService: BedService, private settingService: SettingService) {
+		this.settings = this.settingService.setting;
+	}
 
-  ngOnInit() {
-    this.settings = Settings.loadSetting();
-  }
+	ngOnInit() {
+	}
 
-  saveSetting() {
-    Settings.saveSetting(this.settings);
-    this.homeService.ensureBucketList();
-    if (this.form) {
-      const qiniu = this.settings.qiniu;
-      this.form.resetForm({
-        key: qiniu.key,
-        secret: qiniu.secret,
-        bucket: qiniu.bucket,
-        prefix: qiniu.prefix
-      });
-    }
-  }
+	saveSetting() {
+		this.settingService.saveSetting(this.settings);
+		this.homeService.ensureBucketList();
+		if (this.form) {
+			const qiniu = this.settings.qiniu;
+			this.form.resetForm({
+				domain: qiniu.domain,
+				key: qiniu.key,
+				secret: qiniu.secret,
+				bucket: qiniu.bucket,
+				prefix: qiniu.prefix,
+				devDomain: qiniu.devDomain
+			});
+		}
+	}
 }

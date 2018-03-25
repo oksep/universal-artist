@@ -5,5 +5,4 @@
 
 export const environment = {
   production: false,
-  domain: 'http://ohclzb8hy.bkt.clouddn.com/'
 };
