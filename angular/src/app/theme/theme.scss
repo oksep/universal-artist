@@ -68,6 +68,8 @@ $color-warn-A700: mat-color($color-warn-palette, A700);
 
 @import url('https://fonts.googleapis.com/css?family=Asap');
 
+@import "simplemde/simplemde-theme-base";
+
 html, body {
   min-height: 100%;
   height: 100%;

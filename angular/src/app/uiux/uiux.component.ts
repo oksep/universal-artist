@@ -1,5 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {UploadService} from '../shared/upload.service';
+import * as SimpleMDE from 'simplemde';
+
+// import * as SimpleMDE from 'simplemde';
 
 @Component({
 	selector: 'app-uiux',
@@ -9,6 +12,10 @@ import {UploadService} from '../shared/upload.service';
 export class UiuxComponent implements OnInit {
 
 	data: Array<Seed> = Array(10);
+
+	@ViewChild('markdownEditor') simpleMDE: ElementRef;
+
+	markdownEditor: SimpleMDE; // md 编辑器
 
 	constructor(private uploadService: UploadService) {
 	}
@@ -24,6 +31,17 @@ export class UiuxComponent implements OnInit {
 				hash: '0sdj123hoissv12',
 			}
 		);
+
+		// 初始化 markdown 编辑器
+		this.markdownEditor = new SimpleMDE({
+			element: this.simpleMDE.nativeElement,
+			// showIcons: ["code", "table"]
+		});
+
+		// 编辑器监听
+		this.markdownEditor.codemirror.on('change', () => {
+			console.log(this.markdownEditor.value());
+		});
 	}
 
 	uploadConfig() {
