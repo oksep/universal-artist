@@ -1,8 +1,7 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {UploadService} from '../shared/upload.service';
-import * as SimpleMDE from 'simplemde';
+import {Component, OnInit} from '@angular/core';
 
-// import * as SimpleMDE from 'simplemde';
+import {MatDialog} from '@angular/material';
+import {MarkdownEditorDialog} from '../markdown-dialog/markdown-dialog.component';
 
 @Component({
 	selector: 'app-uiux',
@@ -13,11 +12,10 @@ export class UiuxComponent implements OnInit {
 
 	data: Array<Seed> = Array(10);
 
-	@ViewChild('markdownEditor') simpleMDE: ElementRef;
+	animal: string;
+	name: string;
 
-	markdownEditor: SimpleMDE; // md 编辑器
-
-	constructor(private uploadService: UploadService) {
+	constructor(public dialog: MatDialog) {
 	}
 
 	ngOnInit() {
@@ -31,20 +29,20 @@ export class UiuxComponent implements OnInit {
 				hash: '0sdj123hoissv12',
 			}
 		);
-
-		// 初始化 markdown 编辑器
-		this.markdownEditor = new SimpleMDE({
-			element: this.simpleMDE.nativeElement,
-			// showIcons: ["code", "table"]
-		});
-
-		// 编辑器监听
-		this.markdownEditor.codemirror.on('change', () => {
-			console.log(this.markdownEditor.value());
-		});
 	}
 
-	uploadConfig() {
-	}
+	openDialog(): void {
+		let dialogRef = this.dialog.open(MarkdownEditorDialog, {
+			width: '100%',
+			height: '100%',
+			maxWidth: '100%',
+			data: {name: this.name, animal: this.animal},
+			panelClass: 'dialogPanelClass'
+		});
 
+		dialogRef.afterClosed().subscribe(result => {
+			console.log('The dialog was closed');
+			this.animal = result;
+		});
+	}
 }

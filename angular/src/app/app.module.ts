@@ -23,32 +23,39 @@ import {UploadStatusComponent} from './bed/upload-status/upload-status.component
 import {BedService} from './bed/bed.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SettingService} from './setting/setting.service';
+import {MarkdownEditorDialog} from './markdown-dialog/markdown-dialog.component';
+import { SeedComponent } from './seed/seed.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SettingComponent,
-    ThumbnailPipe,
-    QiniuDatePipe,
-    BedComponent,
-    IllustrationComponent,
-    BrandComponent,
-    UiuxComponent,
-    UploadStatusComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    RouterModule,
-    AppRouting,
-    NgxElectronModule,
-    CommonModule,
-    HttpModule,
-    ThemeModule,
-	  BrowserAnimationsModule
-  ],
-  providers: [UploadService, BedService, SettingService],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		SettingComponent,
+		ThumbnailPipe,
+		QiniuDatePipe,
+		BedComponent,
+		IllustrationComponent,
+		BrandComponent,
+		UiuxComponent,
+		UploadStatusComponent,
+		MarkdownEditorDialog,
+		SeedComponent
+	],
+	entryComponents: [
+		MarkdownEditorDialog
+	],
+	imports: [
+		BrowserModule,
+		FormsModule,
+		RouterModule,
+		AppRouting,
+		NgxElectronModule,
+		CommonModule,
+		HttpModule,
+		ThemeModule,
+		BrowserAnimationsModule
+	],
+	providers: [UploadService, BedService, SettingService],
+	bootstrap: [AppComponent]
 })
 export class AppModule {
 }

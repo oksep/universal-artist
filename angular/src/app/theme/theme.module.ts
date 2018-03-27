@@ -6,8 +6,9 @@ import {
 	MatIconModule, MatInputModule, MatOptionModule,
 	MatProgressBarModule,
 	MatProgressSpinnerModule, MatSelectModule,
-	MatSnackBarModule, MatTableModule
+	MatSnackBarModule, MatTableModule, MatDialogModule
 } from '@angular/material';
+
 import {NgModule} from '@angular/core';
 
 const list = [
@@ -23,7 +24,8 @@ const list = [
 	MatFormFieldModule,
 	MatOptionModule,
 	MatSelectModule,
-	MatInputModule
+	MatInputModule,
+	MatDialogModule
 ];
 
 @NgModule({

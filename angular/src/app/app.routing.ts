@@ -1,23 +1,21 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {SettingComponent} from './setting/setting.component';
-import {UiuxComponent} from './uiux/uiux.component';
-import {IllustrationComponent} from './illustration/illustration.component';
-import {BrandComponent} from './brand/brand.component';
 import {BedComponent} from './bed/bed.component';
+import {SeedComponent} from './seed/seed.component';
+import {SettingComponent} from './setting/setting.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/bed', pathMatch: 'full'},
-  {path: 'bed', component: BedComponent},
-  {path: 'brand', component: BrandComponent},
-  {path: 'illustration', component: IllustrationComponent},
-  {path: 'uiux', component: UiuxComponent},
-  {path: 'setting', component: SettingComponent},
+	{path: '', redirectTo: '/bed', pathMatch: 'full'},
+	{path: 'bed', component: BedComponent},
+	{path: 'brand', component: SeedComponent, data: {type: 'brand'}},
+	{path: 'illustration', component: SeedComponent, data: {type: 'illustration'}},
+	{path: 'uiux', component: SeedComponent, data: {type: 'uiux'}},
+	{path: 'setting', component: SettingComponent},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
-  exports: [RouterModule]
+	imports: [RouterModule.forRoot(routes, {useHash: true})],
+	exports: [RouterModule]
 })
 export class AppRouting {
 }
