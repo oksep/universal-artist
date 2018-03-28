@@ -32,7 +32,6 @@ export class SettingComponent implements OnInit {
 				key: qiniu.key,
 				secret: qiniu.secret,
 				bucket: qiniu.bucket,
-				prefix: qiniu.prefix,
 				devDomain: qiniu.devDomain
 			});
 		}

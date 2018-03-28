@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
@@ -9,8 +9,7 @@ import * as SimpleMDE from 'simplemde';
 	templateUrl: './markdown-dialog.component.html',
 	styleUrls: ['./markdown-dialog.component.scss']
 })
-export class MarkdownEditorDialog implements OnInit {
-
+export class MarkdownEditorDialog implements OnInit, AfterViewInit {
 	@ViewChild('markdownEditor') simpleMDE: ElementRef;
 
 	markdownEditor: SimpleMDE; // md 编辑器
@@ -24,16 +23,21 @@ export class MarkdownEditorDialog implements OnInit {
 	}
 
 	ngOnInit() {
-		// 初始化 markdown 编辑器
-		this.markdownEditor = new SimpleMDE({
-			element: this.simpleMDE.nativeElement,
-			// showIcons: ["code", "table"]
-		});
+	}
 
-		// 编辑器监听
-		this.markdownEditor.codemirror.on('change', () => {
-			console.log(this.markdownEditor.value());
-		});
+	ngAfterViewInit(): void {
+		setTimeout(()=>{
+			// 初始化 markdown 编辑器
+			this.markdownEditor = new SimpleMDE({
+				element: this.simpleMDE.nativeElement,
+				// showIcons: ["code", "table"]
+			});
+
+			// 编辑器监听
+			this.markdownEditor.codemirror.on('change', () => {
+				console.log(this.markdownEditor.value());
+			});
+		}, 1000)
 	}
 
 }

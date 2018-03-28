@@ -5,7 +5,6 @@ import {Injectable, NgZone} from '@angular/core';
 import {Headers, Http, RequestOptions} from '@angular/http';
 
 import {Observable} from 'rxjs/Observable';
-import {environment} from '../../environments/environment';
 import {ElectronService} from 'ngx-electron';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {BedService} from '../bed/bed.service';
@@ -94,16 +93,16 @@ export class UploadService {
 		let key: string;
 		switch (type) {
 			case AssetType.IMG:
-				key = setting.qiniu.prefix + '/' + Random.genHash();
+				key = 'img/' + Random.genHash();
 				break;
 			case AssetType.BRAND:
-				key = setting.qiniu.prefix + '/config/brand';
+				key = 'config/brand';
 				break;
 			case AssetType.ILLUSTRATION:
-				key = setting.qiniu.prefix + '/config/illustration';
+				key = 'config/illustration';
 				break;
 			case AssetType.UIUX:
-				key = setting.qiniu.prefix + '/config/uiux';
+				key = 'config/uiux';
 				break;
 			default:
 				return;

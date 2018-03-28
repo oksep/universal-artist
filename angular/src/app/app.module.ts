@@ -16,15 +16,13 @@ import {UploadService} from './shared/upload.service';
 import {HttpModule} from '@angular/http';
 import {ThemeModule} from './theme/theme.module';
 import {BedComponent} from './bed/bed.component';
-import {IllustrationComponent} from './illustration/illustration.component';
-import {BrandComponent} from './brand/brand.component';
-import {UiuxComponent} from './uiux/uiux.component';
 import {UploadStatusComponent} from './bed/upload-status/upload-status.component';
 import {BedService} from './bed/bed.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SettingService} from './setting/setting.service';
 import {MarkdownEditorDialog} from './markdown-dialog/markdown-dialog.component';
-import { SeedComponent } from './seed/seed.component';
+import {SeedComponent} from './seed/seed.component';
+import {FloatingBottomComponent} from './shared/floating-bottom/floating-bottom.component';
 
 @NgModule({
 	declarations: [
@@ -33,12 +31,10 @@ import { SeedComponent } from './seed/seed.component';
 		ThumbnailPipe,
 		QiniuDatePipe,
 		BedComponent,
-		IllustrationComponent,
-		BrandComponent,
-		UiuxComponent,
 		UploadStatusComponent,
 		MarkdownEditorDialog,
-		SeedComponent
+		SeedComponent,
+		FloatingBottomComponent
 	],
 	entryComponents: [
 		MarkdownEditorDialog

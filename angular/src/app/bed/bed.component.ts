@@ -41,15 +41,7 @@ export class BedComponent implements OnInit, OnDestroy, AfterViewInit {
 		}
 	}
 
-	showButton = true;
-
 	ngAfterViewInit(): void {
-		const element = document.getElementById('scroll-content');
-		let preScrollTop = 0;
-		element.addEventListener('scroll', () => {
-			this.showButton = preScrollTop < element.scrollTop;
-			preScrollTop = element.scrollTop;
-		});
 	}
 
 	onImgClick(key: string) {

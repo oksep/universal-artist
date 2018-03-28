@@ -19,10 +19,6 @@
         <input matInput placeholder="Bucket" name="bucket" id="bucket" type="text" [(ngModel)]="settings.qiniu.bucket" disabled>
     </mat-form-field>
 
-    <mat-form-field>
-        <input matInput placeholder="Prefix" name="prefix" id="prefix" type="text" [(ngModel)]="settings.qiniu.prefix">
-    </mat-form-field>
-
     <button mat-raised-button color="primary" [disabled]="!settingForm.form.dirty" (click)="saveSetting()">
         保存
     </button>

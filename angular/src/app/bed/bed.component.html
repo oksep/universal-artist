@@ -1,29 +1,29 @@
 <mat-grid-list cols="3" [gutterSize]="4" rowHeight="16:9" style="margin-bottom: 10px">
-  <mat-grid-tile
-    *ngFor="let item of data"
-    [colspan]="1"
-    [rowspan]="1">
-    <img class="img"
-         style="width: 100%; height: 100%"
-         (click)="onImgClick(item.key)"
-         [src]="item.key | thumbnail">
-  </mat-grid-tile>
+    <mat-grid-tile
+            *ngFor="let item of data"
+            [colspan]="1"
+            [rowspan]="1">
+        <img class="img"
+             style="width: 100%; height: 100%"
+             (click)="onImgClick(item.key)"
+             [src]="item.key | thumbnail">
+    </mat-grid-tile>
 </mat-grid-list>
 
 <app-upload-status>
 </app-upload-status>
 
-<div class="floating-btn-container" [ngClass]="{'floating-btn-container-hidden': !showButton}">
-  <button mat-fab color="primary" (click)="onSortClick()">
-    <i *ngIf="order" class="fa fa-sort-amount-asc"></i>
-    <i *ngIf="!order" class="fa fa-sort-amount-desc"></i>
-  </button>
+<app-floating-bottom>
+    <button mat-fab color="primary" (click)="onSortClick()">
+        <i *ngIf="order" class="fa fa-sort-amount-asc"></i>
+        <i *ngIf="!order" class="fa fa-sort-amount-desc"></i>
+    </button>
 
-  <button mat-fab color="warn" (click)="fileUpload.click()">
-    <i class="fa fa-upload"></i>
-    <input #fileUpload type="file" name="file" style="display: none;"
-           multiple="multiple"
-           accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"
-           (change)="handleInputChange($event)">
-  </button>
-</div>
+    <button mat-fab color="warn" (click)="fileUpload.click()">
+        <i class="fa fa-upload"></i>
+        <input #fileUpload type="file" name="file" style="display: none;"
+               multiple="multiple"
+               accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"
+               (change)="handleInputChange($event)">
+    </button>
+</app-floating-bottom>

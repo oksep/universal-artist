@@ -6,7 +6,6 @@ class Qiniu {
 	key = '';
 	secret = '';
 	bucket = '';
-	prefix = '';
 	domain = '';
 	devDomain = '';
 }

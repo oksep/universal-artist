@@ -22,23 +22,9 @@
   flex: 1;
 }
 
-.floating-btn-container {
-  position: fixed;
-  right: 30px;
-  bottom: 30px;
-  z-index: 999;
-  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-  & button {
-    margin-left: 18px;
-    & i {
-      font-size: 150%;
-    }
+button {
+  margin-left: 18px;
+  & i {
+    font-size: 150%;
   }
-}
-
-.floating-btn-container-hidden {
-  position: fixed;
-  bottom: -60px;
-  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
