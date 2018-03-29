@@ -23,6 +23,7 @@ import {SettingService} from './setting/setting.service';
 import {MarkdownEditorDialog} from './markdown-dialog/markdown-dialog.component';
 import {SeedComponent} from './seed/seed.component';
 import {FloatingBottomComponent} from './shared/floating-bottom/floating-bottom.component';
+import {SeedService} from './seed/seed.service';
 
 @NgModule({
 	declarations: [
@@ -50,7 +51,7 @@ import {FloatingBottomComponent} from './shared/floating-bottom/floating-bottom.
 		ThemeModule,
 		BrowserAnimationsModule
 	],
-	providers: [UploadService, BedService, SettingService],
+	providers: [UploadService, BedService, SettingService, SeedService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

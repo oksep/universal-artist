@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {MatDialog, MatTableDataSource} from '@angular/material';
 
 import {MarkdownEditorDialog} from '../markdown-dialog/markdown-dialog.component';
+import {SeedService} from './seed.service';
 
 @Component({
 	selector: 'app-seed',
@@ -12,38 +13,51 @@ import {MarkdownEditorDialog} from '../markdown-dialog/markdown-dialog.component
 })
 export class SeedComponent implements OnInit {
 
-	type: 'brand' | 'illustration' | 'uiux';
+	category: 'brand' | 'illustration' | 'uiux';
 
 	animal: string;
 
 	name: string;
 
-	displayedColumns = ['position', 'name', 'weight', 'symbol', 'symbol2'];
+	displayedColumns = ['img', 'createTime', 'title', 'subTitle', 'operation'];
 
-	dataSource = new MatTableDataSource(ELEMENT_DATA);
+	data: Seed[] = [];
 
-	constructor(private route: ActivatedRoute, private dialog: MatDialog) {
+	dataSource = new MatTableDataSource(this.data);
+
+	constructor(private seedService: SeedService, private route: ActivatedRoute, private dialog: MatDialog) {
 	}
 
 	ngOnInit() {
-		this.route.data.subscribe((data: { type: 'brand' | 'illustration' | 'uiux' }) => {
-			this.type = data.type;
+		this.route.data.subscribe((data: { category: 'brand' | 'illustration' | 'uiux' }) => {
+			this.category = data.category;
+			this.fetchConfig();
+		});
+	}
+
+	fetchConfig() {
+		this.seedService.requestConfig(this.category).subscribe(data => {
+			console.log('AAA', data);
+			this.data = data as Seed[];
+			this.dataSource.connect().next(this.data);
+			this.dataSource.disconnect();
 		});
 	}
 
 	onAddSeedClick() {
-		ELEMENT_DATA.push(
-			{position: this.dataSource.data.length + 1, name: this.type, weight: 1.0079, symbol: 'H'},
-		);
-		this.dataSource.connect().next(ELEMENT_DATA);
-		this.dataSource.disconnect()
+		// this.data.push(
+		// 	{position: this.dataSource.data.length + 1, name: this.category, weight: 1.0079, symbol: 'H'},
+		// );
+		// this.dataSource.connect().next(this.data);
+		// this.dataSource.disconnect();
 	}
 
 	onDeleteSeedClick(seed: any) {
-		// ELEMENT_DATA.shift();
-		let index = ELEMENT_DATA.indexOf(seed);
-		ELEMENT_DATA.splice(index, 1);
-		this.dataSource.connect().next(ELEMENT_DATA);
+		if (window.confirm('删除后将无法恢复！')) {
+			let index = this.data.indexOf(seed);
+			this.data.splice(index, 1);
+			this.dataSource.connect().next(this.data);
+		}
 	}
 
 	onEditSeedClick(seed: any) {
@@ -66,24 +80,13 @@ export class SeedComponent implements OnInit {
 	}
 }
 
-
-export interface Element {
-	name: string;
-	position: number;
-	weight: number;
-	symbol: string;
-}
-
-const ELEMENT_DATA: Element[] = [
-	{position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-	{position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-];
-
-class Seed {
-	title: string;
-	subtile: string;
-	size: 'large' | 'normal';
+interface Seed {
 	category: 'brand' | 'illustration' | 'uiux';
-	time: number;
-	hash: string;
+	img: string;
+	createTime: string;
+	updateTime: string;
+	id: string;
+	title: string;
+	subTitle: string;
+	size: string;
 }

@@ -1,4 +1,6 @@
 button {
+  min-width: 0;
+  padding: 0 4px;
   & i {
     font-size: 150%;
   }
@@ -14,6 +16,11 @@ button {
   overflow: auto;
 }
 
-.mat-header-cell.mat-sort-header-sorted {
-  color: black;
+.text {
+  display: block;
+  overflow: hidden;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 8px;
 }

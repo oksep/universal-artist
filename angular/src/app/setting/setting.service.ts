@@ -20,7 +20,7 @@ export class SettingService {
 		return this._setting;
 	}
 
-	saveSetting(settings: Settings) {
+	set setting(settings: Settings) {
 		this._setting = settings;
 		localStorage.setItem('settings', JSON.stringify(settings));
 	}

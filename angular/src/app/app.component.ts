@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
 	selector: 'app-root',
@@ -16,14 +15,14 @@ export class AppComponent implements OnInit {
 		{router: '/setting', name: 'Setting'},
 	];
 
-	constructor(private router: Router, private activatedRoute: ActivatedRoute) {
-
+	constructor() {
 	}
 
 	ngOnInit(): void {
-		this.activatedRoute.url.subscribe(param => {
-			console.log('Param:', param);
+		this.navs.forEach((value, index) => {
+			if (window.location.hash.endsWith(value.router)) {
+				this.selectedIndex = index;
+			}
 		});
-		console.log(this.router.url)
 	}
 }

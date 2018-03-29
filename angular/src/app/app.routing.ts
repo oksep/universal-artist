@@ -7,9 +7,9 @@ import {SettingComponent} from './setting/setting.component';
 const routes: Routes = [
 	{path: '', redirectTo: '/bed', pathMatch: 'full'},
 	{path: 'bed', component: BedComponent},
-	{path: 'brand', component: SeedComponent, data: {type: 'brand'}},
-	{path: 'illustration', component: SeedComponent, data: {type: 'illustration'}},
-	{path: 'uiux', component: SeedComponent, data: {type: 'uiux'}},
+	{path: 'brand', component: SeedComponent, data: {category: 'brand'}},
+	{path: 'illustration', component: SeedComponent, data: {category: 'illustration'}},
+	{path: 'uiux', component: SeedComponent, data: {category: 'uiux'}},
 	{path: 'setting', component: SettingComponent},
 ];
 

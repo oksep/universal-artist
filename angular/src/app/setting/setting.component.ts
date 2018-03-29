@@ -23,7 +23,7 @@ export class SettingComponent implements OnInit {
 	}
 
 	saveSetting() {
-		this.settingService.saveSetting(this.settings);
+		this.settingService.setting = this.settings;
 		this.homeService.ensureBucketList();
 		if (this.form) {
 			const qiniu = this.settings.qiniu;

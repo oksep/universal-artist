@@ -41,7 +41,7 @@ export class UploadService {
 
 	private notifyFileUploadResult(uploadStatus: UploadFileStatus, progress: number, uploadFile: UploadFile, key: string) {
 		console.log(`UploadResult => file: ${uploadFile.file.path} status: ${uploadStatus} progress: ${progress}`);
-		const msg = uploadFile.status == UploadFileStatus.COMPLETE ? '上传成功' : '上传失败';
+		const msg = uploadStatus == UploadFileStatus.COMPLETE ? '上传成功' : '上传失败';
 		const notification = new Notification(msg, {
 			body: uploadFile.file.path,
 			icon: 'file://' + uploadFile.file.path

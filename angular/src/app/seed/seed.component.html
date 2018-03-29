@@ -1,37 +1,41 @@
 <div class="example-container">
     <mat-table #table [dataSource]="dataSource" matSort>
 
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> No.</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.position}}</mat-cell>
-        </ng-container>
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Name</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
-        </ng-container>
-
-        <!-- Weight Column -->
-        <ng-container matColumnDef="weight">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Weight</mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.weight}}</mat-cell>
-        </ng-container>
-
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="symbol">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> 操作</mat-header-cell>
+        <ng-container matColumnDef="img">
+            <mat-header-cell *matHeaderCellDef mat-sort-header > Img</mat-header-cell>
             <mat-cell *matCellDef="let element">
-                <button mat-raised-button color="primary" (click)="onEditSeedClick(element)">编辑</button>
+                <!--<span class="text">{{element.img}}</span>-->
+                <img [src]="element.img" style="width: 160px; height: 90px">
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="createTime">
+            <mat-header-cell *matHeaderCellDef mat-sort-header > CreateTime</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="text">{{element.createTime}}</span>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef mat-sort-header > Title</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="text">{{element.title}}</span>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="subTitle">
+            <mat-header-cell *matHeaderCellDef mat-sort-header > SubTitle</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <span class="text">{{element.subTitle}}</span>
             </mat-cell>
         </ng-container>
 
         <!-- Symbol2 Column -->
-        <ng-container matColumnDef="symbol2">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> 操作</mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                <button mat-raised-button color="warn" (click)="onDeleteSeedClick(element)">删除</button>
+        <ng-container matColumnDef="operation">
+            <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: right;"> 操作</mat-header-cell>
+            <mat-cell *matCellDef="let element" style="text-align: right;">
+                <button mat-button color="primary" (click)="onEditSeedClick(element)">编辑</button>
+                <button mat-button color="warn" (click)="onDeleteSeedClick(element)">删除</button>
             </mat-cell>
         </ng-container>
 
