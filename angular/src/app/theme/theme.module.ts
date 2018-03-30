@@ -1,12 +1,21 @@
 import {
 	MatButtonModule,
 	MatButtonToggleModule,
-	MatCheckboxModule, MatFormFieldModule,
+	MatCheckboxModule,
+	MatDatepickerModule,
+	MatDialogModule,
+	MatFormFieldModule,
 	MatGridListModule,
-	MatIconModule, MatInputModule, MatOptionModule,
+	MatIconModule,
+	MatInputModule,
+	MatNativeDateModule,
+	MatOptionModule,
 	MatProgressBarModule,
-	MatProgressSpinnerModule, MatSelectModule,
-	MatSnackBarModule, MatTableModule, MatDialogModule
+	MatProgressSpinnerModule,
+	MatRadioModule,
+	MatSelectModule,
+	MatSnackBarModule,
+	MatTableModule
 } from '@angular/material';
 
 import {NgModule} from '@angular/core';
@@ -25,7 +34,10 @@ const list = [
 	MatOptionModule,
 	MatSelectModule,
 	MatInputModule,
-	MatDialogModule
+	MatDialogModule,
+	MatDatepickerModule,
+	MatNativeDateModule,
+	MatRadioModule
 ];
 
 @NgModule({

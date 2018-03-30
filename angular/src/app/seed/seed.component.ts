@@ -52,7 +52,7 @@ export class SeedComponent implements OnInit {
 		// this.dataSource.disconnect();
 	}
 
-	onDeleteSeedClick(seed: any) {
+	onDeleteSeedClick(seed: Seed) {
 		if (window.confirm('删除后将无法恢复！')) {
 			let index = this.data.indexOf(seed);
 			this.data.splice(index, 1);
@@ -60,16 +60,16 @@ export class SeedComponent implements OnInit {
 		}
 	}
 
-	onEditSeedClick(seed: any) {
-		this.onOpenMarkdownDialogClick();
+	onEditSeedClick(seed: Seed) {
+		this.onOpenMarkdownDialogClick(seed);
 	}
 
-	onOpenMarkdownDialogClick() {
+	onOpenMarkdownDialogClick(seed: Seed) {
 		let dialogRef = this.dialog.open(MarkdownEditorDialog, {
 			width: '100%',
 			height: '100%',
 			maxWidth: '100%',
-			data: {name: this.name, animal: this.animal},
+			data: seed,
 			panelClass: 'dialogPanelClass'
 		});
 
@@ -80,7 +80,7 @@ export class SeedComponent implements OnInit {
 	}
 }
 
-interface Seed {
+export interface Seed {
 	category: 'brand' | 'illustration' | 'uiux';
 	img: string;
 	createTime: string;

@@ -4,6 +4,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 import * as SimpleMDE from 'simplemde';
 
+import {Seed} from '../seed/seed.component';
+
 @Component({
 	selector: 'app-markdown-dialog',
 	templateUrl: './markdown-dialog.component.html',
@@ -14,8 +16,20 @@ export class MarkdownEditorDialog implements OnInit, AfterViewInit {
 
 	markdownEditor: SimpleMDE; // md 编辑器
 
+	date = new Date(new Date().toISOString());
+
+	favoriteSeason: string;
+
+	seasons = [
+		'Winter',
+		'Spring',
+		'Summer',
+		'Autumn',
+	];
+
 	constructor(public dialogRef: MatDialogRef<MarkdownEditorDialog>,
-	            @Inject(MAT_DIALOG_DATA) public data: any) {
+				@Inject(MAT_DIALOG_DATA) public data: Seed) {
+		console.log('data', data)
 	}
 
 	onNoClick(): void {
@@ -26,7 +40,7 @@ export class MarkdownEditorDialog implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-		setTimeout(()=>{
+		setTimeout(() => {
 			// 初始化 markdown 编辑器
 			this.markdownEditor = new SimpleMDE({
 				element: this.simpleMDE.nativeElement,
@@ -37,7 +51,7 @@ export class MarkdownEditorDialog implements OnInit, AfterViewInit {
 			this.markdownEditor.codemirror.on('change', () => {
 				console.log(this.markdownEditor.value());
 			});
-		}, 1000)
+		}, 1000);
 	}
 
 }
