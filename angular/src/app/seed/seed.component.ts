@@ -1,15 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-
 import {MatDialog, MatTableDataSource} from '@angular/material';
 
-import {MarkdownEditorDialog} from '../markdown-dialog/markdown-dialog.component';
+import {EditDialog} from '../edit-dialog/edit-dialog.component';
 import {SeedService} from './seed.service';
+import AnimateHelper from '../util/animation';
 
 @Component({
 	selector: 'app-seed',
 	templateUrl: './seed.component.html',
-	styleUrls: ['./seed.component.scss']
+	styleUrls: ['./seed.component.scss'],
+	animations: [AnimateHelper.fadeInOut]
 })
 export class SeedComponent implements OnInit {
 
@@ -19,11 +20,13 @@ export class SeedComponent implements OnInit {
 
 	name: string;
 
-	displayedColumns = ['img', 'createTime', 'title', 'subTitle', 'operation'];
+	displayedColumns = ['img', 'title', 'subTitle', 'createTime', 'operation'];
 
 	data: Seed[] = [];
 
 	dataSource = new MatTableDataSource(this.data);
+
+	isLoading = true;
 
 	constructor(private seedService: SeedService, private route: ActivatedRoute, private dialog: MatDialog) {
 	}
@@ -36,12 +39,19 @@ export class SeedComponent implements OnInit {
 	}
 
 	fetchConfig() {
-		this.seedService.requestConfig(this.category).subscribe(data => {
-			console.log('AAA', data);
-			this.data = data as Seed[];
-			this.dataSource.connect().next(this.data);
-			this.dataSource.disconnect();
-		});
+		this.isLoading = true;
+		this.seedService.requestConfig(this.category)
+			.delay(500)
+			.subscribe((data: Seed[]) => {
+				console.log('AAA', data);
+				this.data = [...data, ...data, ...data, ...data, ...data, ...data, ...data];
+				this.dataSource.connect().next(this.data);
+				this.dataSource.disconnect();
+			}, () => {
+				this.isLoading = false;
+			}, () => {
+				this.isLoading = false;
+			});
 	}
 
 	onAddSeedClick() {
@@ -65,7 +75,7 @@ export class SeedComponent implements OnInit {
 	}
 
 	onOpenMarkdownDialogClick(seed: Seed) {
-		let dialogRef = this.dialog.open(MarkdownEditorDialog, {
+		let dialogRef = this.dialog.open(EditDialog, {
 			width: '100%',
 			height: '100%',
 			maxWidth: '100%',

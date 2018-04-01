@@ -7,29 +7,29 @@ import * as SimpleMDE from 'simplemde';
 import {Seed} from '../seed/seed.component';
 
 @Component({
-	selector: 'app-markdown-dialog',
-	templateUrl: './markdown-dialog.component.html',
-	styleUrls: ['./markdown-dialog.component.scss']
+	selector: 'app-edit-dialog',
+	templateUrl: './edit-dialog.component.html',
+	styleUrls: ['./edit-dialog.component.scss']
 })
-export class MarkdownEditorDialog implements OnInit, AfterViewInit {
-	@ViewChild('markdownEditor') simpleMDE: ElementRef;
+export class EditDialog implements OnInit, AfterViewInit {
+	@ViewChild('markdownEditor') simpleMDEElement: ElementRef;
 
 	markdownEditor: SimpleMDE; // md 编辑器
 
 	date = new Date(new Date().toISOString());
 
-	favoriteSeason: string;
-
 	seasons = [
-		'Winter',
-		'Spring',
-		'Summer',
-		'Autumn',
+		'normal',
+		'large',
 	];
 
-	constructor(public dialogRef: MatDialogRef<MarkdownEditorDialog>,
-				@Inject(MAT_DIALOG_DATA) public data: Seed) {
-		console.log('data', data)
+	favoriteSeason: string = this.seasons[0];
+
+	seed: Seed;
+
+	constructor(public dialogRef: MatDialogRef<EditDialog>, @Inject(MAT_DIALOG_DATA) public data: Seed) {
+		this.seed = data;
+		this.favoriteSeason = this.seed.size;
 	}
 
 	onNoClick(): void {
@@ -43,7 +43,7 @@ export class MarkdownEditorDialog implements OnInit, AfterViewInit {
 		setTimeout(() => {
 			// 初始化 markdown 编辑器
 			this.markdownEditor = new SimpleMDE({
-				element: this.simpleMDE.nativeElement,
+				element: this.simpleMDEElement.nativeElement,
 				// showIcons: ["code", "table"]
 			});
 
@@ -51,7 +51,9 @@ export class MarkdownEditorDialog implements OnInit, AfterViewInit {
 			this.markdownEditor.codemirror.on('change', () => {
 				console.log(this.markdownEditor.value());
 			});
-		}, 1000);
+
+			this.markdownEditor.value(`<embed src="https://www.youtube.com/embed/F9Bo89m2f6g" allowfullscreen="true" width="425" height="344">`);
+		}, 100);
 	}
 
 }

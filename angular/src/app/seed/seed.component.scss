@@ -6,14 +6,8 @@ button {
   }
 }
 
-.example-container {
-  display: flex;
-  flex-direction: column;
-  min-width: 300px;
-}
-
-.mat-table {
-  overflow: auto;
+.seed-table {
+  transition: all 0.25s ease-in-out;
 }
 
 .text {
@@ -23,4 +17,15 @@ button {
   text-overflow: ellipsis;
   white-space: nowrap;
   padding-right: 8px;
+}
+
+.progress-spinner-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
