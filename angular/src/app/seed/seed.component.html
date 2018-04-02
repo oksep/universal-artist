@@ -6,7 +6,7 @@
     </mat-progress-spinner>
 </div>
 
-<mat-table #table [dataSource]="dataSource" matSort class="seed-table" *ngIf="!isLoading" @fadeInOut>
+<mat-table #table [dataSource]="dataSource" matSort class="seed-table" *ngIf="data.length > 0" @fadeInOut>
     <ng-container matColumnDef="title">
         <mat-header-cell *matHeaderCellDef mat-sort-header class="title-column"> Title</mat-header-cell>
         <mat-cell *matCellDef="let element" class="title-column">

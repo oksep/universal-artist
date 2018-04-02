@@ -45,4 +45,4 @@ function uploadFile(option) {
     const bucketManager = new qiniu.rs.BucketManager(new qiniu.auth.digest.Mac(option.accessKey, option.secretKey), new qiniu.conf.Config());
 }
 exports.uploadFile = uploadFile;
-//# sourceMappingURL=/Users/renyufeng/Documents/electron/azimghost/electron/main/qiniu.js.map
+//# sourceMappingURL=/Users/renyufeng/Documents/pro_azhong/azimghost/electron/main/qiniu.js.map

@@ -1,22 +1,26 @@
 <form class="form-container" #settingForm="ngForm">
     <mat-form-field>
-        <input matInput placeholder="Domain" name="domain" id="domain" type="text" [(ngModel)]="settings.qiniu.domain" disabled>
+        <input matInput placeholder="Domain" name="domain" id="domain" type="text" required
+               [(ngModel)]="settings.qiniu.domain">
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="DevDomain" name="devDomain" id="devDomain" type="text" [(ngModel)]="settings.qiniu.devDomain" disabled>
+        <input matInput placeholder="DevDomain" name="devDomain" id="devDomain" type="text" required
+               [(ngModel)]="settings.qiniu.devDomain">
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="Key" name="key" id="key" type="text" [(ngModel)]="settings.qiniu.key" disabled>
+        <input matInput placeholder="Key" name="key" id="key" type="password" required [(ngModel)]="settings.qiniu.key">
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="Secret" name="secret" id="secret" type="text" [(ngModel)]="settings.qiniu.secret" disabled>
+        <input matInput placeholder="Secret" name="secret" id="secret" type="password" required
+               [(ngModel)]="settings.qiniu.secret">
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="Bucket" name="bucket" id="bucket" type="text" [(ngModel)]="settings.qiniu.bucket" disabled>
+        <input matInput placeholder="Bucket" name="bucket" id="bucket" type="text" required
+               [(ngModel)]="settings.qiniu.bucket">
     </mat-form-field>
 
     <button mat-raised-button color="primary" [disabled]="!settingForm.form.dirty" (click)="saveSetting()">

@@ -8,10 +8,10 @@ import {Component, OnInit} from '@angular/core';
 export class AppComponent implements OnInit {
 	selectedIndex: Number = 0;
 	navs = [
-		{router: '/bed', name: 'ImageHost'},
 		{router: '/brand', name: 'Brand'},
 		{router: '/illustration', name: 'Illustration'},
 		{router: '/uiux', name: 'Ui/Ux'},
+		{router: '/bed', name: 'ImageHost'},
 		{router: '/setting', name: 'Setting'},
 	];
 

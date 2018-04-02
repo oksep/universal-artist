@@ -15,7 +15,7 @@ let win: BrowserWindow;
 function createWindow() {
     const option: BrowserWindowConstructorOptions = {
         width: 920,
-        height: 700,
+        height: 750,
         minWidth: 930,
         minHeight: 500,
         backgroundColor: '#fff',

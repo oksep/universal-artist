@@ -5,6 +5,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import * as SimpleMDE from 'simplemde';
 
 import {Seed} from '../seed/seed.component';
+import Random from '../util/random';
 
 @Component({
 	selector: 'app-edit-dialog',
@@ -16,16 +17,21 @@ export class EditDialog implements OnInit, AfterViewInit {
 
 	markdownEditor: SimpleMDE; // md 编辑器
 
-	date = new Date(new Date().toISOString());
-
 	sizes = ['normal', 'large',];
 
 	seed: Seed;
 
-	constructor(public dialogRef: MatDialogRef<EditDialog>, @Inject(MAT_DIALOG_DATA) public data: Seed) {
-		this.seed = data || {
-			size: 'normal',
-		} as Seed;
+	constructor(public dialogRef: MatDialogRef<EditDialog>,
+	            @Inject(MAT_DIALOG_DATA) public data?: Seed) {
+		if (data != null) {
+			this.seed = Object.assign({}, data);
+		} else {
+			this.seed = {
+				size: 'normal',
+				createTime: new Date().toISOString(),
+				id: Random.genHash()
+			} as Seed;
+		}
 	}
 
 	ngOnInit() {
@@ -41,22 +47,32 @@ export class EditDialog implements OnInit, AfterViewInit {
 
 			// 编辑器监听
 			this.markdownEditor.codemirror.on('change', () => {
-				console.log(this.markdownEditor.value());
+				this.seed.content = this.markdownEditor.value();
 			});
 
-			this.markdownEditor.value(`<embed src="https://www.youtube.com/embed/F9Bo89m2f6g" allowfullscreen="true" width="425" height="344">`);
+			this.markdownEditor.value(this.seed.content);
 		}, 100);
 	}
 
-	onSaveClick() {
-
-	}
-
-	onDraftClick() {
-
+	onPublishClick() {
+		this.dialogRef.close(this.seed);
 	}
 
 	onCancelClick() {
 		this.dialogRef.close();
+	}
+
+	get isSeedAvailable(): boolean {
+		const isNotEmpty = (text) => {
+			return typeof text != 'undefined' && text;
+		};
+
+		return isNotEmpty(this.seed.img)
+			&& isNotEmpty(this.seed.createTime)
+			&& isNotEmpty(this.seed.id)
+			&& isNotEmpty(this.seed.title)
+			&& isNotEmpty(this.seed.subTitle)
+			&& isNotEmpty(this.seed.size)
+			&& isNotEmpty(this.seed.content);
 	}
 }

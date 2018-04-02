@@ -2,6 +2,7 @@ import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@a
 import {UploadService} from '../shared/upload.service';
 import {BedService, ImageItem} from './bed.service';
 import {SettingService} from '../setting/setting.service';
+import {ElectronService} from 'ngx-electron';
 
 @Component({
 	selector: 'app-bed',
@@ -18,6 +19,7 @@ export class BedComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	constructor(private cdRef: ChangeDetectorRef,
 	            private homeService: BedService,
+	            private electronService: ElectronService,
 	            private uploadService: UploadService,
 	            private settingService: SettingService) {
 	}
@@ -45,8 +47,9 @@ export class BedComponent implements OnInit, OnDestroy, AfterViewInit {
 	}
 
 	onImgClick(key: string) {
-		const url = this.settingService.domain + key;
+		const url = this.settingService.prodDomain + key;
 		this.homeService.openUrlInBrowser(url);
+		this.electronService.clipboard.writeText(url);
 	}
 
 	onSortClick() {

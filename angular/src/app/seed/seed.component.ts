@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {MatDialog, MatTableDataSource} from '@angular/material';
 
@@ -16,8 +16,6 @@ export class SeedComponent implements OnInit {
 
 	category: 'brand' | 'illustration' | 'uiux';
 
-	animal: string;
-
 	name: string;
 
 	displayedColumns = ['title', 'subTitle', 'createTime', 'operation'];
@@ -28,7 +26,10 @@ export class SeedComponent implements OnInit {
 
 	isLoading = true;
 
-	constructor(private seedService: SeedService, private route: ActivatedRoute, private dialog: MatDialog) {
+	constructor(private seedService: SeedService,
+	            private route: ActivatedRoute,
+	            private dialog: MatDialog,
+	            private ngZone: NgZone) {
 	}
 
 	ngOnInit() {
@@ -40,11 +41,10 @@ export class SeedComponent implements OnInit {
 
 	fetchConfig() {
 		this.isLoading = true;
-		this.seedService.requestConfig(this.category)
+		this.seedService.requestSeedList(this.category)
 			.delay(500)
 			.subscribe((data: Seed[]) => {
-				console.log('AAA', data);
-				this.data = data;// [...data, ...data, ...data, ...data, ...data, ...data, ...data];
+				this.data = data;
 				this.dataSource.connect().next(this.data);
 				this.dataSource.disconnect();
 			}, () => {
@@ -55,15 +55,6 @@ export class SeedComponent implements OnInit {
 	}
 
 	onAddSeedClick() {
-		// this.data.push(
-		// 	{position: this.dataSource.data.length + 1, name: this.category, weight: 1.0079, symbol: 'H'},
-		// );
-		// this.dataSource.connect().next(this.data);
-		// this.dataSource.disconnect();
-
-		// this.data.push(this.data[0]);
-		// this.seedService.uploadConfig(this.category, []);
-
 		this.openEditor(null);
 	}
 
@@ -72,6 +63,8 @@ export class SeedComponent implements OnInit {
 			let index = this.data.indexOf(seed);
 			this.data.splice(index, 1);
 			this.dataSource.connect().next(this.data);
+			this.dataSource.disconnect();
+			this.seedService.updateSeedList(this.category, this.data).subscribe();
 		}
 	}
 
@@ -88,9 +81,36 @@ export class SeedComponent implements OnInit {
 			panelClass: 'dialogPanelClass'
 		});
 
-		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
-			this.animal = result;
+		dialogRef.afterClosed().subscribe((seed?: Seed) => {
+			console.log('Seed Edit:', seed);
+			if (seed) {
+				this.isLoading = true;
+				const index = this.data.findIndex((item, index, array) => {
+					return item.id == seed.id;
+				});
+				if (index > -1) {
+					this.data[index] = seed;
+				} else {
+					this.data.push(seed);
+				}
+				this.seedService.updateSeedList(this.category, this.data)
+					.subscribe(result => {
+							console.log('Update seed list result:', result);
+							this.ngZone.run(() => {
+								this.dataSource.connect().next(this.data);
+								this.dataSource.disconnect();
+							});
+						}, () => {
+							this.ngZone.run(() => {
+								this.isLoading = false;
+							});
+						}, () => {
+							this.ngZone.run(() => {
+								this.isLoading = false;
+							});
+						}
+					);
+			}
 		});
 	}
 }
@@ -99,7 +119,6 @@ export interface Seed {
 	category: 'brand' | 'illustration' | 'uiux';
 	img: string;
 	createTime: string;
-	updateTime: string;
 	id: string;
 	title: string;
 	subTitle: string;

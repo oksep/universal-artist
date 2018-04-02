@@ -16,6 +16,10 @@ export class SettingService {
 		return environment.production ? this._setting.qiniu.domain : this._setting.qiniu.devDomain;
 	}
 
+	get prodDomain(): string {
+		return this._setting.qiniu.domain;
+	}
+
 	get setting(): Settings {
 		return this._setting;
 	}
