@@ -50,7 +50,7 @@ export function requestBucketList(option: Option, callback: Function) {
 export function requestUploadToken(option: Option) {
     const mac = new qiniu.auth.digest.Mac(option.accessKey, option.secretKey);
     const policyOptions = {
-        scope: option.bucket,
+        scope: `${option.bucket}:${option.key}`,
         saveKey: option.key,
     };
     console.log('Get token', policyOptions);
