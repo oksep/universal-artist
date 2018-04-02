@@ -60,8 +60,11 @@ export class SeedComponent implements OnInit {
 		// );
 		// this.dataSource.connect().next(this.data);
 		// this.dataSource.disconnect();
-		this.data.push(this.data[0]);
-		this.seedService.uploadConfig('brand', this.data)
+
+		// this.data.push(this.data[0]);
+		// this.seedService.uploadConfig(this.category, []);
+
+		this.openEditor(null);
 	}
 
 	onDeleteSeedClick(seed: Seed) {
@@ -73,10 +76,10 @@ export class SeedComponent implements OnInit {
 	}
 
 	onEditSeedClick(seed: Seed) {
-		this.onOpenMarkdownDialogClick(seed);
+		this.openEditor(seed);
 	}
 
-	onOpenMarkdownDialogClick(seed: Seed) {
+	openEditor(seed?: Seed) {
 		let dialogRef = this.dialog.open(EditDialog, {
 			width: '100%',
 			height: '100%',
@@ -100,5 +103,6 @@ export interface Seed {
 	id: string;
 	title: string;
 	subTitle: string;
-	size: string;
+	size: 'normal' | 'large';
+	content: string;
 }

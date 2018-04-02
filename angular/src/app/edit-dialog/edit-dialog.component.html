@@ -1,11 +1,3 @@
-<style>
-    .img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-</style>
-
 <div>
     <!--<form style="height: 300px;  ; " #editorForm="ngForm">-->
     <!--<mat-form-field>-->
@@ -22,44 +14,55 @@
     <!--</mat-radio-group>-->
     <!--<div class="example-selected-value">Your favorite season is: {{favoriteSeason}}</div>-->
     <!--</form>-->
-    <mat-grid-list cols="4" [gutterSize]="4" rowHeight="1:1" style=" border: 1px #ddd solid">
+    <mat-grid-list cols="4" [gutterSize]="4" rowHeight="1:1.2" style=" border: 1px #ddd solid">
         <mat-grid-tile [colspan]="1" [rowspan]="1">
-            <img class="img" [src]="seed.img">
+            <img class="banner" [src]="seed.img">
         </mat-grid-tile>
 
-        <!--<mat-grid-tile [colspan]="4" [rowspan]="1">-->
-            <!---->
-        <!--</mat-grid-tile>-->
+        <mat-grid-tile [colspan]="3" [rowspan]="1">
+            <div class="inputs">
+                <mat-radio-group [(ngModel)]="seed.size" name="size">
+                    <mat-radio-button *ngFor="let size of sizes" [value]="size"
+                                      style="margin-right: 12px">
+                        {{size}}
+                    </mat-radio-button>
+                </mat-radio-group>
+
+                <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'never'">
+                    <input matInput [matDatepicker]="picker" required name="date" placeholder="创建时间"
+                           [(ngModel)]="date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'never'"
+                                style="display: block">
+                    <input matInput placeholder="Banner" required [(ngModel)]="seed.img" onblur="">
+                </mat-form-field>
+
+                <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'never'"
+                                style="display: block">
+                    <input matInput placeholder="Title" required [(ngModel)]="seed.title">
+                </mat-form-field>
+
+                <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'never'"
+                                style="display: block">
+                    <input matInput placeholder="Subtitle" required [(ngModel)]="seed.subTitle">
+                </mat-form-field>
+
+            </div>
+        </mat-grid-tile>
     </mat-grid-list>
 
-    <div style="width: 100%; padding: 30px 10px; display: flex; flex-direction: column; justify-content: space-around ">
 
-        <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'auto'">
-            <input matInput placeholder="主标题" required [(ngModel)]="seed.title">
-        </mat-form-field>
+    <textarea style="display: none" id="exampleTextarea" #markdownEditor
+              title="markdown-editor"></textarea>
 
-        <mat-form-field [hideRequiredMarker]="false">
-            <input matInput placeholder="二级标题" required [(ngModel)]="seed.subTitle">
-        </mat-form-field>
-
-        <mat-form-field [hideRequiredMarker]="false">
-            <input matInput [matDatepicker]="picker" required name="date" placeholder="创建时间" [(ngModel)]="date">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-
-        <div>
-            <label>尺寸: </label>
-            <mat-radio-group [(ngModel)]="favoriteSeason" name="size">
-                <mat-radio-button *ngFor="let season of seasons" [value]="season" style="margin: 0 12px">
-                    {{season}}
-                </mat-radio-button>
-            </mat-radio-group>
-        </div>
-
+    <div class="btns">
+        <button mat-raised-button color="primary" class="btn" (click)="onSaveClick()">发布</button>
+        <!--<button mat-raised-button color="accent" class="btn" (click)="onDraftClick()">存至草稿</button>-->
+        <button mat-raised-button class="btn" (click)="onCancelClick()">取消</button>
     </div>
-
-    <textarea style="display: none" id="exampleTextarea" #markdownEditor title="markdown-editor"></textarea>
 
     <pre>{{data | json}}</pre>
 </div>

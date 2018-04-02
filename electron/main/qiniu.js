@@ -3,8 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const qiniu = require("qiniu");
 function getPublicDownloadUrl(option, key) {
     const manager = new qiniu.rs.BucketManager(new qiniu.auth.digest.Mac(option.secretKey, option.secretKey), new qiniu.conf.Config());
-    const publicBucketDomain = 'http://assets.septenary.cn';
-    return manager.publicDownloadUrl(publicBucketDomain, key);
+    return manager.publicDownloadUrl(option.domain, key);
 }
 exports.getPublicDownloadUrl = getPublicDownloadUrl;
 function requestBucketList(option, callback) {
@@ -34,7 +33,7 @@ exports.requestBucketList = requestBucketList;
 function requestUploadToken(option) {
     const mac = new qiniu.auth.digest.Mac(option.accessKey, option.secretKey);
     const policyOptions = {
-        scope: option.bucket,
+        scope: `${option.bucket}:${option.key}`,
         saveKey: option.key,
     };
     console.log('Get token', policyOptions);
@@ -46,4 +45,4 @@ function uploadFile(option) {
     const bucketManager = new qiniu.rs.BucketManager(new qiniu.auth.digest.Mac(option.accessKey, option.secretKey), new qiniu.conf.Config());
 }
 exports.uploadFile = uploadFile;
-//# sourceMappingURL=/Users/renyufeng/Documents/pro_azhong/azimghost/electron/main/qiniu.js.map
+//# sourceMappingURL=/Users/renyufeng/Documents/electron/azimghost/electron/main/qiniu.js.map

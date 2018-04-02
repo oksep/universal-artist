@@ -18,22 +18,14 @@ export class EditDialog implements OnInit, AfterViewInit {
 
 	date = new Date(new Date().toISOString());
 
-	seasons = [
-		'normal',
-		'large',
-	];
-
-	favoriteSeason: string = this.seasons[0];
+	sizes = ['normal', 'large',];
 
 	seed: Seed;
 
 	constructor(public dialogRef: MatDialogRef<EditDialog>, @Inject(MAT_DIALOG_DATA) public data: Seed) {
-		this.seed = data;
-		this.favoriteSeason = this.seed.size;
-	}
-
-	onNoClick(): void {
-		this.dialogRef.close();
+		this.seed = data || {
+			size: 'normal',
+		} as Seed;
 	}
 
 	ngOnInit() {
@@ -56,4 +48,15 @@ export class EditDialog implements OnInit, AfterViewInit {
 		}, 100);
 	}
 
+	onSaveClick() {
+
+	}
+
+	onDraftClick() {
+
+	}
+
+	onCancelClick() {
+		this.dialogRef.close();
+	}
 }
