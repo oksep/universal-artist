@@ -1,8 +1,4 @@
-///<reference path="../../../node_modules/@angular/http/src/headers.d.ts"/>
-///<reference path="../../../node_modules/@angular/http/src/base_request_options.d.ts"/>
 import {Injectable, NgZone} from '@angular/core';
-
-import {Headers, Http, RequestOptions} from '@angular/http';
 
 import {Observable} from 'rxjs/Observable';
 import {ElectronService} from 'ngx-electron';
@@ -10,6 +6,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {BedService} from '../bed/bed.service';
 import Random from '../util/random';
 import {SettingService} from '../setting/setting.service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 export interface OnUploadCallback {
 	onUploadProgress(percent: number);
@@ -32,11 +29,11 @@ export class UploadService {
 
 	public uploadFileObservable = this.eventSource.asObservable();
 
-	constructor(private http: Http,
-	            private electronService: ElectronService,
-	            private homeService: BedService,
-	            private ngZone: NgZone,
-	            private settingService: SettingService) {
+	constructor(private http: HttpClient,
+				private electronService: ElectronService,
+				private homeService: BedService,
+				private ngZone: NgZone,
+				private settingService: SettingService) {
 	}
 
 	private notifyFileUploadResult(uploadStatus: UploadFileStatus, progress: number, uploadFile: UploadFile, key: string) {
@@ -65,7 +62,7 @@ export class UploadService {
 		const processNext = (index: number) => {
 			const uploadFile = list[index];
 			if (uploadFile != null) {
-				this.requestUploadToken(AssetType.IMG, (token, key) => {
+				this.requestUploadToken((token, key) => {
 					const uploadCallback = {
 						onUploadProgress: (percent: number) => {
 							this.notifyFileUploadResult(UploadFileStatus.UPLOADING, percent, uploadFile, key);
@@ -88,26 +85,9 @@ export class UploadService {
 		processNext(0);
 	}
 
-	private requestUploadToken(type: AssetType, callback: (token: string, key: string) => void) {
+	private requestUploadToken(callback: (token: string, key: string) => void) {
 		const setting = this.settingService.setting;
-		let key: string;
-		switch (type) {
-			case AssetType.IMG:
-				key = 'img/' + Random.genHash();
-				break;
-			case AssetType.BRAND:
-				key = 'config/brand';
-				break;
-			case AssetType.ILLUSTRATION:
-				key = 'config/illustration';
-				break;
-			case AssetType.UIUX:
-				key = 'config/uiux';
-				break;
-			default:
-				return;
-		}
-
+		let key = 'img/' + Random.genHash();
 		const option = {
 			accessKey: setting.qiniu.key,
 			secretKey: setting.qiniu.secret,
@@ -174,51 +154,17 @@ export class UploadService {
 		formData.append('token', token);
 		formData.append('key', name);
 
-		const headers = new Headers();
-		headers.append('Content-Type', 'multipart/form-data');
-		headers.append('Accept', 'application/json');
+		const headers = new HttpHeaders()
+			.set('Content-Type', 'multipart/form-data')
+			.set('Accept', 'application/json');
 
-		const options = new RequestOptions({headers: headers});
-
-		this.http.post('http://upload.qiniu.com/', formData) // , options)
-			.map(res => res.json())
+		this.http.post('http://upload.qiniu.com/', formData, {headers})
 			.catch(error => Observable.throw(error))
 			.subscribe(
 				data => console.log('success', data),
 				error => console.log(error)
 			);
 	}
-
-	generateUUID() {
-		let d = new Date().getTime();
-		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-			const r = (d + Math.random() * 16) % 16 | 0;
-			d = Math.floor(d / 16);
-			return (c === 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-		});
-	}
-
-	uploadConfigToQiniu(data: string) {
-		this.requestUploadToken(AssetType.BRAND, (token, key) => {
-			console.log('upload token:', token);
-			console.log('upload key:', key);
-
-			const formData = new FormData();
-			formData.append('token', token);
-			formData.append('key', key);
-			formData.append('file', new Blob([JSON.stringify(this.settingService.setting)], {type: 'application/json'}));
-
-			const request = new XMLHttpRequest();
-			request.open('POST', 'http://upload.qiniu.com/');
-			request.send(formData);
-
-		});
-	}
-
-}
-
-export enum AssetType {
-	IMG, BRAND, ILLUSTRATION, UIUX
 }
 
 export class UploadFile {

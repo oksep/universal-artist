@@ -7,41 +7,32 @@
 </div>
 
 <mat-table #table [dataSource]="dataSource" matSort class="seed-table" *ngIf="!isLoading" @fadeInOut>
-    <ng-container matColumnDef="img">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Img</mat-header-cell>
-        <mat-cell *matCellDef="let element">
-            <!--<span class="text">{{element.img}}</span>-->
-            <!--<img [src]="element.img" style="width: 160px; height: 90px">-->
-            <!--<span class="text">{{"2015-06-15T09:03:01+0900" | date:'yyyy年MM月dd日'}}</span>-->
-        </mat-cell>
-    </ng-container>
-
     <ng-container matColumnDef="title">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Title</mat-header-cell>
-        <mat-cell *matCellDef="let element">
-            <span class="text">{{element.title}}</span>
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="title-column"> Title</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="title-column">
+            <span class="column-text">{{element.title}}</span>
         </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="subTitle">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> SubTitle</mat-header-cell>
-        <mat-cell *matCellDef="let element">
-            <span class="text">{{element.subTitle}}</span>
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="subtitle-column"> SubTitle</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="subtitle-column">
+            <span class="column-text">{{element.subTitle}}</span>
         </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="createTime">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> CreateTime</mat-header-cell>
-        <mat-cell *matCellDef="let element">
-            <span class="text">{{element.createTime}}</span>
-            <!--<span class="text">{{"2015-06-15T09:03:01+0900" | date:'yyyy年MM月dd日'}}</span>-->
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="time-column"> CreateTime</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="time-column">
+            <!--<span class="text">{{element.createTime}}</span>-->
+            <span class="column-text">{{"2015-06-15T09:03:01+0900" | date:'yyyy年MM月dd日'}}</span>
         </mat-cell>
     </ng-container>
 
     <!-- Symbol2 Column -->
     <ng-container matColumnDef="operation">
-        <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: right;"> 操作</mat-header-cell>
-        <mat-cell *matCellDef="let element" style="text-align: right;">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="operation-column"> 操作</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="operation-column">
             <button mat-button color="primary" (click)="onEditSeedClick(element)">编辑</button>
             <button mat-button color="warn" (click)="onDeleteSeedClick(element)">删除</button>
         </mat-cell>

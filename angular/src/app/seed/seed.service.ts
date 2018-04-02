@@ -1,21 +1,23 @@
 import {Injectable, NgZone} from '@angular/core';
 
-import {Http} from '@angular/http';
 import {ElectronService} from 'ngx-electron';
 import {BedService} from '../bed/bed.service';
 import {SettingService} from '../setting/setting.service';
+import {Seed} from './seed.component';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class SeedService {
 
-	constructor(private http: Http,
-	            private electronService: ElectronService,
-	            private homeService: BedService,
-	            private ngZone: NgZone,
-	            private settingService: SettingService) {
+	constructor(private http: HttpClient,
+				private electronService: ElectronService,
+				private homeService: BedService,
+				private ngZone: NgZone,
+				private settingService: SettingService) {
 	}
 
-	uploadConfig(category: 'brand' | 'illustration' | 'uiux') {
+	uploadConfig(category: 'brand' | 'illustration' | 'uiux', data: Seed[]) {
 		this.requestUploadToken(category, (token, key) => {
 			console.log('upload token:', token);
 			console.log('upload key:', key);
@@ -23,7 +25,7 @@ export class SeedService {
 			const formData = new FormData();
 			formData.append('token', token);
 			formData.append('key', key);
-			formData.append('file', new Blob([JSON.stringify(this.settingService.setting)], {type: 'application/json'}));
+			formData.append('file', new Blob([JSON.stringify(data)], {type: 'application/json'}));
 
 			const request = new XMLHttpRequest();
 			request.open('POST', 'http://upload.qiniu.com/');
@@ -34,7 +36,10 @@ export class SeedService {
 
 	public requestConfig(category: 'brand' | 'illustration' | 'uiux') {
 		const domain = this.settingService.domain;
-		return this.http.get(`${domain}/config/${category}`).map(res => res.json());
+		const params = new HttpParams().set('timestamp', Date.now().toString());
+		return this.http.get(`${domain}/config/${category}`, {params})
+			.do(console.log)
+			.catch(error => Observable.throw(error));
 	}
 
 	private requestUploadToken(category: 'brand' | 'illustration' | 'uiux', callback: (token: string, key: string) => void) {

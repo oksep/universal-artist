@@ -10,7 +10,7 @@ button {
   transition: all 0.25s ease-in-out;
 }
 
-.text {
+.column-text {
   display: block;
   overflow: hidden;
   word-wrap: break-word;
@@ -28,4 +28,23 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.title-column {
+  flex: 2
+}
+
+.subtitle-column {
+  flex: 4
+}
+
+
+.time-column {
+  flex: 1
+}
+
+
+.operation-column {
+  flex: 1;
+  text-align: right;
 }

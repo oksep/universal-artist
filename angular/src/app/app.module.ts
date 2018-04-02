@@ -13,7 +13,6 @@ import {CommonModule} from '@angular/common';
 import {ThumbnailPipe} from './shared/thumbnail.pipe';
 import {QiniuDatePipe} from './shared/qiniudate.pipe';
 import {UploadService} from './shared/upload.service';
-import {HttpModule} from '@angular/http';
 import {ThemeModule} from './theme/theme.module';
 import {BedComponent} from './bed/bed.component';
 import {UploadStatusComponent} from './bed/upload-status/upload-status.component';
@@ -24,6 +23,7 @@ import {EditDialog} from './edit-dialog/edit-dialog.component';
 import {SeedComponent} from './seed/seed.component';
 import {FloatingBottomComponent} from './shared/floating-bottom/floating-bottom.component';
 import {SeedService} from './seed/seed.service';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
 	declarations: [
@@ -47,7 +47,7 @@ import {SeedService} from './seed/seed.service';
 		AppRouting,
 		NgxElectronModule,
 		CommonModule,
-		HttpModule,
+		HttpClientModule,
 		ThemeModule,
 		BrowserAnimationsModule
 	],

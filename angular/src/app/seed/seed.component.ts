@@ -20,7 +20,7 @@ export class SeedComponent implements OnInit {
 
 	name: string;
 
-	displayedColumns = ['img', 'title', 'subTitle', 'createTime', 'operation'];
+	displayedColumns = ['title', 'subTitle', 'createTime', 'operation'];
 
 	data: Seed[] = [];
 
@@ -44,7 +44,7 @@ export class SeedComponent implements OnInit {
 			.delay(500)
 			.subscribe((data: Seed[]) => {
 				console.log('AAA', data);
-				this.data = [...data, ...data, ...data, ...data, ...data, ...data, ...data];
+				this.data = data;// [...data, ...data, ...data, ...data, ...data, ...data, ...data];
 				this.dataSource.connect().next(this.data);
 				this.dataSource.disconnect();
 			}, () => {
@@ -60,6 +60,8 @@ export class SeedComponent implements OnInit {
 		// );
 		// this.dataSource.connect().next(this.data);
 		// this.dataSource.disconnect();
+		this.data.push(this.data[0]);
+		this.seedService.uploadConfig('brand', this.data)
 	}
 
 	onDeleteSeedClick(seed: Seed) {
