@@ -11,7 +11,7 @@
     "src-watch-compile": "tsc -w -p src",
     "run-no-assist": "electron .",
     "compile-run": "npm run src-compile && npm run run-no-assist",
-    "build": "DEBUG=electron-packager electron-packager ./ --platform=darwin --arch=x64 --icon='./icon.icns' --out='./build/electron/' --overwrite"
+    "build": "DEBUG=electron-packager electron-packager ./ --platform=darwin --arch=x64 --icon='./icon.icns' --out='./build/electron/' --overwrite --ignore='src'"
   },
   "nodemonConfig": {
     "verbose": true,
@@ -37,9 +37,10 @@
     "qiniu": "^7.1.2"
   },
   "devDependencies": {
+    "@types/electron-is-dev": "^0.3.0",
     "concurrently": "^3.5.1",
     "electron": "^1.8.2",
-    "electron-packager": "^11.0.0",
+    "electron-packager": "^12.1.0",
     "nodemon": "^1.17.1",
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.7.0",

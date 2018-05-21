@@ -72,7 +72,6 @@ export class EditDialog implements OnInit, AfterViewInit {
 			&& isNotEmpty(this.seed.id)
 			&& isNotEmpty(this.seed.title)
 			&& isNotEmpty(this.seed.subTitle)
-			&& isNotEmpty(this.seed.size)
-			&& isNotEmpty(this.seed.content);
+			&& isNotEmpty(this.seed.size);
 	}
 }

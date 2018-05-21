@@ -4,13 +4,32 @@ import {MatDialog, MatTableDataSource} from '@angular/material';
 
 import {EditDialog} from '../edit-dialog/edit-dialog.component';
 import {SeedService} from './seed.service';
-import AnimateHelper from '../util/animation';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
 	selector: 'app-seed',
 	templateUrl: './seed.component.html',
 	styleUrls: ['./seed.component.scss'],
-	animations: [AnimateHelper.fadeInOut]
+	animations: [
+		trigger('fadeInOut', [
+			transition(':enter', [
+				style({
+					opacity: 0
+				}),
+				animate('0.25s ease-in-out', style({
+					opacity: 1
+				}))
+			]),
+			transition(':leave', [
+				style({
+					opacity: 1
+				}),
+				animate('0.25s ease-in-out', style({
+					opacity: 0
+				}))
+			])
+		])
+	]
 })
 export class SeedComponent implements OnInit {
 
@@ -27,9 +46,9 @@ export class SeedComponent implements OnInit {
 	isLoading = true;
 
 	constructor(private seedService: SeedService,
-	            private route: ActivatedRoute,
-	            private dialog: MatDialog,
-	            private ngZone: NgZone) {
+				private route: ActivatedRoute,
+				private dialog: MatDialog,
+				private ngZone: NgZone) {
 	}
 
 	ngOnInit() {

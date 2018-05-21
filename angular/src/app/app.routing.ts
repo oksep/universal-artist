@@ -5,7 +5,7 @@ import {SeedComponent} from './seed/seed.component';
 import {SettingComponent} from './setting/setting.component';
 
 const routes: Routes = [
-	{path: '', redirectTo: '/bed', pathMatch: 'full'},
+	{path: '', redirectTo: '/brand', pathMatch: 'full'},
 	{path: 'bed', component: BedComponent},
 	{path: 'brand', component: SeedComponent, data: {category: 'brand'}},
 	{path: 'illustration', component: SeedComponent, data: {category: 'illustration'}},

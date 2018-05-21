@@ -1,9 +1,15 @@
-<div class="progress-spinner-container" *ngIf="isLoading" @fadeInOut>
+<div class="central-container" *ngIf="isLoading" @fadeInOut>
     <mat-progress-spinner
             class="progress-spinner"
             [color]="'primary'"
             [mode]="'indeterminate'">
     </mat-progress-spinner>
+</div>
+
+<div *ngIf="!isLoading && data.length == 0" class="central-container" @fadeInOut>
+    <div class="empty-data">
+        <span>🙀</span><br>暂无数据
+    </div>
 </div>
 
 <mat-table #table [dataSource]="dataSource" matSort class="seed-table" *ngIf="data.length > 0" @fadeInOut>

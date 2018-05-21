@@ -45,6 +45,8 @@ Thumbs.db
 
 # build
 /electron/build
+/electron/render/
+/electron/main/
 
 /**/package-lock.json
 /**/build

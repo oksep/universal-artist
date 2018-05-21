@@ -34,15 +34,14 @@ export function requestBucketList(option: Option, callback: Function) {
             callback(err, null);
         }
 
-        if (respInfo.statusCode === 200) {
+        if (respInfo != null && respInfo.statusCode === 200) {
             callback(null, {
                 nextMarker: respBody.marker,
                 items: respBody.items,
             });
         } else {
-            console.log(respInfo.statusCode);
             console.log(respBody);
-            callback(new Error(`code: ${respInfo.statusCode}, msg: ${respBody}`), null);
+            callback(new Error(`code: ${respInfo? respInfo.statusCode : -1}, msg: ${respBody}`), null);
         }
     });
 }
