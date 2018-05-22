@@ -42,13 +42,11 @@ function createWindow() {
 
 app.on('ready', () => {
 
-    if (!isDev) {
-        // Get template for default menu
-        const menu = defaultMenu(app, shell);
+    // Get template for default menu
+    const menu = defaultMenu(app, shell);
 
-        // Set top-level application menu, using modified template
-        Menu.setApplicationMenu(Menu.buildFromTemplate(menu));
-    }
+    // Set top-level application menu, using modified template
+    Menu.setApplicationMenu(Menu.buildFromTemplate(menu));
 
     createWindow();
 });
