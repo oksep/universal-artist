@@ -10,8 +10,8 @@ import {Observable} from 'rxjs/Observable';
 export class SeedService {
 
 	constructor(private http: HttpClient,
-	            private electronService: ElectronService,
-	            private settingService: SettingService) {
+							private electronService: ElectronService,
+							private settingService: SettingService) {
 	}
 
 	updateSeedList(category: 'brand' | 'illustration' | 'uiux', data: Seed[]): Observable<any> {
@@ -56,6 +56,14 @@ export class SeedService {
 		const domain = this.settingService.domain;
 		const params = new HttpParams().set('timestamp', Date.now().toString());
 		return this.http.get(`${domain}/config/${category}`, {params})
+			.do(console.log)
+			.catch(error => Observable.throw(error));
+	}
+
+	public requestSeedContent(id: string) {
+		const domain = this.settingService.domain;
+		const params = new HttpParams().set('timestamp', Date.now().toString());
+		return this.http.get(`${domain}/md/${id}`, {responseType: 'text', params: params})
 			.do(console.log)
 			.catch(error => Observable.throw(error));
 	}

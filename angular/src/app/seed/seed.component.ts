@@ -5,6 +5,7 @@ import {MatDialog, MatTableDataSource} from '@angular/material';
 import {EditDialog} from '../edit-dialog/edit-dialog.component';
 import {SeedService} from './seed.service';
 import {animate, style, transition, trigger} from '@angular/animations';
+import {Observable} from "rxjs/Observable";
 
 @Component({
 	selector: 'app-seed',
@@ -46,9 +47,9 @@ export class SeedComponent implements OnInit {
 	isLoading = true;
 
 	constructor(private seedService: SeedService,
-				private route: ActivatedRoute,
-				private dialog: MatDialog,
-				private ngZone: NgZone) {
+							private route: ActivatedRoute,
+							private dialog: MatDialog,
+							private ngZone: NgZone) {
 	}
 
 	ngOnInit() {
@@ -100,7 +101,8 @@ export class SeedComponent implements OnInit {
 			panelClass: 'dialogPanelClass'
 		});
 
-		dialogRef.afterClosed().subscribe((seed?: Seed) => {
+		dialogRef.afterClosed().subscribe((result: { seed?: Seed, content?: string }) => {
+			const seed = result.seed;
 			console.log('Seed Edit:', seed);
 			if (seed) {
 				this.isLoading = true;
@@ -142,5 +144,4 @@ export interface Seed {
 	title: string;
 	subTitle: string;
 	size: 'normal' | 'large';
-	content: string;
 }

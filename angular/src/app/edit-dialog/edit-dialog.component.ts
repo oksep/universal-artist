@@ -6,6 +6,7 @@ import * as SimpleMDE from 'simplemde';
 
 import {Seed} from '../seed/seed.component';
 import Random from '../util/random';
+import {SeedService} from "../seed/seed.service";
 
 @Component({
 	selector: 'app-edit-dialog',
@@ -21,8 +22,12 @@ export class EditDialog implements OnInit, AfterViewInit {
 
 	seed: Seed;
 
-	constructor(public dialogRef: MatDialogRef<EditDialog>,
-	            @Inject(MAT_DIALOG_DATA) public data?: Seed) {
+	content: string;
+
+	constructor(
+		public seedService: SeedService,
+		public dialogRef: MatDialogRef<EditDialog>,
+		@Inject(MAT_DIALOG_DATA) public data?: Seed) {
 		if (data != null) {
 			this.seed = Object.assign({}, data);
 		} else {
@@ -38,24 +43,26 @@ export class EditDialog implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-		setTimeout(() => {
-			// 初始化 markdown 编辑器
-			this.markdownEditor = new SimpleMDE({
-				element: this.simpleMDEElement.nativeElement,
-				// showIcons: ["code", "table"]
+		this.seedService.requestSeedContent(this.seed.id)
+			.subscribe((content: string) => {
+				// 初始化 markdown 编辑器
+				this.markdownEditor = new SimpleMDE({
+					element: this.simpleMDEElement.nativeElement,
+					// showIcons: ["code", "table"]
+				});
+				// 编辑器监听
+				this.markdownEditor.codemirror.on('change', () => {
+					this.content = this.markdownEditor.value();
+				});
+				this.markdownEditor.value(content);
 			});
-
-			// 编辑器监听
-			this.markdownEditor.codemirror.on('change', () => {
-				this.seed.content = this.markdownEditor.value();
-			});
-
-			this.markdownEditor.value(this.seed.content);
-		}, 100);
 	}
 
 	onPublishClick() {
-		this.dialogRef.close(this.seed);
+		this.dialogRef.close({
+			seed: this.seed,
+			content: this.content
+		});
 	}
 
 	onCancelClick() {
