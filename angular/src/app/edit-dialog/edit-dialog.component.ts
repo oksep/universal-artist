@@ -72,7 +72,7 @@ export class EditDialog implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-		const setUpMarkdownEditor = (content: String) => {
+		const setUpMarkdownEditor = (content: string) => {
 			// 初始化 markdown 编辑器
 			this.markdownEditor = new SimpleMDE({
 				element: this.simpleMDEElement.nativeElement,
