@@ -11,6 +11,7 @@
   min-height: $smde-min-height-container;
   padding: $width-gap;
   z-index: $smde-z-index-container;
+  flex: 1;
 }
 
 .CodeMirror-scroll {

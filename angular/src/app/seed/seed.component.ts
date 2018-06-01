@@ -5,7 +5,6 @@ import {MatDialog, MatTableDataSource} from '@angular/material';
 import {EditDialog} from '../edit-dialog/edit-dialog.component';
 import {SeedService} from './seed.service';
 import {animate, style, transition, trigger} from '@angular/animations';
-import {Observable} from "rxjs/Observable";
 
 @Component({
 	selector: 'app-seed',
@@ -102,10 +101,10 @@ export class SeedComponent implements OnInit {
 		});
 
 		dialogRef.afterClosed().subscribe((result: { seed?: Seed, content?: string }) => {
-			const seed = result.seed;
-			console.log('Seed Edit:', seed);
-			if (seed) {
+			if (result && result.seed) {
+				console.log('Seed Edit:', result);
 				this.isLoading = true;
+				const seed = result.seed;
 				const index = this.data.findIndex((item, index, array) => {
 					return item.id == seed.id;
 				});
