@@ -6,6 +6,8 @@ import {EditDialog} from '../edit-dialog/edit-dialog.component';
 import {SeedService} from './seed.service';
 import {animate, style, transition, trigger} from '@angular/animations';
 
+import 'rxjs/Rx';
+
 @Component({
 	selector: 'app-seed',
 	templateUrl: './seed.component.html',
@@ -105,6 +107,7 @@ export class SeedComponent implements OnInit {
 				console.log('Seed Edit:', result);
 				this.isLoading = true;
 				const seed = result.seed;
+				const content = result.content;
 				const index = this.data.findIndex((item, index, array) => {
 					return item.id == seed.id;
 				});
@@ -114,16 +117,19 @@ export class SeedComponent implements OnInit {
 					this.data.push(seed);
 				}
 				this.seedService.updateSeedList(this.category, this.data)
+					.flatMap(() => {
+						return this.seedService.updateSeedContent(seed.id, content);
+					})
 					.subscribe(result => {
-							console.log('Update seed list result:', result);
+							console.log('Update seed result', result);
 							this.ngZone.run(() => {
 								this.dataSource.connect().next(this.data);
 								this.dataSource.disconnect();
 							});
 						}, () => {
-							this.ngZone.run(() => {
+							// this.ngZone.run(() => {
 								this.isLoading = false;
-							});
+							// });
 						}, () => {
 							this.ngZone.run(() => {
 								this.isLoading = false;

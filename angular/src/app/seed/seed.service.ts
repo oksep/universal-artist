@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 
 import {ElectronService} from 'ngx-electron';
 import {SettingService} from '../setting/setting.service';
-import {Seed} from './seed.component';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 
@@ -14,16 +13,45 @@ export class SeedService {
 							private settingService: SettingService) {
 	}
 
-	updateSeedList(category: 'brand' | 'illustration' | 'uiux', data: Seed[]): Observable<any> {
+	// 请求分类 seed 列表
+	public requestSeedList(category: 'brand' | 'illustration' | 'uiux') {
+		const domain = this.settingService.domain;
+		const params = new HttpParams().set('timestamp', Date.now().toString());
+		return this.http.get(`${domain}/config/${category}`, {params})
+			.do(console.log)
+			.catch(error => Observable.throw(error));
+	}
+
+	// 请求 seed 正文
+	public requestSeedContent(id: string) {
+		const domain = this.settingService.domain;
+		const params = new HttpParams().set('timestamp', Date.now().toString());
+		return this.http.get(`${domain}/md/${id}`, {responseType: 'text', params: params})
+			.do(console.log)
+			.catch(error => Observable.throw(error));
+	}
+
+	// 更新分类列表
+	updateSeedList(category: 'brand' | 'illustration' | 'uiux', data: object): Observable<any> {
+		let key = `config/${category}`;
+		return this.upload(key, JSON.stringify(data))
+	}
+
+	// 更新 seed 正文
+	updateSeedContent(id: string, content: string): Observable<any> {
+		const key = `md/${id}`;
+		return this.upload(key, content);
+	}
+
+	private upload(key: string, data: string): Observable<any> {
 		return Observable.create(observer => {
-			this.requestUploadToken(category, (token, key) => {
-				console.log('upload token:', token);
-				console.log('upload key:', key);
+			this.requestUploadToken(key, (token) => {
+				console.log('upload token & key:', token, key);
 
 				const formData = new FormData();
 				formData.append('token', token);
 				formData.append('key', key);
-				formData.append('file', new Blob([JSON.stringify(data)], {type: 'application/json'}));
+				formData.append('file', new Blob([data], {type: 'application/json'}));
 
 				const request = new XMLHttpRequest();
 				request.upload.addEventListener('error', (evt) => {
@@ -52,25 +80,8 @@ export class SeedService {
 		});
 	}
 
-	public requestSeedList(category: 'brand' | 'illustration' | 'uiux') {
-		const domain = this.settingService.domain;
-		const params = new HttpParams().set('timestamp', Date.now().toString());
-		return this.http.get(`${domain}/config/${category}`, {params})
-			.do(console.log)
-			.catch(error => Observable.throw(error));
-	}
-
-	public requestSeedContent(id: string) {
-		const domain = this.settingService.domain;
-		const params = new HttpParams().set('timestamp', Date.now().toString());
-		return this.http.get(`${domain}/md/${id}`, {responseType: 'text', params: params})
-			.do(console.log)
-			.catch(error => Observable.throw(error));
-	}
-
-	private requestUploadToken(category: 'brand' | 'illustration' | 'uiux', callback: (token: string, key: string) => void) {
+	private requestUploadToken(key: string, callback: (token: string) => void) {
 		const setting = this.settingService.setting;
-		let key = `config/${category}`;
 		const option = {
 			accessKey: setting.qiniu.key,
 			secretKey: setting.qiniu.secret,
@@ -80,10 +91,9 @@ export class SeedService {
 		this.electronService.ipcRenderer.once(
 			'request-upload-token-callback',
 			(event, token: string) => {
-				callback(token, key);
+				callback(token);
 			}
 		);
 		this.electronService.ipcRenderer.send('request-upload-token', option);
 	}
-
 }
