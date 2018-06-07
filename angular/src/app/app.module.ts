@@ -27,6 +27,8 @@ import {AboutComponent} from './about/about.component';
 import {MarkdownModule} from "./markdown/markdown.module";
 import {SeedEditor} from "./seed/seed-editor/seed-editor.component";
 import {AboutEditorComponent} from './about/about-editor/about-editor.component';
+import {LazyLoadImagesModule} from "ngx-lazy-load-images";
+import {ImgAppearDirective} from "./shared/img-appear.directive";
 
 @NgModule({
 	declarations: [
@@ -41,6 +43,7 @@ import {AboutEditorComponent} from './about/about-editor/about-editor.component'
 		FloatingBottomComponent,
 		AboutComponent,
 		AboutEditorComponent,
+		ImgAppearDirective
 	],
 	entryComponents: [
 		SeedEditor,
@@ -56,7 +59,8 @@ import {AboutEditorComponent} from './about/about-editor/about-editor.component'
 		HttpClientModule,
 		ThemeModule,
 		BrowserAnimationsModule,
-		MarkdownModule
+		MarkdownModule,
+		LazyLoadImagesModule
 	],
 	providers: [UploadService, BedService, SettingService, SeedService],
 	bootstrap: [AppComponent]
