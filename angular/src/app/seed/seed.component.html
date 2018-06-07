@@ -30,8 +30,7 @@
     <ng-container matColumnDef="createTime">
         <mat-header-cell *matHeaderCellDef mat-sort-header class="time-column"> CreateTime</mat-header-cell>
         <mat-cell *matCellDef="let element" class="time-column">
-            <!--<span class="text">{{element.createTime}}</span>-->
-            <span class="column-text">{{"2015-06-15T09:03:01+0900" | date:'yyyy年MM月dd日'}}</span>
+            <span class="column-text">{{element.createTime | date:'yyyy年MM月dd日'}}</span>
         </mat-cell>
     </ng-container>
 

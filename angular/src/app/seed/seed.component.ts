@@ -65,7 +65,7 @@ export class SeedComponent implements OnInit {
 		this.seedService.requestSeedList(this.category)
 			.delay(500)
 			.subscribe((data: Seed[]) => {
-				this.data = data;
+				this.data = this.sortSeedListByDate(data);
 				this.dataSource.connect().next(this.data);
 				this.dataSource.disconnect();
 			}, () => {
@@ -116,6 +116,8 @@ export class SeedComponent implements OnInit {
 				} else {
 					this.data.push(seed);
 				}
+				this.data = this.sortSeedListByDate(this.data);
+
 				this.seedService.updateSeedList(this.category, this.data)
 					.flatMap(() => {
 						return this.seedService.updateSeedContent(seed.id, content);
@@ -126,13 +128,19 @@ export class SeedComponent implements OnInit {
 								this.dataSource.connect().next(this.data);
 								this.dataSource.disconnect();
 							});
-						}, null , () => {
+						}, null, () => {
 							this.ngZone.run(() => {
 								this.isLoading = false;
 							});
 						}
 					);
 			}
+		});
+	}
+
+	sortSeedListByDate(list: Seed[]): Seed[] {
+		return list.sort((a: Seed, b: Seed) => {
+			return new Date(b.createTime).getTime() - new Date(a.createTime).getTime();
 		});
 	}
 }
