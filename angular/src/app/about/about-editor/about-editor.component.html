@@ -1,0 +1,16 @@
+<div style="height: 100%; display: flex; flex-direction: column">
+
+    <div style="flex: 1; position: relative">
+        <div style="display: flex; flex-direction: column; height: 100%">
+            <textarea style="display: none" id="exampleTextarea" #markdownEditor
+                      title="markdown-editor"></textarea>
+        </div>
+    </div>
+
+    <div class="btns">
+        <button mat-raised-button color="primary" class="btn" (click)="onPublishClick()" [disabled]="!content">
+            发布
+        </button>
+        <button mat-raised-button class="btn" (click)="onCancelClick()">取消</button>
+    </div>
+</div>

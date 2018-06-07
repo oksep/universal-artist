@@ -43,6 +43,18 @@ export class SeedService {
 		return this.upload(key, content);
 	}
 
+	public requestAboutMeContent() {
+		const domain = this.settingService.domain;
+		const params = new HttpParams().set('timestamp', Date.now().toString());
+		return this.http.get(`${domain}/md/about-me-content`, {responseType: 'text', params: params})
+			.do(console.log)
+			.catch(error => Observable.throw(error));
+	}
+
+	updateAboutMeContent(content: string): Observable<any> {
+		return this.upload('md/about-me-content', content);
+	}
+
 	private upload(key: string, data: string): Observable<any> {
 		return Observable.create(observer => {
 			this.requestUploadToken(key, (token) => {

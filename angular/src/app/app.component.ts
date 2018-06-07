@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
 		{router: '/brand', name: 'Brand'},
 		{router: '/illustration', name: 'Illustration'},
 		{router: '/uiux', name: 'Ui/Ux'},
+		{router: '/about', name: 'About'},
 		{router: '/bed', name: 'ImageHost'},
 		{router: '/setting', name: 'Setting'},
 	];

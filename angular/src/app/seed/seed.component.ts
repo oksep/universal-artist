@@ -2,11 +2,11 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {MatDialog, MatTableDataSource} from '@angular/material';
 
-import {EditDialog} from '../edit-dialog/edit-dialog.component';
 import {SeedService} from './seed.service';
 import {animate, style, transition, trigger} from '@angular/animations';
 
 import 'rxjs/Rx';
+import {SeedEditor} from "./seed-editor/seed-editor.component";
 
 @Component({
 	selector: 'app-seed',
@@ -94,7 +94,7 @@ export class SeedComponent implements OnInit {
 	}
 
 	openEditor(seed?: Seed) {
-		let dialogRef = this.dialog.open(EditDialog, {
+		let dialogRef = this.dialog.open(SeedEditor, {
 			width: '100%',
 			height: '100%',
 			maxWidth: '100%',
@@ -126,11 +126,7 @@ export class SeedComponent implements OnInit {
 								this.dataSource.connect().next(this.data);
 								this.dataSource.disconnect();
 							});
-						}, () => {
-							// this.ngZone.run(() => {
-								this.isLoading = false;
-							// });
-						}, () => {
+						}, null , () => {
 							this.ngZone.run(() => {
 								this.isLoading = false;
 							});

@@ -19,11 +19,14 @@ import {UploadStatusComponent} from './bed/upload-status/upload-status.component
 import {BedService} from './bed/bed.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SettingService} from './setting/setting.service';
-import {EditDialog} from './edit-dialog/edit-dialog.component';
 import {SeedComponent} from './seed/seed.component';
 import {FloatingBottomComponent} from './shared/floating-bottom/floating-bottom.component';
 import {SeedService} from './seed/seed.service';
 import {HttpClientModule} from '@angular/common/http';
+import {AboutComponent} from './about/about.component';
+import {MarkdownModule} from "./markdown/markdown.module";
+import {SeedEditor} from "./seed/seed-editor/seed-editor.component";
+import {AboutEditorComponent} from './about/about-editor/about-editor.component';
 
 @NgModule({
 	declarations: [
@@ -33,12 +36,15 @@ import {HttpClientModule} from '@angular/common/http';
 		QiniuDatePipe,
 		BedComponent,
 		UploadStatusComponent,
-		EditDialog,
+		SeedEditor,
 		SeedComponent,
-		FloatingBottomComponent
+		FloatingBottomComponent,
+		AboutComponent,
+		AboutEditorComponent,
 	],
 	entryComponents: [
-		EditDialog
+		SeedEditor,
+		AboutEditorComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -49,7 +55,8 @@ import {HttpClientModule} from '@angular/common/http';
 		CommonModule,
 		HttpClientModule,
 		ThemeModule,
-		BrowserAnimationsModule
+		BrowserAnimationsModule,
+		MarkdownModule
 	],
 	providers: [UploadService, BedService, SettingService, SeedService],
 	bootstrap: [AppComponent]

@@ -4,16 +4,16 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 import * as SimpleMDE from 'simplemde';
 
-import {Seed} from '../seed/seed.component';
-import Random from '../util/random';
-import {SeedService} from "../seed/seed.service";
-
 import {animate, style, transition, trigger} from '@angular/animations';
 
+import {Seed} from "../seed.component";
+import {SeedService} from "../seed.service";
+import Random from "../../util/random";
+
 @Component({
-	selector: 'app-edit-dialog',
-	templateUrl: './edit-dialog.component.html',
-	styleUrls: ['./edit-dialog.component.scss'],
+	selector: 'app-seed-editor',
+	templateUrl: './seed-editor.component.html',
+	styleUrls: ['./seed-editor.component.scss'],
 	animations: [
 		trigger('fadeInOut', [
 			transition(':enter', [
@@ -35,7 +35,7 @@ import {animate, style, transition, trigger} from '@angular/animations';
 		])
 	]
 })
-export class EditDialog implements OnInit, AfterViewInit {
+export class SeedEditor implements OnInit, AfterViewInit {
 	@ViewChild('markdownEditor') simpleMDEElement: ElementRef;
 
 	markdownEditor: SimpleMDE; // md 编辑器
@@ -53,7 +53,7 @@ export class EditDialog implements OnInit, AfterViewInit {
 	constructor(
 		private cdr: ChangeDetectorRef,
 		public seedService: SeedService,
-		public dialogRef: MatDialogRef<EditDialog>,
+		public dialogRef: MatDialogRef<SeedEditor>,
 		@Inject(MAT_DIALOG_DATA) public data?: Seed) {
 		if (data != null) {
 			this.seed = Object.assign({}, data);

@@ -1,0 +1,19 @@
+.central-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  min-width: 0;
+  padding: 0 4px;
+  & i {
+    font-size: 150%;
+    color: white;
+  }
+}

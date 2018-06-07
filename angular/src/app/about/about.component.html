@@ -1,0 +1,18 @@
+<div style="max-width: 1064px; margin: 0 auto; padding: 20px">
+    <app-markdown-github [text]="content"></app-markdown-github>
+</div>
+
+<div class="central-container" *ngIf="isLoading" @fadeInOut>
+    <mat-progress-spinner
+            class="progress-spinner"
+            [color]="'primary'"
+            [mode]="'indeterminate'">
+    </mat-progress-spinner>
+</div>
+
+<app-floating-bottom>
+
+    <button mat-fab color="accent" (click)="openEditor(content)">
+        <i class="fa fa-magic"></i>
+    </button>
+</app-floating-bottom>
