@@ -28,3 +28,20 @@ button {
     font-size: 150%;
   }
 }
+
+.mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.25s ease-in-out;
+  background: rgba(44, 62, 80, 0.90);
+  &:hover {
+    opacity: 1;
+  }
+}

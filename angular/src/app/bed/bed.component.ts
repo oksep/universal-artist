@@ -46,9 +46,13 @@ export class BedComponent implements OnInit, OnDestroy, AfterViewInit {
 	ngAfterViewInit(): void {
 	}
 
-	onImgClick(key: string) {
+	onPreviewImgClick(key: string) {
 		const url = this.settingService.prodDomain + key;
 		this.homeService.openUrlInBrowser(url);
+	}
+
+	onCopyImgLinkClick(key: string) {
+		const url = this.settingService.prodDomain + key;
 		this.electronService.clipboard.writeText(url);
 	}
 
