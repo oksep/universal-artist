@@ -63,3 +63,23 @@ export function uploadFile(option) {
 		new qiniu.conf.Config(),
 	);
 }
+
+export function requestDeleteImage(option: Option, callback) {
+	const bucketManager = new qiniu.rs.BucketManager(
+		new qiniu.auth.digest.Mac(option.accessKey, option.secretKey),
+		new qiniu.conf.Config(),
+	);
+	bucketManager.delete(option.bucket, option.key, (err, respBody, respInfo) => {
+		if (err) {
+			console.warn(err);
+			callback(err, null);
+		}
+
+		if (respInfo != null && respInfo.statusCode === 200) {
+			callback(null, respBody);
+		} else {
+			console.log(respBody);
+			callback(new Error(`code: ${respInfo ? respInfo.statusCode : -1}, msg: ${respBody}`), null);
+		}
+	})
+}

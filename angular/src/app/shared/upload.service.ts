@@ -30,20 +30,32 @@ export class UploadService {
 	public uploadFileObservable = this.eventSource.asObservable();
 
 	constructor(private http: HttpClient,
-				private electronService: ElectronService,
-				private homeService: BedService,
-				private ngZone: NgZone,
-				private settingService: SettingService) {
+	            private electronService: ElectronService,
+	            private homeService: BedService,
+	            private ngZone: NgZone,
+	            private settingService: SettingService) {
 	}
 
 	private notifyFileUploadResult(uploadStatus: UploadFileStatus, progress: number, uploadFile: UploadFile, key: string) {
 		console.log(`UploadResult => file: ${uploadFile.file.path} status: ${uploadStatus} progress: ${progress}`);
-		const msg = uploadStatus == UploadFileStatus.COMPLETE ? '上传成功' : '上传失败';
-		const notification = new Notification(msg, {
-			body: uploadFile.file.path,
-			icon: 'file://' + uploadFile.file.path
-		});
-		notification.close();
+		switch (uploadStatus) {
+			case UploadFileStatus.COMPLETE: {
+				const notification = new Notification('上传成功', {
+					body: uploadFile.file.path,
+					icon: 'file://' + uploadFile.file.path
+				});
+				notification.close();
+				break;
+			}
+			case UploadFileStatus.FAILED: {
+				const notification = new Notification('上传失败', {
+					body: uploadFile.file.path,
+					icon: 'file://' + uploadFile.file.path
+				});
+				notification.close();
+				break;
+			}
+		}
 		this.ngZone.run(() => {
 			uploadFile.status = uploadStatus;
 			uploadFile.progress = progress;

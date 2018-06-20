@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ElectronService} from 'ngx-electron';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {SettingService} from '../setting/setting.service';
+import Random from "../util/random";
 
 @Injectable()
 export class BedService {
@@ -63,6 +64,31 @@ export class BedService {
 		list.push(item);
 		this.eventSource.next(list);
 	}
+
+	removeImageItem(item: ImageItem) {
+		const list = this.eventSource.getValue();
+		const index = list.indexOf(item);
+		if (index > -1) {
+			list.splice(index, 1);
+		}
+		this.eventSource.next(list);
+
+		const setting = this.settingService.setting;
+		const option = {
+			accessKey: setting.qiniu.key,
+			secretKey: setting.qiniu.secret,
+			bucket: setting.qiniu.bucket,
+			key: item.key
+		};
+		this.electronService.ipcRenderer.once(
+			'request-delete-image-callback',
+			(event, success: boolean) => {
+				console.log('Delete img:  ' + item.key + " -> " + success)
+			}
+		);
+		this.electronService.ipcRenderer.send('request-delete-image', option);
+	}
+
 }
 
 export class ImageItem {

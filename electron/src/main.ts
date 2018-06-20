@@ -8,7 +8,7 @@ import * as url from 'url';
 
 import defaultMenu from './menu';
 
-import {requestBucketList, requestUploadToken} from './qiniu';
+import {requestBucketList, requestDeleteImage, requestUploadToken} from './qiniu';
 
 let win: BrowserWindow;
 
@@ -73,4 +73,11 @@ ipcMain.on('request-bucket-list', (event, arg) => {
 ipcMain.on('request-upload-token', (event, arg) => {
     const token = requestUploadToken(arg);
     event.sender.send('request-upload-token-callback', token);
+});
+
+ipcMain.on('request-delete-image', (event, arg) => {
+	requestDeleteImage(arg, (error, data) => {
+		console.log('AAA', error, data);
+		event.sender.send('request-delete-image-callback', error == null);
+	});
 });

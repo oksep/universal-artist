@@ -56,6 +56,12 @@ export class BedComponent implements OnInit, OnDestroy, AfterViewInit {
 		this.electronService.clipboard.writeText(url);
 	}
 
+	onDeleteImgClick(item: ImageItem) {
+		if (window.confirm('确定要删除吗？')) {
+			this.homeService.removeImageItem(item);
+		}
+	}
+
 	onSortClick() {
 		this.homeService.changeOrder();
 	}
