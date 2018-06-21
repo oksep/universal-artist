@@ -4,13 +4,15 @@ import {ElectronService} from 'ngx-electron';
 import {SettingService} from '../setting/setting.service';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
+import {Seed} from "./seed.component";
+import Random from "../util/random";
 
 @Injectable()
 export class SeedService {
 
 	constructor(private http: HttpClient,
-							private electronService: ElectronService,
-							private settingService: SettingService) {
+	            private electronService: ElectronService,
+	            private settingService: SettingService) {
 	}
 
 	// 请求分类 seed 列表
@@ -108,4 +110,57 @@ export class SeedService {
 		);
 		this.electronService.ipcRenderer.send('request-upload-token', option);
 	}
+
+	public getDraft(): Observable<{ seed: Seed, content: string }> {
+		return Observable.create(observer => {
+			let seed: Seed = null;
+			let content: string = null;
+			try {
+				content = localStorage.getItem("@draft.content");
+				const json = localStorage.getItem("@draft.seed");
+				if (json != null) {
+					seed = JSON.parse(json) as Seed;
+				}
+			} catch (e) {
+				console.error(e);
+			}
+			if (seed == null) {
+				observer.next({
+					seed: {
+						size: 'normal',
+						createTime: new Date().toISOString(),
+						id: Random.genHash()
+					} as Seed,
+					content: content
+				});
+			} else {
+				observer.next({
+					seed: seed,
+					content: content
+				})
+			}
+			observer.complete()
+		})
+	}
+
+	public saveDraft(seed: Seed, content: string) {
+		if (seed == null) {
+			return Observable.of(false);
+		}
+		return Observable.create(observer => {
+			localStorage.setItem("@draft.seed", JSON.stringify(seed));
+			localStorage.setItem("@draft.content", content);
+			observer.next(true);
+			observer.complete();
+		});
+	}
+
+	public clearDraft() {
+		return Observable.create(observer => {
+			localStorage.clear();
+			observer.next(true);
+			observer.complete();
+		});
+	}
+
 }

@@ -8,7 +8,6 @@ import {animate, style, transition, trigger} from '@angular/animations';
 
 import {Seed} from "../seed.component";
 import {SeedService} from "../seed.service";
-import Random from "../../util/random";
 
 @Component({
 	selector: 'app-seed-editor',
@@ -42,7 +41,7 @@ export class SeedEditor implements OnInit, AfterViewInit {
 
 	sizes = ['normal', 'large',];
 
-	seed: Seed;
+	seed: Seed = {} as Seed;
 
 	content: string;
 
@@ -59,11 +58,6 @@ export class SeedEditor implements OnInit, AfterViewInit {
 			this.seed = Object.assign({}, data);
 			this.isNew = false
 		} else {
-			this.seed = {
-				size: 'normal',
-				createTime: new Date().toISOString(),
-				id: Random.genHash()
-			} as Seed;
 			this.isNew = true;
 		}
 	}
@@ -87,10 +81,13 @@ export class SeedEditor implements OnInit, AfterViewInit {
 		this.loading = true;
 		this.cdr.detectChanges();
 		if (this.isNew) {
-			setTimeout(() => {
-				this.loading = false;
-				setUpMarkdownEditor("");
-			}, 500)
+			this.seedService.getDraft().delay(500)
+				.subscribe((draft: { seed: Seed, content: string }) => {
+					this.loading = false;
+					this.seed = draft.seed;
+					this.content = draft.content;
+					setUpMarkdownEditor(this.content)
+				})
 		} else {
 			this.seedService.requestSeedContent(this.seed.id)
 				.subscribe((content: string) => {
@@ -105,10 +102,16 @@ export class SeedEditor implements OnInit, AfterViewInit {
 	}
 
 	onPublishClick() {
+		this.seedService.clearDraft().subscribe();
 		this.dialogRef.close({
 			seed: this.seed,
 			content: this.content
 		});
+	}
+
+	onSaveDraftClick() {
+		this.seedService.saveDraft(this.seed, this.content).subscribe();
+		this.dialogRef.close()
 	}
 
 	onCancelClick() {
