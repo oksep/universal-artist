@@ -157,7 +157,8 @@ export class SeedService {
 
 	public clearDraft() {
 		return Observable.create(observer => {
-			localStorage.clear();
+			localStorage.removeItem("@draft.seed");
+			localStorage.removeItem("@draft.content");
 			observer.next(true);
 			observer.complete();
 		});
