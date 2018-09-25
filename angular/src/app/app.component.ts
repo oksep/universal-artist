@@ -6,11 +6,9 @@ import {Component, OnInit} from '@angular/core';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-	selectedIndex: Number = 0;
+	selectedIndex = 0;
 	navs = [
-		{router: '/brand', name: 'Brand'},
-		{router: '/illustration', name: 'Illustration'},
-		{router: '/uiux', name: 'Ui/Ux'},
+		{router: '/feed', name: 'Feed'},
 		{router: '/about', name: 'About'},
 		{router: '/bed', name: 'ImageHost'},
 		{router: '/setting', name: 'Setting'},

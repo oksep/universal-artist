@@ -1,0 +1,63 @@
+<div class="central-container" *ngIf="isLoading" @fadeInOut>
+  <mat-progress-spinner
+    class="progress-spinner"
+    [color]="'primary'"
+    [mode]="'indeterminate'">
+  </mat-progress-spinner>
+</div>
+
+<div *ngIf="!isLoading && data.length == 0" class="central-container" @fadeInOut>
+  <div class="empty-data">
+    <span>🙀</span><br>暂无数据
+  </div>
+</div>
+
+<mat-table #table [dataSource]="dataSource" matSort class="feed-table" *ngIf="data.length > 0" @fadeInOut>
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef mat-sort-header class="title-column"> Title</mat-header-cell>
+    <mat-cell *matCellDef="let element" class="title-column">
+      <span class="column-text">{{element.title}}</span>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="tag">
+    <mat-header-cell *matHeaderCellDef mat-sort-header class="tag-column"> Tag</mat-header-cell>
+    <mat-cell *matCellDef="let element" class="tag-column">
+      <span class="column-tag">UIUX</span>
+      <span class="column-tag">Brand</span>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="subTitle">
+    <mat-header-cell *matHeaderCellDef mat-sort-header class="subtitle-column"> SubTitle</mat-header-cell>
+    <mat-cell *matCellDef="let element" class="subtitle-column">
+      <span class="column-text">{{element.subTitle}}</span>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="createTime">
+    <mat-header-cell *matHeaderCellDef mat-sort-header class="time-column"> CreateTime</mat-header-cell>
+    <mat-cell *matCellDef="let element" class="time-column">
+      <span class="column-text">{{element.createTime | date:'yyyy年MM月dd日'}}</span>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Symbol2 Column -->
+  <ng-container matColumnDef="operation">
+    <mat-header-cell *matHeaderCellDef mat-sort-header class="operation-column"> 操作</mat-header-cell>
+    <mat-cell *matCellDef="let element" class="operation-column">
+      <button mat-button color="primary" (click)="onEditFeedClick(element)">编辑</button>
+      <button mat-button color="warn" (click)="onDeleteFeedClick(element)">删除</button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<app-floating-bottom>
+
+  <button mat-fab color="warn" (click)="onAddFeedClick()">
+    <i class="fa fa-magic"></i>
+  </button>
+</app-floating-bottom>

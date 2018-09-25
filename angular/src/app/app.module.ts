@@ -8,7 +8,7 @@ import {SettingComponent} from './setting/setting.component';
 import {AppRouting} from './app.routing';
 import {RouterModule} from '@angular/router';
 import {NgxElectronModule} from 'ngx-electron';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {ThumbnailPipe} from './shared/thumbnail.pipe';
 import {QiniuDatePipe} from './shared/qiniudate.pipe';
@@ -19,16 +19,22 @@ import {UploadStatusComponent} from './bed/upload-status/upload-status.component
 import {BedService} from './bed/bed.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SettingService} from './setting/setting.service';
-import {SeedComponent} from './seed/seed.component';
 import {FloatingBottomComponent} from './shared/floating-bottom/floating-bottom.component';
-import {SeedService} from './seed/seed.service';
 import {HttpClientModule} from '@angular/common/http';
 import {AboutComponent} from './about/about.component';
 import {MarkdownModule} from "./markdown/markdown.module";
-import {SeedEditor} from "./seed/seed-editor/seed-editor.component";
 import {AboutEditorComponent} from './about/about-editor/about-editor.component';
 import {LazyLoadImagesModule} from "ngx-lazy-load-images";
 import {ImgAppearDirective} from "./shared/img-appear.directive";
+
+import {MatIconModule} from '@angular/material/icon';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+
+import {FeedComponent} from './feed/feed.component';
+import {FeedService} from "./feed/feed.service";
+import {FeedEditor} from "./feed/editor/editor.component";
 
 @NgModule({
 	declarations: [
@@ -38,20 +44,21 @@ import {ImgAppearDirective} from "./shared/img-appear.directive";
 		QiniuDatePipe,
 		BedComponent,
 		UploadStatusComponent,
-		SeedEditor,
-		SeedComponent,
 		FloatingBottomComponent,
 		AboutComponent,
 		AboutEditorComponent,
-		ImgAppearDirective
+		ImgAppearDirective,
+		FeedComponent,
+		FeedEditor
 	],
 	entryComponents: [
-		SeedEditor,
+		FeedEditor,
 		AboutEditorComponent,
 	],
 	imports: [
 		BrowserModule,
 		FormsModule,
+		ReactiveFormsModule,
 		RouterModule,
 		AppRouting,
 		NgxElectronModule,
@@ -60,9 +67,14 @@ import {ImgAppearDirective} from "./shared/img-appear.directive";
 		ThemeModule,
 		BrowserAnimationsModule,
 		MarkdownModule,
-		LazyLoadImagesModule
+		LazyLoadImagesModule,
+
+		MatIconModule,
+		MatChipsModule,
+		MatFormFieldModule,
+		MatAutocompleteModule
 	],
-	providers: [UploadService, BedService, SettingService, SeedService],
+	providers: [UploadService, BedService, SettingService, FeedService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

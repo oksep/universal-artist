@@ -19,6 +19,16 @@ button {
   padding-right: 8px;
 }
 
+.column-tag {
+  display: inline-block;
+  background-color: #3991b9;
+  border-radius: 3px;
+  color: white;
+  margin-right: 5px;
+  padding: 5px;
+  font-size: .75rem;
+}
+
 .central-container {
   position: absolute;
   left: 0;
@@ -31,18 +41,21 @@ button {
 }
 
 .title-column {
-  flex: 2
+  flex: 1
+}
+
+.tag-column {
+  flex: 1
 }
 
 .subtitle-column {
-  flex: 4
+  flex: 3
 }
 
 
 .time-column {
   flex: 1
 }
-
 
 .operation-column {
   flex: 1;

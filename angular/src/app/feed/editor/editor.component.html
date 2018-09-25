@@ -1,0 +1,98 @@
+<div style="height: 100%; display: flex; flex-direction: column">
+  <mat-grid-list cols="5" [gutterSize]="4" rowHeight="1:1.9" class="inputs-root">
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
+      <img class="banner" [src]="feed.img || '/assets/default.jpg'">
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="3" [rowspan]="1">
+      <div class="inputs">
+        <mat-radio-group [(ngModel)]="feed.size" name="size">
+          <mat-radio-button *ngFor="let size of sizes" [value]="size"
+                            style="margin-right: 12px">
+            {{size}}
+          </mat-radio-button>
+        </mat-radio-group>
+
+        <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'never'">
+          <input matInput [matDatepicker]="picker" required name="date" placeholder="创建时间"
+                 [(ngModel)]="feed.createTime">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'never'"
+                        style="display: block">
+          <input matInput placeholder="Banner" required [(ngModel)]="feed.img" onblur="">
+        </mat-form-field>
+
+        <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'never'"
+                        style="display: block">
+          <input matInput placeholder="Title" required [(ngModel)]="feed.title">
+        </mat-form-field>
+
+        <mat-form-field [hideRequiredMarker]="false" [floatLabel]="'never'"
+                        style="display: block">
+          <input matInput placeholder="Subtitle" required [(ngModel)]="feed.subTitle">
+        </mat-form-field>
+
+        <mat-form-field class="chip-list">
+          <mat-chip-list #chipList>
+            <mat-chip
+              *ngFor="let fruit of fruits"
+              [selectable]="selectable"
+              [removable]="removable"
+              (removed)="remove(fruit)">
+              {{fruit}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input
+              placeholder="New fruit..."
+              #fruitInput
+              [formControl]="fruitCtrl"
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur"
+              (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+              {{fruit}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+
+  <div style="flex: 1; position: relative">
+
+    <div style="display: flex; flex-direction: column; height: 100%">
+            <textarea style="display: none" id="exampleTextarea" #markdownEditor
+                      title="markdown-editor"></textarea>
+    </div>
+
+    <div class="loading-container" *ngIf="loading" @fadeInOut>
+      <mat-progress-spinner
+        class="progress-spinner"
+        [color]="'primary'"
+        [mode]="'indeterminate'">
+      </mat-progress-spinner>
+    </div>
+  </div>
+
+  <div class="btns">
+    <button mat-raised-button color="primary" class="btn" (click)="onPublishClick()" [disabled]="!isFeedAvailable">
+      发布
+    </button>
+    <button mat-raised-button color="accent" class="btn" (click)="onSaveDraftClick()" [disabled]="!isFeedAvailable"
+            *ngIf="isNew">
+      保存草稿
+    </button>
+    <button mat-raised-button class="btn" (click)="onCancelClick()">取消</button>
+  </div>
+
+  <!--<pre>{{feed | json}}</pre>-->
+</div>

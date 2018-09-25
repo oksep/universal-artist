@@ -4,28 +4,37 @@ import {ElectronService} from 'ngx-electron';
 import {SettingService} from '../setting/setting.service';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {Seed} from "./seed.component";
 import Random from "../util/random";
+import {Feed} from "./feed.component";
 
 @Injectable()
-export class SeedService {
+export class FeedService {
 
 	constructor(private http: HttpClient,
 	            private electronService: ElectronService,
 	            private settingService: SettingService) {
 	}
 
-	// 请求分类 seed 列表
-	public requestSeedList(category: 'brand' | 'illustration' | 'uiux') {
+	// 请求分类 feed 列表
+	public requestFeedList() {
 		const domain = this.settingService.domain;
 		const params = new HttpParams().set('timestamp', Date.now().toString());
-		return this.http.get(`${domain}/config/${category}`, {params})
+		return this.http.get(`${domain}/feed/list`, {params})
 			.do(console.log)
+			.map((list: Feed[]) => {
+				return this.sortFeedListByDate(list)
+			})
 			.catch(error => Observable.throw(error));
 	}
 
-	// 请求 seed 正文
-	public requestSeedContent(id: string) {
+	sortFeedListByDate(list: Feed[]): Feed[] {
+		return list.sort((a: Feed, b: Feed) => {
+			return new Date(b.createTime).getTime() - new Date(a.createTime).getTime();
+		});
+	}
+
+	// 请求 feed 正文
+	public requestFeedContent(id: string) {
 		const domain = this.settingService.domain;
 		const params = new HttpParams().set('timestamp', Date.now().toString());
 		return this.http.get(`${domain}/md/${id}`, {responseType: 'text', params: params})
@@ -34,13 +43,12 @@ export class SeedService {
 	}
 
 	// 更新分类列表
-	updateSeedList(category: 'brand' | 'illustration' | 'uiux', data: object): Observable<any> {
-		let key = `config/${category}`;
-		return this.upload(key, JSON.stringify(data))
+	updateFeedList(data: object): Observable<any> {
+		return this.upload('feed/list', JSON.stringify(data))
 	}
 
-	// 更新 seed 正文
-	updateSeedContent(id: string, content: string): Observable<any> {
+	// 更新 feed 正文
+	updateFeedContent(id: string, content: string): Observable<any> {
 		const key = `md/${id}`;
 		return this.upload(key, content);
 	}
@@ -111,31 +119,31 @@ export class SeedService {
 		this.electronService.ipcRenderer.send('request-upload-token', option);
 	}
 
-	public getDraft(): Observable<{ seed: Seed, content: string }> {
+	public getDraft(): Observable<{ feed: Feed, content: string }> {
 		return Observable.create(observer => {
-			let seed: Seed = null;
+			let feed: Feed = null;
 			let content: string = null;
 			try {
 				content = localStorage.getItem("@draft.content");
-				const json = localStorage.getItem("@draft.seed");
+				const json = localStorage.getItem("@draft.feed");
 				if (json != null) {
-					seed = JSON.parse(json) as Seed;
+					feed = JSON.parse(json) as Feed;
 				}
 			} catch (e) {
 				console.error(e);
 			}
-			if (seed == null) {
+			if (feed == null) {
 				observer.next({
-					seed: {
+					feed: {
 						size: 'normal',
 						createTime: new Date().toISOString(),
 						id: Random.genHash()
-					} as Seed,
+					} as Feed,
 					content: content
 				});
 			} else {
 				observer.next({
-					seed: seed,
+					feed: feed,
 					content: content
 				})
 			}
@@ -143,12 +151,12 @@ export class SeedService {
 		})
 	}
 
-	public saveDraft(seed: Seed, content: string) {
-		if (seed == null) {
+	public saveDraft(feed: Feed, content: string) {
+		if (feed == null) {
 			return Observable.of(false);
 		}
 		return Observable.create(observer => {
-			localStorage.setItem("@draft.seed", JSON.stringify(seed));
+			localStorage.setItem("@draft.feed", JSON.stringify(feed));
 			localStorage.setItem("@draft.content", content);
 			observer.next(true);
 			observer.complete();
@@ -157,7 +165,7 @@ export class SeedService {
 
 	public clearDraft() {
 		return Observable.create(observer => {
-			localStorage.removeItem("@draft.seed");
+			localStorage.removeItem("@draft.feed");
 			localStorage.removeItem("@draft.content");
 			observer.next(true);
 			observer.complete();

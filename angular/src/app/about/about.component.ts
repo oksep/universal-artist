@@ -1,8 +1,8 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {SeedService} from "../seed/seed.service";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {MatDialog} from "@angular/material";
 import {AboutEditorComponent} from "./about-editor/about-editor.component";
+import {FeedService} from "../feed/feed.service";
 
 @Component({
 	selector: 'app-about',
@@ -37,7 +37,7 @@ export class AboutComponent implements OnInit {
 
 	constructor(
 		private ngZone: NgZone,
-		private seedService: SeedService,
+		private seedService: FeedService,
 		private dialog: MatDialog) {
 	}
 
