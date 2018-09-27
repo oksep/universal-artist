@@ -1,17 +1,14 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {FormControl} from '@angular/forms';
-import {MatAutocompleteSelectedEvent, MatChipInputEvent, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 import * as SimpleMDE from 'simplemde';
 
 import {animate, style, transition, trigger} from '@angular/animations';
 
-import {Feed} from "../feed.component";
-import {FeedService} from "../feed.service";
+import {Feed} from '../feed.component';
+import {FeedService} from '../feed.service';
+import {SettingService} from '../../setting/setting.service';
 
 @Component({
 	selector: 'app-feed-editor',
@@ -38,34 +35,32 @@ import {FeedService} from "../feed.service";
 		])
 	]
 })
-export class FeedEditor implements OnInit, AfterViewInit {
+export class FeedEditorComponent implements OnInit, AfterViewInit {
+
 	@ViewChild('markdownEditor') simpleMDEElement: ElementRef;
 
 	markdownEditor: SimpleMDE; // md 编辑器
 
-	sizes = ['normal', 'large',];
+	sizes = ['normal', 'large'];
 
 	feed: Feed = {} as Feed;
 
 	content: string;
 
-	loading: boolean = false;
+	loading = false;
 
-	isNew: boolean = true;
+	isNew = true;
 
 	constructor(
+		public settingService: SettingService,
 		private cdr: ChangeDetectorRef,
 		public feedService: FeedService,
-		public dialogRef: MatDialogRef<FeedEditor>,
+		public dialogRef: MatDialogRef<FeedEditorComponent>,
 		@Inject(MAT_DIALOG_DATA) public data?: Feed) {
-
-		this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-			startWith(null),
-			map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
 
 		if (data != null) {
 			this.feed = Object.assign({}, data);
-			this.isNew = false
+			this.isNew = false;
 		} else {
 			this.isNew = true;
 		}
@@ -95,15 +90,15 @@ export class FeedEditor implements OnInit, AfterViewInit {
 					this.loading = false;
 					this.feed = draft.feed;
 					this.content = draft.content;
-					setUpMarkdownEditor(this.content)
-				})
+					setUpMarkdownEditor(this.content);
+				});
 		} else {
 			this.feedService.requestFeedContent(this.feed.id)
 				.subscribe((content: string) => {
 					setUpMarkdownEditor(content);
 				}, () => {
 					this.loading = false;
-					setUpMarkdownEditor("");
+					setUpMarkdownEditor('');
 				}, () => {
 					this.loading = false;
 				});
@@ -120,7 +115,7 @@ export class FeedEditor implements OnInit, AfterViewInit {
 
 	onSaveDraftClick() {
 		this.feedService.saveDraft(this.feed, this.content).subscribe();
-		this.dialogRef.close()
+		this.dialogRef.close();
 	}
 
 	onCancelClick() {
@@ -129,7 +124,7 @@ export class FeedEditor implements OnInit, AfterViewInit {
 
 	get isFeedAvailable(): boolean {
 		const isNotEmpty = (text) => {
-			return typeof text != 'undefined' && text;
+			return typeof text !== 'undefined' && text;
 		};
 
 		return isNotEmpty(this.feed.img)
@@ -139,58 +134,4 @@ export class FeedEditor implements OnInit, AfterViewInit {
 			&& isNotEmpty(this.feed.subTitle)
 			&& isNotEmpty(this.feed.size);
 	}
-
-	//////////////////////////
-	visible = true;
-	selectable = true;
-	removable = true;
-	addOnBlur = false;
-	separatorKeysCodes: number[] = [ENTER, COMMA];
-	fruitCtrl = new FormControl();
-	filteredFruits: Observable<string[]>;
-	fruits: string[] = ['Lemon'];
-	allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-
-	@ViewChild('fruitInput') fruitInput: ElementRef;
-
-	add(event: MatChipInputEvent): void {
-		const input = event.input;
-		const value = event.value;
-
-		// Add our fruit
-		if ((value || '').trim()) {
-			this.fruits.push(value.trim());
-		}
-
-		// Reset the input value
-		if (input) {
-			input.value = '';
-		}
-
-		this.fruitCtrl.setValue(null);
-	}
-
-	remove(fruit: string): void {
-		const index = this.fruits.indexOf(fruit);
-
-		if (index >= 0) {
-			this.fruits.splice(index, 1);
-		}
-	}
-
-	selected(event: MatAutocompleteSelectedEvent): void {
-		this.fruits.push(event.option.viewValue);
-		this.fruitInput.nativeElement.value = '';
-		this.fruitCtrl.setValue(null);
-	}
-
-	private _filter(value: string): string[] {
-		const filterValue = value.toLowerCase();
-		return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
-	}
-
-}
-
-export interface Fruit {
-	name: string;
 }

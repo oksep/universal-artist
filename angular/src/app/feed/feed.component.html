@@ -23,8 +23,7 @@
   <ng-container matColumnDef="tag">
     <mat-header-cell *matHeaderCellDef mat-sort-header class="tag-column"> Tag</mat-header-cell>
     <mat-cell *matCellDef="let element" class="tag-column">
-      <span class="column-tag">UIUX</span>
-      <span class="column-tag">Brand</span>
+      <span class="column-tag" *ngFor="let tag of element.tags">{{tag}}</span>
     </mat-cell>
   </ng-container>
 

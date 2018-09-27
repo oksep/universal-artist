@@ -34,7 +34,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import {FeedComponent} from './feed/feed.component';
 import {FeedService} from "./feed/feed.service";
-import {FeedEditor} from "./feed/editor/editor.component";
+import {FeedEditorComponent} from "./feed/editor/editor.component";
+import { TagInputComponent } from './shared/tag-input/tag-input.component';
 
 @NgModule({
 	declarations: [
@@ -49,10 +50,11 @@ import {FeedEditor} from "./feed/editor/editor.component";
 		AboutEditorComponent,
 		ImgAppearDirective,
 		FeedComponent,
-		FeedEditor
+		FeedEditorComponent,
+		TagInputComponent
 	],
 	entryComponents: [
-		FeedEditor,
+		FeedEditorComponent,
 		AboutEditorComponent,
 	],
 	imports: [

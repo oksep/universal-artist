@@ -1,9 +1,9 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {FeedService} from "./feed.service";
-import {FeedEditor} from "../feed/editor/editor.component";
-import {Feed} from "../feed/feed.component";
-import {MatDialog, MatTableDataSource} from "@angular/material";
-import {ActivatedRoute} from "@angular/router";
+import {FeedService} from './feed.service';
+import {FeedEditorComponent} from '../feed/editor/editor.component';
+import {Feed} from '../feed/feed.component';
+import {MatDialog, MatTableDataSource} from '@angular/material';
+import {ActivatedRoute} from '@angular/router';
 import {animate, style, transition, trigger} from '@angular/animations';
 import 'rxjs/Rx';
 
@@ -57,10 +57,13 @@ export class FeedComponent implements OnInit {
 				this.data = data;
 				this.dataSource.connect().next(this.data);
 				this.dataSource.disconnect();
+				console.log('AAAAAAA 111');
 			}, () => {
 				this.isLoading = false;
+				console.log('AAAAAAA 222');
 			}, () => {
 				this.isLoading = false;
+				console.log('AAAAAAA 333');
 			});
 	}
 
@@ -71,7 +74,7 @@ export class FeedComponent implements OnInit {
 
 	onDeleteFeedClick(feed: Feed) {
 		if (window.confirm('删除后将无法恢复！')) {
-			let index = this.data.indexOf(feed);
+			const index = this.data.indexOf(feed);
 			this.data.splice(index, 1);
 			this.dataSource.connect().next(this.data);
 			this.dataSource.disconnect();
@@ -84,7 +87,7 @@ export class FeedComponent implements OnInit {
 	}
 
 	openEditor(feed?: Feed) {
-		let dialogRef = this.dialog.open(FeedEditor, {
+		const dialogRef = this.dialog.open(FeedEditorComponent, {
 			width: '100%',
 			height: '100%',
 			maxWidth: '100%',
@@ -99,7 +102,7 @@ export class FeedComponent implements OnInit {
 				const feed = result.feed;
 				const content = result.content;
 				const index = this.data.findIndex((item, index, array) => {
-					return item.id == feed.id;
+					return item.id === feed.id;
 				});
 				if (index > -1) {
 					this.data[index] = feed;
@@ -112,7 +115,7 @@ export class FeedComponent implements OnInit {
 					.flatMap(() => {
 						return this.feedService.updateFeedContent(feed.id, content);
 					})
-					.subscribe(result => {
+					.subscribe((result: any) => {
 							console.log('Update feed result', result);
 							this.ngZone.run(() => {
 								this.dataSource.connect().next(this.data);
@@ -135,5 +138,6 @@ export interface Feed {
 	id: string;
 	title: string;
 	subTitle: string;
+	tags: string[];
 	size: 'normal' | 'large';
 }

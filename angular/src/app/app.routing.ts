@@ -2,11 +2,11 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {BedComponent} from './bed/bed.component';
 import {SettingComponent} from './setting/setting.component';
-import {AboutComponent} from "./about/about.component";
-import {FeedComponent} from "./feed/feed.component";
+import {AboutComponent} from './about/about.component';
+import {FeedComponent} from './feed/feed.component';
 
 const routes: Routes = [
-	{path: '', redirectTo: '/brand', pathMatch: 'full'},
+	{path: '', redirectTo: '/feed', pathMatch: 'full'},
 	{path: 'feed', component: FeedComponent},
 	{path: 'bed', component: BedComponent},
 	{path: 'about', component: AboutComponent},

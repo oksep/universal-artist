@@ -18,6 +18,8 @@
 *.launch
 .settings/
 *.sublime-workspace
+/angular/.idea/
+/electron/.idea/
 
 # IDE - VSCode
 .vscode/*

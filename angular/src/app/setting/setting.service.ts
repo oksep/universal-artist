@@ -28,4 +28,9 @@ export class SettingService {
 		this._setting = settings;
 		localStorage.setItem('settings', JSON.stringify(settings));
 	}
+
+	// 预设标签
+	get presetTags() {
+		return ['uiux', 'brand', 'illustration'];
+	}
 }
