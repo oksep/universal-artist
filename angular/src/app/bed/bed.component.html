@@ -20,12 +20,15 @@
 
 <app-floating-bottom>
     <button mat-fab color="primary" (click)="onSortClick()">
-        <i *ngIf="order" class="fa fa-sort-amount-asc"></i>
-        <i *ngIf="!order" class="fa fa-sort-amount-desc"></i>
+        <!--<i *ngIf="order" class="fa fa-sort-amount-asc">↓</i>-->
+        <!--<i *ngIf="!order" class="fa fa-sort-amount-desc">↑</i>-->
+        <span *ngIf="order">↓</span>
+        <span *ngIf="!order">↑</span>
     </button>
 
     <button mat-fab color="warn" (click)="fileUpload.click()">
-        <i class="fa fa-upload"></i>
+        <!--<i class="fa fa-upload"></i>-->
+        +
         <input #fileUpload type="file" name="file" style="display: none;"
                multiple="multiple"
                accept="image/gif, image/png, image/jpeg, image/bmp, image/webp"

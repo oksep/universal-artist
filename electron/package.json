@@ -1,8 +1,8 @@
 {
-  "name": "universal-artist-desktop",
+  "name": "TeamUpQiniuHelper",
   "version": "1.0.0",
   "description": "",
-  "productName": "UniversalArtist",
+  "productName": "TeamUp图床",
   "main": "index.js",
   "scripts": {
     "start": "npm run src-compile && concurrently --kill-others \"npm run src-watch-compile\" \"npm run hotreload\"",

@@ -113,9 +113,9 @@ export default function (app, shell): MenuItemConstructorOptions[] {
 		}
     ];
 
-	if (!isDev) {
-		(template[1].submenu as Array<any>).pop();
-	}
+	// if (!isDev) {
+	// 	(template[1].submenu as Array<any>).pop();
+	// }
 
     if (process.platform === 'darwin') {
         const name = app.getName();

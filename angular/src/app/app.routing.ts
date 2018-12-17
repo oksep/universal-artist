@@ -6,13 +6,8 @@ import {SettingComponent} from './setting/setting.component';
 import {AboutComponent} from "./about/about.component";
 
 const routes: Routes = [
-	{path: '', redirectTo: '/brand', pathMatch: 'full'},
+	{path: '', redirectTo: '/bed', pathMatch: 'full'},
 	{path: 'bed', component: BedComponent},
-	{path: 'brand', component: SeedComponent, data: {category: 'brand'}},
-	{path: 'illustration', component: SeedComponent, data: {category: 'illustration'}},
-	{path: 'uiux', component: SeedComponent, data: {category: 'uiux'}},
-	{path: 'about', component: AboutComponent},
-	{path: 'setting', component: SettingComponent},
 ];
 
 @NgModule({

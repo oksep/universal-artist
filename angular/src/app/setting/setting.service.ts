@@ -13,11 +13,11 @@ export class SettingService {
 	}
 
 	get domain(): string {
-		return environment.production ? this._setting.qiniu.domain : this._setting.qiniu.devDomain;
+		return 'http://team-up-asset.septenary.cn/';
 	}
 
 	get prodDomain(): string {
-		return this._setting.qiniu.domain;
+		return this.domain;
 	}
 
 	get setting(): Settings {

@@ -30,10 +30,10 @@ export class UploadService {
 	public uploadFileObservable = this.eventSource.asObservable();
 
 	constructor(private http: HttpClient,
-	            private electronService: ElectronService,
-	            private homeService: BedService,
-	            private ngZone: NgZone,
-	            private settingService: SettingService) {
+							private electronService: ElectronService,
+							private homeService: BedService,
+							private ngZone: NgZone,
+							private settingService: SettingService) {
 	}
 
 	private notifyFileUploadResult(uploadStatus: UploadFileStatus, progress: number, uploadFile: UploadFile, key: string) {
@@ -74,27 +74,91 @@ export class UploadService {
 		const processNext = (index: number) => {
 			const uploadFile = list[index];
 			if (uploadFile != null) {
-				this.requestUploadToken((token, key) => {
-					const uploadCallback = {
-						onUploadProgress: (percent: number) => {
-							this.notifyFileUploadResult(UploadFileStatus.UPLOADING, percent, uploadFile, key);
-						},
-						onUploadError: (err: Error) => {
-							this.notifyFileUploadResult(UploadFileStatus.FAILED, 0, uploadFile, key);
-							processNext(++index);
-						},
-						onUploadComplete: (url: string) => {
-							this.notifyFileUploadResult(UploadFileStatus.COMPLETE, 100, uploadFile, key);
-							processNext(++index);
-						},
-						onLoaded: () => {
-						}
-					};
-					this.uploadToQiniu(uploadFile.file, token, key, uploadCallback);
-				});
+				const key = 'img/' + Random.genHash();
+				const uploadCallback = {
+					onUploadProgress: (percent: number) => {
+						this.notifyFileUploadResult(UploadFileStatus.UPLOADING, percent, uploadFile, key);
+					},
+					onUploadError: (err: Error) => {
+						this.notifyFileUploadResult(UploadFileStatus.FAILED, 0, uploadFile, key);
+						processNext(++index);
+					},
+					onUploadComplete: (url: string) => {
+						this.notifyFileUploadResult(UploadFileStatus.COMPLETE, 100, uploadFile, key);
+						processNext(++index);
+					},
+					onLoaded: () => {
+					}
+				};
+				this.uploadToQiniuImpl(key, uploadFile.file, uploadCallback);
 			}
 		};
 		processNext(0);
+	}
+
+
+	getUploadToken(key, callback) {
+		const xhr = new XMLHttpRequest();
+		xhr.withCredentials = true;
+		xhr.addEventListener("readystatechange", function () {
+			let token = null;
+			if (this.readyState === 4) {
+				if (this.status === 200) {
+					token = JSON.parse(this.responseText).data.token;
+				}
+				callback(key, token);
+			}
+		});
+
+		xhr.open("GET", "http://dirty-bytes.septenary.cn/api/qiniu/force-upload-token?key=" + key);
+		xhr.send();
+	}
+
+	// 上传文件至七牛
+	uploadToQiniuImpl(k, file, callback): string {
+		this.getUploadToken(k, function (key, token) {
+
+			// domain: pjvxlozc4.bkt.clouddn.com
+			const formData = new FormData();
+			formData.append('file', file, key);
+			formData.append('token', token);
+			formData.append('key', key);
+
+			const request = new XMLHttpRequest();
+
+			if (callback) {
+				request.upload.addEventListener('progress', (evt) => {
+					if (evt.lengthComputable) {
+						const percentComplete = evt.loaded / evt.total;
+						callback.onUploadProgress(percentComplete);
+					} else {
+						// Unable to compute progress information since the total size is unknown
+					}
+				}, false);
+				request.upload.addEventListener('load', () => callback.onLoaded(), false);
+				request.upload.addEventListener('error', (evt) => callback.onUploadError(new Error('Upload error')), false);
+				request.upload.addEventListener('abort', (evt) => callback.onUploadError(new Error('Abort error')), false);
+				request.onload = (e) => {
+					if (request.response) {
+						try {
+							const result = JSON.parse(request.response);
+							callback.onUploadComplete('http://team-up-asset.septenary.cn/' + result.key);
+						} catch (e) {
+							callback.onUploadError(new Error('Parse response error'));
+						}
+					} else {
+						callback.onUploadError(new Error('No response error'));
+					}
+				};
+				request.onerror = (e) => callback.onUploadError(new Error('Request error'));
+			}
+
+			request.open('POST', 'http://upload.qiniu.com/', true);
+			request.setRequestHeader('Accept', 'application/json');
+			request.send(formData);
+
+		});
+		return k;
 	}
 
 	private requestUploadToken(callback: (token: string, key: string) => void) {
