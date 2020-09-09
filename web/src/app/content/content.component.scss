@@ -1,0 +1,27 @@
+:host {
+  display: block;
+  -ms-flex: 1 1 auto !important;
+  flex: 1 1 auto !important;
+  width: 100%;
+  max-width: 1024px;
+  margin: auto;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -ms-flex-direction: column !important;
+  flex-direction: column !important;
+  border-bottom: 1px solid #eee;
+}
+
+.article-nav {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding-top: 200px;
+  padding-bottom: 120px;
+
+  a {
+    text-decoration: underline;
+    color: #4A4A4A;
+    size: 24px;
+  }
+}

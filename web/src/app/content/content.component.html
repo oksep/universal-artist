@@ -1,0 +1,9 @@
+<article class="flex-fill">
+  <app-markdown-github [text]="content"></app-markdown-github>
+</article>
+
+<section class="article-nav d-flex justify-content-between" *ngIf="nav">
+  <span><a [routerLink]="['/content', nav.previous.id]" *ngIf="nav.previous">Previous Work</a></span>
+  <span><a routerLink="/home">All Works</a></span>
+  <span><a [routerLink]="['/content', nav.next.id]" *ngIf="nav.next">Next Work</a></span>
+</section>

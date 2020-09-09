@@ -1,0 +1,41 @@
+.category-link {
+  display: flex;
+  font-size: 14px;
+  color: #979797;
+  line-height: 1.8;
+  background: #F5F5F5;
+  border: 1px solid transparent;
+  transition: 0.35s ease-in-out;
+  &:hover, &:active, &.active {
+    text-decoration: none;
+    color: white;
+    background-color: #4A4A4A !important;
+  }
+}
+
+.masonry {
+  width: 100%;
+}
+
+.masonry .item,
+.masonry .grid-sizer {
+  padding: 0 0.75rem 1.5rem;
+  @media screen and (max-width: 768px) {
+    padding: 0 0 1.75rem;
+    width: 100%;
+  }
+  @media screen and (min-width: 769px) and (max-width: 1399px) {
+    width: 50%;
+  }
+  @media screen and (min-width: 1400px) and (max-width: 1899px) {
+    width: 33.33%;
+  }
+  @media screen and (min-width: 1900px) {
+    width: 33.33%;
+  }
+}
+
+.masonry .item,
+.masonry .grid-sizer {
+  color: white;
+}

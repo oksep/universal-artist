@@ -1,0 +1,14 @@
+<div class="d-flex flex-wrap pl-md-2 pr-md-2">
+  <a *ngFor="let link of links"
+     routerLink="{{link.link}}"
+     class="category-link pl-2 pr-2 mr-2 mr-lg-3 mb-2"
+     [ngClass]="{'active': tag == link.tag}">
+    {{link.label}}
+  </a>
+</div>
+
+<div class="masonry mt-3 mt-md-5" lazy-load-images #grid>
+  <div class="grid-sizer"></div>
+  <app-feed-item *ngFor="let item of data" [feed]="item" class="item">
+  </app-feed-item>
+</div>
